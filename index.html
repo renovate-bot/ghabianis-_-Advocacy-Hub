@@ -25,6 +25,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     </script>
     <style>
+        /* ─────────────── reset & base ─────────────── */
         * {
             font-family: 'Inter', sans-serif;
             box-sizing: border-box;
@@ -76,19 +77,11 @@
             color: #6b7280 !important;
         }
 
-        body.dark-mode .text-gray-300 {
-            color: #4b5563 !important;
-        }
-
         body.dark-mode .border-gray-100,
         body.dark-mode .border-gray-200,
         body.dark-mode .border-gray-200\/70,
         body.dark-mode .border-gray-200\/80 {
             border-color: #374151 !important;
-        }
-
-        body.dark-mode .border-gray-50 {
-            border-color: #1f2937 !important;
         }
 
         body.dark-mode .bg-indigo-50 {
@@ -381,15 +374,13 @@
             height: 200px;
         }
 
-
-        /* ----- Sidebar base (desktop & mobile) ----- */
+        /* ─────────────── SIDEBAR (desktop) ─────────────── */
         #sidebar {
             transition: width 0.3s ease, transform 0.3s ease;
             overflow: hidden;
             flex-shrink: 0;
         }
 
-        /* Collapsed state: show only icons */
         #sidebar.sidebar-collapsed {
             width: 72px !important;
         }
@@ -405,145 +396,290 @@
             justify-content: center;
         }
 
+        /* ─────────────── MOBILE MENU (dropdown from top) ─────────────── */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 60;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            z-index: 70;
+            transform: translateY(-100%);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+            max-height: 100vh;
+            overflow-y: auto;
+            border-radius: 0 0 24px 24px;
+            padding-bottom: 24px;
+        }
+
+        .mobile-menu.open {
+            transform: translateY(0);
+        }
+
+        body.dark-mode .mobile-menu {
+            background: #1f2937;
+        }
+
+        .mobile-menu-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px 12px 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        body.dark-mode .mobile-menu-header {
+            border-bottom-color: #374151;
+        }
+
+        .mobile-menu-header .brand {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        body.dark-mode .mobile-menu-header .brand {
+            color: #f3f4f6;
+        }
+
+        .mobile-menu-header .brand img {
+            height: 32px;
+            width: 32px;
+            object-fit: contain;
+        }
+
+        .mobile-menu-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .mobile-menu-header .close-btn:hover {
+            background: #f1f5f9;
+        }
+
+        body.dark-mode .mobile-menu-header .close-btn {
+            color: #9ca3af;
+        }
+
+        body.dark-mode .mobile-menu-header .close-btn:hover {
+            background: #374151;
+        }
+
+        .mobile-nav {
+            padding: 12px 16px 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .mobile-nav .nav-item-mobile {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #4b5563;
+            text-decoration: none;
+            transition: background 0.15s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .mobile-nav .nav-item-mobile i {
+            width: 24px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .mobile-nav .nav-item-mobile:hover {
+            background: #f3f4f6;
+        }
+
+        .mobile-nav .nav-item-mobile.active {
+            background: rgba(99, 102, 241, 0.10);
+            color: #4f46e5;
+            border-left-color: #4f46e5;
+        }
+
+        body.dark-mode .mobile-nav .nav-item-mobile {
+            color: #d1d5db;
+        }
+
+        body.dark-mode .mobile-nav .nav-item-mobile:hover {
+            background: #1a2332;
+        }
+
+        body.dark-mode .mobile-nav .nav-item-mobile.active {
+            background: rgba(99, 102, 241, 0.20);
+            color: #818cf8;
+            border-left-color: #818cf8;
+        }
+
+        .mobile-nav .mobile-divider {
+            height: 1px;
+            background: #f1f5f9;
+            margin: 8px 0;
+        }
+
+        body.dark-mode .mobile-nav .mobile-divider {
+            background: #374151;
+        }
+
+        .mobile-nav .mobile-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: #f8fafc;
+            margin-top: 8px;
+        }
+
+        body.dark-mode .mobile-nav .mobile-user {
+            background: #1a2332;
+        }
+
+        .mobile-nav .mobile-user .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #4f46e5;
+            font-size: 16px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .mobile-nav .mobile-user .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mobile-nav .mobile-user .user-name {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+
+        body.dark-mode .mobile-nav .mobile-user .user-name {
+            color: #f3f4f6;
+        }
+
+        .mobile-nav .mobile-user .user-email {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        body.dark-mode .mobile-nav .mobile-user .user-email {
+            color: #9ca3af;
+        }
+
+        .mobile-nav .logout-mobile {
+            color: #ef4444 !important;
+            margin-top: 4px;
+        }
+
+        .mobile-nav .logout-mobile:hover {
+            background: #fef2f2 !important;
+        }
+
+        body.dark-mode .mobile-nav .logout-mobile:hover {
+            background: #2d1a1a !important;
+        }
+
+        /* ─────────────── RESPONSIVE ─────────────── */
         @media (max-width: 768px) {
+
+            /* Hide sidebar completely on mobile */
             #sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                z-index: 50;
-                width: 72px !important;
-                /* start collapsed (icons only) */
-                box-shadow: none;
-                background: white;
-                border-right: 1px solid #e5e7eb;
-                transform: translateX(0);
+                display: none !important;
             }
 
-            /* When expanded (remove .sidebar-collapsed) */
-            #sidebar:not(.sidebar-collapsed) {
-                width: 280px !important;
-                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+            /* Ensure main content takes full width */
+            #mainContent {
+                width: 100% !important;
+                margin-left: 0 !important;
             }
 
-            /* Backdrop: only show when sidebar is expanded */
-            .sidebar-backdrop {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.4);
-                z-index: 40;
+            /* Hide the desktop toggle button, show mobile burger */
+            #toggleSidebarDesktop {
+                display: none !important;
             }
 
-            .sidebar-backdrop.active {
-                display: block;
+            #toggleSidebarMobile {
+                display: inline-flex !important;
+            }
+
+            /* Reminder popover positioning */
+            #reminderPopover {
+                right: 12px !important;
+                top: 52px !important;
+                width: calc(100% - 24px) !important;
+                max-width: 360px;
             }
         }
 
-        /* Desktop: collapsing also goes to 72px */
         @media (min-width: 769px) {
             #sidebar {
                 position: relative;
                 width: 260px;
-                /* default full width */
+                display: flex !important;
             }
 
             #sidebar.sidebar-collapsed {
                 width: 72px !important;
             }
 
-            .sidebar-backdrop {
+            .mobile-menu-overlay,
+            .mobile-menu {
+                display: none !important;
+            }
+
+            #toggleSidebarDesktop {
+                display: inline-flex !important;
+            }
+
+            #toggleSidebarMobile {
                 display: none !important;
             }
         }
 
-
-        #loginOverlay {
-            position: fixed;
-            inset: 0;
-            background: #f4f6fa;
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        #loginOverlay.hidden {
-            display: none;
-        }
-
-        .login-card {
-            max-width: 420px;
-            width: 100%;
-        }
-
-        body.dark-mode #loginOverlay {
-            background: #111827;
-        }
-
-        body.dark-mode .login-card {
-            background: #1f2937 !important;
-            border-color: #374151 !important;
-        }
-
-        .swal2-container {
-            z-index: 20000 !important;
-        }
-
-        body.dark-mode .swal2-popup {
-            background: #1f2937 !important;
-            color: #e5e7eb !important;
-        }
-
-        body.dark-mode .swal2-title {
-            color: #f3f4f6 !important;
-        }
-
-        body.dark-mode .swal2-html-container {
-            color: #d1d5db !important;
-        }
-
-        .status-todo {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        body.dark-mode .status-todo {
-            background: #4b3d1a;
-            color: #fbbf24;
-        }
-
-        .status-in-progress {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        body.dark-mode .status-in-progress {
-            background: #1a3a5c;
-            color: #60a5fa;
-        }
-
-        .status-in-review {
-            background: #e9d5ff;
-            color: #6b21a8;
-        }
-
-        body.dark-mode .status-in-review {
-            background: #3b1a5c;
-            color: #c084fc;
-        }
-
-        .status-done {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        body.dark-mode .status-done {
-            background: #1a4a3a;
-            color: #34d399;
-        }
-
+        /* ─────────────── other existing styles ─────────────── */
         .filter-section {
             background: #f9fafb;
             border-radius: 12px;
@@ -993,11 +1129,6 @@
             color: #818cf8;
         }
 
-        .drag-over-highlight {
-            border: 2px dashed #818cf8 !important;
-            background: rgba(99, 102, 241, 0.05) !important;
-        }
-
         .planner-time-slot {
             display: flex;
             align-items: center;
@@ -1123,29 +1254,6 @@
             border-color: #818cf8;
         }
 
-        /* Mobile sidebar backdrop */
-        .sidebar-backdrop {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 40;
-        }
-
-        .sidebar-backdrop.active {
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            #sidebar {
-                z-index: 50;
-            }
-
-            .sidebar-backdrop {
-                z-index: 40;
-            }
-        }
-
         .logo {
             width: 48px;
             height: 48px;
@@ -1159,6 +1267,195 @@
             filter: drop-shadow(0 12px 15px rgba(0, 0, 0, 0.3));
             z-index: 1000;
         }
+
+        /* status badges */
+        .status-todo {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        body.dark-mode .status-todo {
+            background: #4b3d1a;
+            color: #fbbf24;
+        }
+
+        .status-in-progress {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        body.dark-mode .status-in-progress {
+            background: #1a3a5c;
+            color: #60a5fa;
+        }
+
+        .status-in-review {
+            background: #e9d5ff;
+            color: #6b21a8;
+        }
+
+        body.dark-mode .status-in-review {
+            background: #3b1a5c;
+            color: #c084fc;
+        }
+
+        .status-done {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        body.dark-mode .status-done {
+            background: #1a4a3a;
+            color: #34d399;
+        }
+
+        /* notes */
+        .note-paper {
+            background: #fffdf6;
+            box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.02);
+            border: 1px solid #f3f4f6;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        }
+
+        body.notes-focus-mode #noteEditor {
+            position: fixed !important;
+            inset: 8px !important;
+            z-index: 99999 !important;
+            width: calc(100% - 16px) !important;
+            height: calc(100% - 16px) !important;
+            overflow: auto !important;
+            padding: 20px !important;
+            border-radius: 10px !important;
+        }
+
+        body.notes-focus-mode #sidebar,
+        body.notes-focus-mode .shortcuts-help,
+        body.notes-focus-mode #sidebarBackdrop,
+        body.notes-focus-mode #loginOverlay {
+            display: none !important;
+        }
+
+        body.notes-focus-mode #mainContent>div:first-child {
+            display: none !important;
+        }
+
+        /* login */
+        #loginOverlay {
+            position: fixed;
+            inset: 0;
+            background: #f4f6fa;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        #loginOverlay.hidden {
+            display: none;
+        }
+
+        .login-card {
+            max-width: 420px;
+            width: 100%;
+        }
+
+        body.dark-mode #loginOverlay {
+            background: #111827;
+        }
+
+        body.dark-mode .login-card {
+            background: #1f2937 !important;
+            border-color: #374151 !important;
+        }
+
+        .swal2-container {
+            z-index: 20000 !important;
+        }
+
+        body.dark-mode .swal2-popup {
+            background: #1f2937 !important;
+            color: #e5e7eb !important;
+        }
+
+        body.dark-mode .swal2-title {
+            color: #f3f4f6 !important;
+        }
+
+        body.dark-mode .swal2-html-container {
+            color: #d1d5db !important;
+        }
+
+        /* sidebar backdrop (mobile) */
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 40;
+        }
+
+        .sidebar-backdrop.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-backdrop {
+                z-index: 40;
+            }
+        }
+
+        /* collapse tooltips */
+        #sidebar.sidebar-collapsed .nav-item {
+            position: relative;
+        }
+
+        #sidebar.sidebar-collapsed .nav-item:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            background: #111827;
+            color: #fff;
+            padding: 6px 8px;
+            font-size: 12px;
+            border-radius: 6px;
+            margin-left: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+        }
+
+        body.dark-mode #sidebar.sidebar-collapsed .nav-item:hover::after {
+            background: #374151;
+        }
+
+        /* reminder popover */
+        #reminderPopover {
+            z-index: 100;
+        }
+
+        /* hide desktop toggle on mobile, show mobile toggle */
+        #toggleSidebarDesktop {
+            display: inline-flex;
+        }
+
+        #toggleSidebarMobile {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            #toggleSidebarDesktop {
+                display: none !important;
+            }
+
+            #toggleSidebarMobile {
+                display: inline-flex !important;
+            }
+        }
     </style>
 </head>
 
@@ -1166,9 +1463,6 @@
 
     <!-- Toast -->
     <div id="toast" class="toast"></div>
-
-    <!-- Sidebar Backdrop (mobile) -->
-    <div id="sidebarBackdrop" class="sidebar-backdrop" onclick="toggleSidebarMobile()"></div>
 
     <!-- Shortcuts Help -->
     <div class="shortcuts-help" onclick="toggleShortcutsHelp()" title="Press ? for shortcuts">
@@ -1183,7 +1477,6 @@
                     class="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl mx-auto shadow-md shadow-indigo-200">
                     ⚡</div>
                 <h2 class="text-2xl font-bold text-gray-800 mt-3">DevAdvocate Hub</h2>
-                <script src="js/index.js"></script>
                 <p class="text-sm text-gray-400" id="loginSubtitle">Sign in to continue</p>
             </div>
             <div class="space-y-3" id="loginFormContainer">
@@ -1200,26 +1493,37 @@
         </div>
     </div>
 
-    <!-- App Container -->
+    <!-- ===== MOBILE MENU OVERLAY (dropdown from top) ===== -->
+    <div id="mobileMenuOverlay" class="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+
+    <div id="mobileMenu" class="mobile-menu">
+        <div class="mobile-menu-header">
+            <div class="brand">
+                <img src="./assets/images/advo.png" alt="DevAdvocate" />
+                DevAdvocate Hub
+            </div>
+            <button class="close-btn" onclick="closeMobileMenu()">&times;</button>
+        </div>
+        <nav class="mobile-nav" id="mobileNavContainer">
+            <!-- items injected by JS -->
+        </nav>
+    </div>
+
+    <!-- ===== APP ===== -->
     <div id="app" class="flex h-screen overflow-hidden" style="display:none;">
 
-        <!-- Sidebar -->
+        <!-- Sidebar (desktop) -->
         <aside id="sidebar"
             class="w-[260px] bg-white border-r border-gray-200/80 flex-shrink-0 flex flex-col h-full shadow-sm transition-all duration-300 overflow-y-auto">
             <div class="px-1 py-1 border-b border-gray-100 flex items-center">
                 <div class="w-12 h-12 flex items-center justify-center flex-shrink-0">
-                    <img src="./assets/images/advo.png" alt="DevAdvocate" class="w-12 h-12 object-contain logo" onClick = "NavigateToHome()" />
+                    <img src="./assets/images/advo.png" alt="DevAdvocate" class="w-12 h-12 object-contain logo"
+                        onclick="navigateTo('dashboard')" />
                 </div>
-
                 <div class="ml-3 flex items-center gap-2">
-                    <span class="brand-label text-lg font-bold text-gray-800 tracking-tight">
-                        DevAdvocate
-                    </span>
-
+                    <span class="brand-label text-lg font-bold text-gray-800 tracking-tight">DevAdvocate</span>
                     <span
-                        class="brand-badge text-[10px] font-medium bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">
-                        Hub
-                    </span>
+                        class="brand-badge text-[10px] font-medium bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">Hub</span>
                 </div>
             </div>
             <div class="px-5 py-4 border-b border-gray-100 flex items-center gap-3">
@@ -1234,86 +1538,13 @@
                     <div class="text-xs text-gray-400 truncate" id="userEmail">dev@example.com</div>
                 </div>
             </div>
-            <nav class="flex-1 px-3 py-4 space-y-1" syle="z-index: 1000">
-                <a href="#"
-                    class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="dashboard" data-tooltip="Dashboard">
-                    <i class="fas fa-th-large w-5 text-center text-indigo-500"></i><span class="nav-label">
-                        Dashboard</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="tasks" data-tooltip="Tasks">
-                    <i class="fas fa-tasks w-5 text-center text-amber-500"></i><span class="nav-label"> Tasks</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="time" data-tooltip="Time Tracking">
-                    <i class="fas fa-clock w-5 text-center text-emerald-500"></i><span class="nav-label"> Time
-                        Tracking</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="notes" data-tooltip="Notes">
-                    <i class="fas fa-sticky-note w-5 text-center text-rose-500"></i><span class="nav-label">
-                        Notes</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="meetings" data-tooltip="Meetings">
-                    <i class="fas fa-video w-5 text-center text-blue-500"></i><span class="nav-label"> Meetings</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="calendar" data-tooltip="Calendar">
-                    <i class="fas fa-calendar-alt w-5 text-center text-teal-500"></i><span class="nav-label">
-                        Calendar</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="planner" data-tooltip="Daily Planner">
-                    <i class="fas fa-list-check w-5 text-center text-orange-500"></i><span class="nav-label"> Daily
-                        Planner</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="files" data-tooltip="Files">
-                    <i class="fas fa-folder w-5 text-center text-cyan-500"></i><span class="nav-label"> Files</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="emails" data-tooltip="Emails">
-                    <i class="fas fa-envelope w-5 text-center text-rose-500"></i><span class="nav-label"> Emails</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="insights">
-                    <i class="fas fa-chart-line w-5 text-center text-violet-500"></i><span class="nav-label">
-                        Insights</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="tools">
-                    <i class="fas fa-plug w-5 text-center text-purple-500"></i><span class="nav-label">
-                        Integrations</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="reports">
-                    <i class="fas fa-chart-bar w-5 text-center text-cyan-500"></i><span class="nav-label">
-                        Reports</span>
-                </a>
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
-                    data-page="settings">
-                    <i class="fas fa-gear w-5 text-center text-gray-500"></i><span class="nav-label"> Settings</span>
-                </a>
+            <nav class="flex-1 px-3 py-4 space-y-1" id="sidebarNav">
+                <!-- injected by JS -->
             </nav>
             <div class="px-8 py-2 border-t border-gray-100 text-[15px] text-gray-400 flex items-center justify-between">
                 <button onclick="logout()" class="text-gray-400 hover:text-red-500 transition text-sm" title="Sign out">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span class="nav-label" style="margin-right: 110px;">Logout</span>
-
+                    <span class="nav-label" style="margin-right:110px;">Logout</span>
                 </button>
             </div>
         </aside>
@@ -1325,8 +1556,14 @@
             <div
                 class="bg-white/70 backdrop-blur-sm border-b border-gray-200/60 px-6 py-3.5 flex items-center justify-between sticky top-0 z-10">
                 <div class="flex items-center gap-3">
-                    <button id="toggleSidebar" class="text-gray-500 hover:text-gray-700 text-lg"
-                        onclick="toggleSidebarMobile()" title="Toggle sidebar">
+                    <!-- Desktop toggle -->
+                    <button id="toggleSidebarDesktop" class="text-gray-500 hover:text-gray-700 text-lg"
+                        onclick="toggleSidebarDesktop()" title="Toggle sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <!-- Mobile toggle -->
+                    <button id="toggleSidebarMobile" class="text-gray-500 hover:text-gray-700 text-lg"
+                        onclick="toggleMobileMenu()" title="Open menu">
                         <i class="fas fa-bars"></i>
                     </button>
                     <h1 id="pageTitle" class="text-lg font-semibold text-gray-800">Dashboard</h1>
@@ -1347,7 +1584,6 @@
                         title="Search (Ctrl+Shift+F)">
                         <i class="fas fa-search"></i>
                     </button>
-                    <!-- Reminder popover container (hidden by default) -->
                     <div id="reminderPopover"
                         class="hidden absolute right-6 top-12 z-50 w-80 bg-white rounded-lg shadow-lg border border-gray-100 p-3">
                         <div class="flex items-center justify-between mb-2">
@@ -1372,80 +1608,8 @@
                 </div>
             </div>
 
-            <style>
-                /* Collapsed sidebar: show icons only */
-                #sidebar.sidebar-collapsed .brand-label,
-                #sidebar.sidebar-collapsed .brand-badge,
-                #sidebar.sidebar-collapsed .user-info,
-                #sidebar.sidebar-collapsed .nav-label {
-                    display: none !important;
-                }
-
-                #sidebar.sidebar-collapsed {
-                    width: 72px !important;
-                }
-
-                #sidebar.sidebar-collapsed .nav-item {
-                    justify-content: center;
-                }
-
-                /* show tooltips for icons when collapsed */
-                #sidebar.sidebar-collapsed .nav-item {
-                    position: relative;
-                }
-
-                #sidebar.sidebar-collapsed .nav-item:hover::after {
-                    content: attr(data-tooltip);
-                    position: absolute;
-                    left: 100%;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    white-space: nowrap;
-                    background: #111827;
-                    color: #fff;
-                    padding: 6px 8px;
-                    font-size: 12px;
-                    border-radius: 6px;
-                    margin-left: 8px;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                    z-index: 1000;
-                }
-
-                /* Notes editor styles */
-                .note-paper {
-                    background: #fffdf6;
-                    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.02);
-                    border: 1px solid #f3f4f6;
-                    border-radius: 8px;
-                    font-size: 16px;
-                    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-                }
-
-                /* Focus mode: make editor fullscreen and hide chrome */
-                body.notes-focus-mode #noteEditor {
-                    position: fixed !important;
-                    inset: 8px !important;
-                    z-index: 99999 !important;
-                    width: calc(100% - 16px) !important;
-                    height: calc(100% - 16px) !important;
-                    overflow: auto !important;
-                    padding: 20px !important;
-                    border-radius: 10px !important;
-                }
-
-                body.notes-focus-mode #sidebar,
-                body.notes-focus-mode .shortcuts-help,
-                body.notes-focus-mode #sidebarBackdrop,
-                body.notes-focus-mode #loginOverlay {
-                    display: none !important;
-                }
-
-                body.notes-focus-mode #mainContent>div:first-child {
-                    display: none !important;
-                }
-            </style>
-
-            <!-- ===== PAGE: DASHBOARD ===== -->
+            <!-- ===== PAGES ===== -->
+            <!-- DASHBOARD -->
             <div id="page-dashboard" class="p-6">
                 <div class="welcome-message">
                     <span class="emoji">👋</span>
@@ -1558,7 +1722,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: TASKS ===== -->
+            <!-- TASKS -->
             <div id="page-tasks" class="p-6 hidden">
                 <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                     <h2 class="text-lg font-semibold text-gray-800">Task Board</h2>
@@ -1607,7 +1771,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: TIME TRACKING ===== -->
+            <!-- TIME -->
             <div id="page-time" class="p-6 hidden">
                 <h2 class="text-lg font-semibold text-gray-800 mb-5">Time Tracking</h2>
                 <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 mb-5">
@@ -1676,7 +1840,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: NOTES ===== -->
+            <!-- NOTES -->
             <div id="page-notes" class="p-6 hidden">
                 <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                     <h2 class="text-lg font-semibold text-gray-800">📝 Notes</h2>
@@ -1689,14 +1853,10 @@
                                 class="fas fa-plus"></i> New Note</button>
                     </div>
                 </div>
-
-                <!-- Notes list -->
                 <div id="notesList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div class="col-span-full text-center py-10 text-gray-300 text-sm">No notes yet. Create your first
                         note!</div>
                 </div>
-
-                <!-- Note editor (hidden until needed) -->
                 <div id="noteEditor" class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mt-6 hidden">
                     <div class="flex items-start justify-between gap-4">
                         <div class="flex-1">
@@ -1758,7 +1918,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: MEETINGS ===== -->
+            <!-- MEETINGS -->
             <div id="page-meetings" class="p-6 hidden">
                 <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                     <h2 class="text-lg font-semibold text-gray-800">📹 Meetings & Links</h2>
@@ -1771,7 +1931,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: CALENDAR ===== -->
+            <!-- CALENDAR -->
             <div id="page-calendar" class="p-6 hidden">
                 <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                     <h2 class="text-lg font-semibold text-gray-800">📅 Calendar</h2>
@@ -1798,7 +1958,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: DAILY PLANNER (FIXED - Interactive) ===== -->
+            <!-- PLANNER -->
             <div id="page-planner" class="p-6 hidden">
                 <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                     <h2 class="text-lg font-semibold text-gray-800">📋 Daily Planner</h2>
@@ -1819,7 +1979,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: FILES ===== -->
+            <!-- FILES -->
             <div id="page-files" class="p-6 hidden">
                 <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                     <h2 class="text-lg font-semibold text-gray-800">📁 File Manager</h2>
@@ -1856,7 +2016,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: EMAILS ===== -->
+            <!-- EMAILS -->
             <div id="page-emails" class="p-6 hidden">
                 <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                     <h2 class="text-lg font-semibold text-gray-800">✉️ Email Organizer</h2>
@@ -1889,7 +2049,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: INSIGHTS ===== -->
+            <!-- INSIGHTS -->
             <div id="page-insights" class="p-6 hidden">
                 <h2 class="text-lg font-semibold text-gray-800 mb-5">📊 Productivity Insights</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
@@ -1918,7 +2078,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: TOOLS ===== -->
+            <!-- TOOLS -->
             <div id="page-tools" class="p-6 hidden">
                 <h2 class="text-lg font-semibold text-gray-800 mb-5">🔌 Tool Integrations</h2>
                 <p class="text-sm text-gray-400 mb-4">Connect your favorite tools to streamline your workflow.</p>
@@ -1931,7 +2091,8 @@
                                 <div class="text-sm font-semibold text-gray-800">Jira</div>
                                 <div class="text-xs text-gray-400">Task management</div>
                             </div>
-                        </div><button onclick="connectTool('Jira')"
+                        </div>
+                        <button onclick="connectTool('Jira')"
                             class="w-full px-3 py-2 text-sm bg-indigo-50 text-indigo-600 font-medium rounded-lg hover:bg-indigo-100 transition">Connect</button>
                     </div>
                     <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 card-hover">
@@ -1942,7 +2103,8 @@
                                 <div class="text-sm font-semibold text-gray-800">Slack</div>
                                 <div class="text-xs text-gray-400">Communication</div>
                             </div>
-                        </div><button onclick="connectTool('Slack')"
+                        </div>
+                        <button onclick="connectTool('Slack')"
                             class="w-full px-3 py-2 text-sm bg-indigo-50 text-indigo-600 font-medium rounded-lg hover:bg-indigo-100 transition">Connect</button>
                     </div>
                     <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 card-hover">
@@ -1953,7 +2115,8 @@
                                 <div class="text-sm font-semibold text-gray-800">Google Drive</div>
                                 <div class="text-xs text-gray-400">Document storage</div>
                             </div>
-                        </div><button onclick="connectTool('Google Drive')"
+                        </div>
+                        <button onclick="connectTool('Google Drive')"
                             class="w-full px-3 py-2 text-sm bg-indigo-50 text-indigo-600 font-medium rounded-lg hover:bg-indigo-100 transition">Connect</button>
                     </div>
                     <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 card-hover">
@@ -1964,7 +2127,8 @@
                                 <div class="text-sm font-semibold text-gray-800">GitHub</div>
                                 <div class="text-xs text-gray-400">Code & PRs</div>
                             </div>
-                        </div><button onclick="connectTool('GitHub')"
+                        </div>
+                        <button onclick="connectTool('GitHub')"
                             class="w-full px-3 py-2 text-sm bg-indigo-50 text-indigo-600 font-medium rounded-lg hover:bg-indigo-100 transition">Connect</button>
                     </div>
                     <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 card-hover">
@@ -1975,7 +2139,8 @@
                                 <div class="text-sm font-semibold text-gray-800">Calendly</div>
                                 <div class="text-xs text-gray-400">Scheduling</div>
                             </div>
-                        </div><button onclick="connectTool('Calendly')"
+                        </div>
+                        <button onclick="connectTool('Calendly')"
                             class="w-full px-3 py-2 text-sm bg-indigo-50 text-indigo-600 font-medium rounded-lg hover:bg-indigo-100 transition">Connect</button>
                     </div>
                     <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 card-hover">
@@ -1986,7 +2151,8 @@
                                 <div class="text-sm font-semibold text-gray-800">Zoom</div>
                                 <div class="text-xs text-gray-400">Video meetings</div>
                             </div>
-                        </div><button onclick="connectTool('Zoom')"
+                        </div>
+                        <button onclick="connectTool('Zoom')"
                             class="w-full px-3 py-2 text-sm bg-indigo-50 text-indigo-600 font-medium rounded-lg hover:bg-indigo-100 transition">Connect</button>
                     </div>
                 </div>
@@ -2000,22 +2166,26 @@
                         <div class="flex-1 min-w-[180px]"><label class="text-xs text-gray-400 block mb-1">API Key /
                                 URL</label><input id="customToolKey"
                                 class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none transition"
-                                placeholder="API key or endpoint" /></div><button onclick="addCustomTool()"
+                                placeholder="API key or endpoint" /></div>
+                        <button onclick="addCustomTool()"
                             class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition">Add
                             Integration</button>
                     </div>
                 </div>
             </div>
 
-            <!-- ===== PAGE: REPORTS ===== -->
+            <!-- REPORTS -->
             <div id="page-reports" class="p-6 hidden">
                 <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                     <h2 class="text-lg font-semibold text-gray-800">📊 Reports</h2>
-                    <div class="flex gap-2"><button onclick="generateReport('pdf')"
+                    <div class="flex gap-2">
+                        <button onclick="generateReport('pdf')"
                             class="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg shadow-sm shadow-cyan-200 transition flex items-center gap-2"><i
-                                class="fas fa-file-pdf"></i> Export PDF</button><button onclick="generateReport('csv')"
+                                class="fas fa-file-pdf"></i> Export PDF</button>
+                        <button onclick="generateReport('csv')"
                             class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg shadow-sm shadow-gray-200 transition flex items-center gap-2"><i
-                                class="fas fa-file-csv"></i> Export CSV</button></div>
+                                class="fas fa-file-csv"></i> Export CSV</button>
+                    </div>
                 </div>
                 <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 mb-5">
                     <div class="filter-section">
@@ -2090,14 +2260,15 @@
                 </div>
             </div>
 
-            <!-- ===== PAGE: SETTINGS ===== -->
+            <!-- SETTINGS -->
             <div id="page-settings" class="p-6 hidden">
                 <h2 class="text-lg font-semibold text-gray-800 mb-5">⚙️ Profile & Settings</h2>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
                     <div class="lg:col-span-1 bg-white rounded-xl p-5 shadow-sm border border-gray-100 text-center">
                         <div class="w-24 h-24 rounded-full bg-indigo-100 mx-auto flex items-center justify-center overflow-hidden text-3xl font-semibold text-indigo-700 border-4 border-indigo-50"
-                            id="settingsAvatarPreviewWrap"><img id="settingsAvatarPreview" src=""
-                                class="w-full h-full object-cover hidden" /><span id="settingsAvatarInitial">D</span>
+                            id="settingsAvatarPreviewWrap">
+                            <img id="settingsAvatarPreview" src="" class="w-full h-full object-cover hidden" /><span
+                                id="settingsAvatarInitial">D</span>
                         </div>
                         <p class="text-sm font-semibold text-gray-800 mt-3" id="settingsEmailLabel">dev@example.com</p>
                         <p class="text-xs text-gray-400 mt-1">Paste an image URL below to update your picture</p>
@@ -2113,8 +2284,8 @@
                             <div><label class="text-xs text-gray-400 block mb-1">Profile Picture URL</label><input
                                     id="settingsAvatarUrl"
                                     class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none transition"
-                                    placeholder="https://example.com/avatar.jpg" /></div><button
-                                onclick="saveProfileSettings()"
+                                    placeholder="https://example.com/avatar.jpg" /></div>
+                            <button onclick="saveProfileSettings()"
                                 class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition"><i
                                     class="fas fa-save mr-1"></i> Save Profile</button>
                         </div>
@@ -2122,12 +2293,10 @@
                         <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2"><i
                                 class="fas fa-palette text-purple-500"></i> Appearance</h3>
                         <div class="space-y-3">
-                            <label class="flex items-center gap-3 text-sm text-gray-600">
-                                <input type="checkbox" id="settingsDarkMode"
+                            <label class="flex items-center gap-3 text-sm text-gray-600"><input type="checkbox"
+                                    id="settingsDarkMode"
                                     class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-400"
-                                    onchange="toggleDarkMode()" />
-                                Enable Dark Mode
-                            </label>
+                                    onchange="toggleDarkMode()" /> Enable Dark Mode</label>
                         </div>
                         <hr class="my-5 border-gray-100" />
                         <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2"><i
@@ -2179,12 +2348,13 @@
 
     <!-- ===== MODALS ===== -->
 
-    <!-- Task Modal (with time field) -->
+    <!-- Task Modal -->
     <div id="taskModal" class="fixed inset-0 modal-overlay flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-2xl w-full max-w-lg mx-4 p-6 shadow-2xl transform transition-all scale-95">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-800" id="taskModalTitle">New Task</h3><button
-                    onclick="closeModal('taskModal')" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+                <h3 class="text-lg font-semibold text-gray-800" id="taskModalTitle">New Task</h3>
+                <button onclick="closeModal('taskModal')"
+                    class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
             <input type="hidden" id="taskEditId" />
             <div class="space-y-3">
@@ -2252,8 +2422,9 @@
     <div id="noteModal" class="fixed inset-0 modal-overlay flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-2xl w-full max-w-lg mx-4 p-6 shadow-2xl transform transition-all scale-95">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-800" id="noteModalTitle">New Note</h3><button
-                    onclick="closeModal('noteModal')" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+                <h3 class="text-lg font-semibold text-gray-800" id="noteModalTitle">New Note</h3>
+                <button onclick="closeModal('noteModal')"
+                    class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
             <input type="hidden" id="noteEditId" />
             <div class="space-y-3">
@@ -2279,8 +2450,8 @@
     <div id="meetingModal" class="fixed inset-0 modal-overlay flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-2xl w-full max-w-lg mx-4 p-6 shadow-2xl transform transition-all scale-95">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-800" id="meetingModalTitle">New Meeting</h3><button
-                    onclick="closeModal('meetingModal')"
+                <h3 class="text-lg font-semibold text-gray-800" id="meetingModalTitle">New Meeting</h3>
+                <button onclick="closeModal('meetingModal')"
                     class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
             <input type="hidden" id="meetingEditId" />
@@ -2312,8 +2483,8 @@
     <div id="composeEmailModal" class="fixed inset-0 modal-overlay flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-2xl w-full max-w-2xl mx-4 p-6 shadow-2xl transform transition-all scale-95">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-800" id="composeEmailTitle">New Email</h3><button
-                    onclick="closeModal('composeEmailModal')"
+                <h3 class="text-lg font-semibold text-gray-800" id="composeEmailTitle">New Email</h3>
+                <button onclick="closeModal('composeEmailModal')"
                     class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
             <input type="hidden" id="emailEditId" />
@@ -2350,8 +2521,8 @@
         <div
             class="bg-white rounded-2xl w-full max-w-5xl mx-4 p-6 shadow-2xl transform transition-all scale-95 modal-content">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-800 truncate" id="filePreviewTitle">File Preview</h3><button
-                    onclick="closeModal('filePreviewModal')"
+                <h3 class="text-lg font-semibold text-gray-800 truncate" id="filePreviewTitle">File Preview</h3>
+                <button onclick="closeModal('filePreviewModal')"
                     class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
             <div id="filePreviewContent" class="min-h-[200px] flex items-center justify-center text-gray-400">Loading...
@@ -2370,8 +2541,8 @@
         class="fixed inset-0 modal-overlay flex items-center justify-center z-50 hidden shortcuts-modal">
         <div class="bg-white rounded-2xl w-full max-w-md mx-4 p-6 shadow-2xl transform transition-all scale-95">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-800">⌨️ Keyboard Shortcuts</h3><button
-                    onclick="closeModal('shortcutsModal')"
+                <h3 class="text-lg font-semibold text-gray-800">⌨️ Keyboard Shortcuts</h3>
+                <button onclick="closeModal('shortcutsModal')"
                     class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
             <div class="shortcut-grid">
@@ -2397,7 +2568,8 @@
         <div class="bg-white rounded-2xl w-full max-w-2xl mx-4 p-6 shadow-2xl transform transition-all scale-95">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-gray-800"><i class="fas fa-search mr-2"></i> Search Everything
-                </h3><button onclick="closeModal('searchModal')"
+                </h3>
+                <button onclick="closeModal('searchModal')"
                     class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
             <input id="globalSearchInput" type="text" placeholder="Search tasks, notes, files, emails..."
@@ -2416,20 +2588,19 @@
     <!-- ======================== JAVASCRIPT ========================== -->
     <!-- ============================================================ -->
     <script>
-        // ================================================================
-        // 1. SUPABASE INIT
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 1. SUPABASE
+        // ──────────────────────────────────────────────────────────────
         const SUPABASE_URL = 'https://ngfcmanscnstjqajaoee.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nZmNtYW5zY25zdGpxYWphb2VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MjI5NzgsImV4cCI6MjEwMjE5ODk3OH0.KDKMNchmJ5RgvvzVF5sQnZROXmn-RjElHrXMxTgHalA';
-
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
             autoRefreshToken: true,
             persistSession: true
         });
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 2. STATE
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         let currentUser = null;
         let tasks = [];
         let notes = [];
@@ -2441,7 +2612,7 @@
         let timerRunning = false;
         let timerStartTime = null;
         let timerPaused = false;
-        let pausedElapsed = 0; // milliseconds
+        let pausedElapsed = 0;
         let selectedTaskId = null;
         let chartInstance = null;
         let insightChartInstance = null;
@@ -2469,13 +2640,13 @@
         let workTimerRunning = false;
         let workTimerStartTime = null;
         let workTimerPaused = false;
-        let workPausedElapsed = 0; // milliseconds
+        let workPausedElapsed = 0;
         let workTimerLunchMinutes = 0;
         let workTimerInterval = null;
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 3. TOAST
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         function showToast(msg, type = 'info') {
             const el = document.getElementById('toast');
             if (!el) return;
@@ -2485,7 +2656,6 @@
             el._hide = setTimeout(() => el.classList.remove('show'), 3000);
         }
 
-        // Play a short beep using WebAudio for reminders
         function playReminderSound() {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2497,25 +2667,34 @@
                 o.connect(g);
                 g.connect(ctx.destination);
                 o.start();
-                setTimeout(() => { o.stop(); try { ctx.close(); } catch (e) { } }, 300);
-            } catch (e) { /* ignore */ }
+                setTimeout(() => {
+                    o.stop();
+                    try { ctx.close(); } catch (_) { }
+                }, 300);
+            } catch (_) { }
         }
 
-        function NavigateToHome(){
+        function NavigateToHome() {
             window.location.href('https://cc03-2c0f-f3a0-122-62a5-28a1-6459-a148-93ae.ngrok-free.app/')
         }
 
-        // ================================================================
-        // 4. AUTH (unchanged)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 4. AUTH
+        // ──────────────────────────────────────────────────────────────
         function describeAuthError(error) {
             const msg = (error && error.message) || '';
             const lower = msg.toLowerCase();
             if (lower.includes('invalid login credentials')) {
-                return { title: 'Incorrect Email or Password', text: 'That email/password combination was rejected. Double-check for typos, caps-lock, or extra spaces. If you just signed up, make sure you verified your email first.' };
+                return {
+                    title: 'Incorrect Email or Password',
+                    text: 'That email/password combination was rejected. Double-check for typos, caps-lock, or extra spaces. If you just signed up, make sure you verified your email first.'
+                };
             }
             if (lower.includes('email not confirmed')) {
-                return { title: 'Email Not Verified', text: 'Your account exists but the email address hasn\'t been confirmed yet. Check your inbox (and spam folder) for the verification link, then try signing in again.' };
+                return {
+                    title: 'Email Not Verified',
+                    text: 'Your account exists but the email address hasn\'t been confirmed yet. Check your inbox (and spam folder) for the verification link, then try signing in again.'
+                };
             }
             if (lower.includes('user not found')) {
                 return { title: 'No Account Found', text: 'We couldn\'t find an account with that email. Use "Sign up" below to create one.' };
@@ -2531,7 +2710,10 @@
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
                 if (error) {
                     const info = describeAuthError(error);
-                    await Swal.fire({ icon: 'error', title: info.title, text: info.text, footer: 'If you don\'t have an account, please sign up first.' });
+                    await Swal.fire({
+                        icon: 'error', title: info.title, text: info.text,
+                        footer: 'If you don\'t have an account, please sign up first.'
+                    });
                     return false;
                 }
                 currentUser = data.user;
@@ -2539,7 +2721,10 @@
                 afterAuth();
                 return true;
             } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Network Error', text: err.message || 'Could not reach authentication server.' });
+                await Swal.fire({
+                    icon: 'error', title: 'Network Error', text: err.message ||
+                        'Could not reach authentication server.'
+                });
                 return false;
             }
         }
@@ -2548,26 +2733,36 @@
             try {
                 const { data, error } = await supabaseClient.auth.signUp({ email, password });
                 if (error) {
-                    await Swal.fire({ icon: 'error', title: 'Registration Failed', text: error.message || 'Unable to create account. This email may already be in use.' });
+                    await Swal.fire({
+                        icon: 'error', title: 'Registration Failed', text: error.message ||
+                            'Unable to create account. This email may already be in use.'
+                    });
                     return false;
                 }
                 if (data?.user && !data.session) {
-                    await Swal.fire({ icon: 'success', title: 'Check Your Email', text: 'We sent a confirmation link to ' + email + '. Please verify your email before signing in.' });
+                    await Swal.fire({
+                        icon: 'success', title: 'Check Your Email', text: 'We sent a confirmation link to ' +
+                            email + '. Please verify your email before signing in.'
+                    });
                 } else {
-                    await Swal.fire({ icon: 'success', title: 'Account Created!', text: 'Please sign in with your new credentials.', timer: 2000, showConfirmButton: false });
+                    await Swal.fire({
+                        icon: 'success', title: 'Account Created!', text: 'Please sign in with your new credentials.',
+                        timer: 2000, showConfirmButton: false
+                    });
                 }
                 showToast('Account created! Please sign in.', 'success');
                 return true;
             } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Network Error', text: err.message || 'Could not reach registration server.' });
+                await Swal.fire({
+                    icon: 'error', title: 'Network Error', text: err.message ||
+                        'Could not reach registration server.'
+                });
                 return false;
             }
         }
 
         async function logout() {
             stopReminderChecks();
-            // Keep timer state across logout so timers resume after signing back in
-            // Do not remove timerState/workTimerState and do not stop timers here.
             await supabaseClient.auth.signOut();
             currentUser = null;
             showToast('Signed out', 'info');
@@ -2620,9 +2815,9 @@
             showLogin();
         };
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 5. AUTH STATE CHANGE
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         supabaseClient.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
                 currentUser = session.user;
@@ -2630,8 +2825,6 @@
             } else if (event === 'SIGNED_OUT') {
                 currentUser = null;
                 stopReminderChecks();
-                // Preserve timer state across sign-out so timers can resume after signing back in
-                // Do not clear timerState or stop timers here.
                 document.getElementById('loginOverlay').classList.remove('hidden');
                 document.getElementById('app').style.display = 'none';
                 showLogin();
@@ -2640,18 +2833,18 @@
             }
         });
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 6. AFTER AUTH
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         async function afterAuth() {
             document.getElementById('loginOverlay').classList.add('hidden');
             document.getElementById('app').style.display = 'flex';
             await initApp();
         }
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 7. INIT APP
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         async function initApp() {
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (!session) {
@@ -2666,8 +2859,12 @@
             applyDarkMode();
             document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
                 weekday: 'short',
-                month: 'short', day: 'numeric'
+                month: 'short',
+                day: 'numeric'
             });
+
+            // Build sidebar & mobile nav
+            buildNavItems();
 
             await loadAllData();
             loadFilesFromStorage();
@@ -2676,7 +2873,6 @@
             setupNavigation();
             setupDragDrop();
             await populateTimerSelect();
-            // Restore last opened page (persisted) or default to dashboard
             const lastPage = localStorage.getItem('adv_last_page') || 'dashboard';
             navigateTo(lastPage);
 
@@ -2689,22 +2885,17 @@
             updateInsights();
 
             startReminderChecks();
-            // If browser notifications are enabled in profile, ensure permission is requested
             if (profileSettings.browser_notifications && 'Notification' in window && Notification.permission === 'default') {
-                try { await Notification.requestPermission(); } catch (e) { /* ignore */ }
+                try { await Notification.requestPermission(); } catch (_) { }
             }
             resumeTimerFromStorage();
             resumeWorkTimerFromStorage();
 
-            // Setup keyboard shortcuts
             setupKeyboardShortcuts();
 
-            // Mobile sidebar: collapse by default on small screens
-            // Restore persisted sidebar collapsed state (desktop) or default collapse on small screens
+            // Desktop sidebar collapse state
             const savedCollapsed = localStorage.getItem('adv_sidebar_collapsed');
             if (savedCollapsed === '1') {
-                document.getElementById('sidebar').classList.add('sidebar-collapsed');
-            } else if (window.innerWidth < 768) {
                 document.getElementById('sidebar').classList.add('sidebar-collapsed');
             }
 
@@ -2712,55 +2903,129 @@
             document.getElementById('loginOverlay').classList.add('hidden');
         }
 
-        // ================================================================
-        // 7b. MOBILE SIDEBAR TOGGLE
-        // ================================================================
-        window.toggleSidebarMobile = function () {
-            const sidebar = document.getElementById('sidebar');
-            const backdrop = document.getElementById('sidebarBackdrop');
-            const isCollapsed = sidebar.classList.contains('sidebar-collapsed');
+        // ──────────────────────────────────────────────────────────────
+        // 7b. NAV ITEMS (shared between sidebar & mobile)
+        // ──────────────────────────────────────────────────────────────
+        const NAV_ITEMS = [
+            { page: 'dashboard', icon: 'fa-th-large', label: 'Dashboard', color: 'indigo' },
+            { page: 'tasks', icon: 'fa-tasks', label: 'Tasks', color: 'amber' },
+            { page: 'time', icon: 'fa-clock', label: 'Time Tracking', color: 'emerald' },
+            { page: 'notes', icon: 'fa-sticky-note', label: 'Notes', color: 'rose' },
+            { page: 'meetings', icon: 'fa-video', label: 'Meetings', color: 'blue' },
+            { page: 'calendar', icon: 'fa-calendar-alt', label: 'Calendar', color: 'teal' },
+            { page: 'planner', icon: 'fa-list-check', label: 'Daily Planner', color: 'orange' },
+            { page: 'files', icon: 'fa-folder', label: 'Files', color: 'cyan' },
+            { page: 'emails', icon: 'fa-envelope', label: 'Emails', color: 'rose' },
+            { page: 'insights', icon: 'fa-chart-line', label: 'Insights', color: 'violet' },
+            { page: 'tools', icon: 'fa-plug', label: 'Integrations', color: 'purple' },
+            { page: 'reports', icon: 'fa-chart-bar', label: 'Reports', color: 'cyan' },
+            { page: 'settings', icon: 'fa-gear', label: 'Settings', color: 'gray' },
+        ];
 
-            if (window.innerWidth < 768) {
-                if (isCollapsed) {
-                    sidebar.classList.remove('sidebar-collapsed');
-                    backdrop.classList.add('active');
-                } else {
-                    sidebar.classList.add('sidebar-collapsed');
-                    backdrop.classList.remove('active');
-                }
+        function buildNavItems() {
+            // Desktop sidebar nav
+            const sidebarNav = document.getElementById('sidebarNav');
+            if (sidebarNav) {
+                sidebarNav.innerHTML = NAV_ITEMS.map(item => `
+                        <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition" data-page="${item.page}" data-tooltip="${item.label}">
+                            <i class="fas ${item.icon} w-5 text-center text-${item.color}-500"></i>
+                            <span class="nav-label">${item.label}</span>
+                        </a>
+                    `).join('');
+            }
+
+            // Mobile nav
+            const mobileNav = document.getElementById('mobileNavContainer');
+            if (mobileNav) {
+                const user = currentUser;
+                const name = profileSettings.display_name || user?.email?.split('@')[0] || 'Developer';
+                const initial = (name[0] || 'D').toUpperCase();
+                const avatarUrl = profileSettings.avatar_url || '';
+                const avatarHtml = avatarUrl ?
+                    `<img src="${avatarUrl}" alt="avatar" />` :
+                    initial;
+
+                let html = `
+                        <div class="mobile-user">
+                            <div class="avatar">${avatarHtml}</div>
+                            <div>
+                                <div class="user-name">${name}</div>
+                                <div class="user-email">${user?.email || ''}</div>
+                            </div>
+                        </div>
+                        <div class="mobile-divider"></div>
+                    `;
+
+                html += NAV_ITEMS.map(item => `
+                        <a href="#" class="nav-item-mobile" data-page="${item.page}">
+                            <i class="fas ${item.icon} text-${item.color}-500"></i>
+                            ${item.label}
+                        </a>
+                    `).join('');
+
+                html += `
+                        <div class="mobile-divider"></div>
+                        <a href="#" class="nav-item-mobile logout-mobile" onclick="logout(); closeMobileMenu();">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    `;
+
+                mobileNav.innerHTML = html;
+
+                // Hook up mobile nav clicks
+                mobileNav.querySelectorAll('.nav-item-mobile[data-page]').forEach(el => {
+                    el.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const page = el.dataset.page;
+                        navigateTo(page);
+                        closeMobileMenu();
+                    });
+                });
+            }
+        }
+
+        // ──────────────────────────────────────────────────────────────
+        // 7c. MOBILE MENU TOGGLE (dropdown from top)
+        // ──────────────────────────────────────────────────────────────
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const isOpen = menu.classList.contains('open');
+            if (isOpen) {
+                closeMobileMenu();
             } else {
-                sidebar.classList.toggle('sidebar-collapsed');
-                // persist collapsed state for desktop
-                try {
-                    localStorage.setItem('adv_sidebar_collapsed', sidebar.classList.contains('sidebar-collapsed') ? '1' : '0');
-                } catch (e) { /* ignore */ }
+                menu.classList.add('open');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
             }
-        };
+        }
+        window.toggleMobileMenu = toggleMobileMenu;
 
-        // Close sidebar when clicking backdrop
-        document.getElementById('sidebarBackdrop')?.addEventListener('click', function () {
-            if (window.innerWidth < 768) {
-                document.getElementById('sidebar').classList.add('sidebar-collapsed');
-                this.classList.remove('active');
-            }
-        });
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('mobileMenuOverlay');
+            menu.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        window.closeMobileMenu = closeMobileMenu;
 
-        // Handle resize
-        window.addEventListener('resize', function () {
+        // ──────────────────────────────────────────────────────────────
+        // 7d. DESKTOP SIDEBAR TOGGLE
+        // ──────────────────────────────────────────────────────────────
+        function toggleSidebarDesktop() {
             const sidebar = document.getElementById('sidebar');
-            const backdrop = document.getElementById('sidebarBackdrop');
-            if (window.innerWidth >= 768) {
-                sidebar.classList.remove('sidebar-collapsed');
-                if (backdrop) backdrop.classList.remove('active');
-            } else {
-                sidebar.classList.add('sidebar-collapsed');
-                if (backdrop) backdrop.classList.remove('active');
-            }
-        });
+            sidebar.classList.toggle('sidebar-collapsed');
+            try {
+                localStorage.setItem('adv_sidebar_collapsed', sidebar.classList.contains('sidebar-collapsed') ? '1' :
+                    '0');
+            } catch (_) { }
+        }
+        window.toggleSidebarDesktop = toggleSidebarDesktop;
 
-        // ================================================================
-        // 7c. KEYBOARD SHORTCUTS
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 7e. KEYBOARD SHORTCUTS
+        // ──────────────────────────────────────────────────────────────
         function setupKeyboardShortcuts() {
             document.addEventListener('keydown', (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -2802,21 +3067,14 @@
                     toggleDarkMode();
                 }
                 if (e.key === 'Escape') {
-                    document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(el => {
-                        el.classList.add('hidden');
-                    });
-                    // Also close mobile sidebar
-                    if (window.innerWidth < 768) {
-                        document.getElementById('sidebar').classList.add('sidebar-collapsed');
-                        document.getElementById('sidebarBackdrop').classList.remove('active');
-                    }
+                    document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(el => el.classList.add('hidden'));
+                    closeMobileMenu();
                 }
             });
         }
 
         window.toggleShortcutsHelp = function () {
-            const modal = document.getElementById('shortcutsModal');
-            modal.classList.toggle('hidden');
+            document.getElementById('shortcutsModal').classList.toggle('hidden');
         };
 
         window.openSearch = function () {
@@ -2833,7 +3091,6 @@
             }
             let html = '';
             let count = 0;
-
             tasks.forEach(t => {
                 if (t.title.toLowerCase().includes(query) || (t.description || '').toLowerCase().includes(query) || (t
                     .assignee || '').toLowerCase().includes(query)) {
@@ -2846,7 +3103,6 @@
                     count++;
                 }
             });
-
             notes.forEach(n => {
                 if (n.title.toLowerCase().includes(query) || (n.content || '').toLowerCase().includes(query)) {
                     html +=
@@ -2858,7 +3114,6 @@
                     count++;
                 }
             });
-
             files.forEach(f => {
                 if (f.name.toLowerCase().includes(query)) {
                     html +=
@@ -2870,7 +3125,6 @@
                     count++;
                 }
             });
-
             emails.forEach(e => {
                 if (e.subject.toLowerCase().includes(query) || e.body.toLowerCase().includes(query) || e.from_email
                     .toLowerCase().includes(query) || e.to_email.toLowerCase().includes(query)) {
@@ -2883,25 +3137,24 @@
                     count++;
                 }
             });
-
             if (count === 0) {
-                results.innerHTML = `<div class="text-center text-gray-400 text-sm py-8">No results found for "<strong>${escHtml(query)}</strong>"</div>`;
+                results.innerHTML =
+                    `<div class="text-center text-gray-400 text-sm py-8">No results found for "<strong>${escHtml(query)}</strong>"</div>`;
             } else {
-                results.innerHTML = `<div class="text-xs text-gray-400 mb-2">${count} result${count > 1 ? 's' : ''}</div>` + html;
+                results.innerHTML = `<div class="text-xs text-gray-400 mb-2">${count} result${count > 1 ? 's' : ''}</div>` +
+                    html;
             }
         };
 
-        // ================================================================
-        // 7d. DARK MODE
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 7f. DARK MODE
+        // ──────────────────────────────────────────────────────────────
         window.toggleDarkMode = function () {
             profileSettings.dark_mode = !profileSettings.dark_mode;
             document.getElementById('settingsDarkMode').checked = profileSettings.dark_mode;
             applyDarkMode();
             if (currentUser) {
-                supabaseClient.auth.updateUser({
-                    data: { dark_mode: profileSettings.dark_mode }
-                }).catch(() => { });
+                supabaseClient.auth.updateUser({ data: { dark_mode: profileSettings.dark_mode } }).catch(() => { });
             }
             localStorage.setItem('devhub_dark_mode', JSON.stringify(profileSettings.dark_mode));
         };
@@ -2910,9 +3163,7 @@
             const isDark = profileSettings.dark_mode;
             document.body.classList.toggle('dark-mode', isDark);
             const icon = document.getElementById('darkModeIcon');
-            if (icon) {
-                icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-            }
+            if (icon) { icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon'; }
             const cb = document.getElementById('settingsDarkMode');
             if (cb) cb.checked = isDark;
         }
@@ -2920,22 +3171,19 @@
         function loadDarkModePreference() {
             try {
                 const stored = localStorage.getItem('devhub_dark_mode');
-                if (stored !== null) {
-                    profileSettings.dark_mode = JSON.parse(stored);
-                } else {
-                    profileSettings.dark_mode = false;
+                if (stored !== null) { profileSettings.dark_mode = JSON.parse(stored); } else {
+                    profileSettings
+                        .dark_mode = false;
                 }
-            } catch (e) {
-                profileSettings.dark_mode = false;
-            }
+            } catch (_) { profileSettings.dark_mode = false; }
             if (currentUser?.user_metadata?.dark_mode !== undefined) {
                 profileSettings.dark_mode = currentUser.user_metadata.dark_mode;
             }
         }
 
-        // ================================================================
-        // 7e. PROFILE / SETTINGS
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 7g. PROFILE
+        // ──────────────────────────────────────────────────────────────
         function loadProfileSettingsFromUser() {
             const meta = currentUser?.user_metadata || {};
             profileSettings = {
@@ -2991,6 +3239,8 @@
                 settingsInitial.classList.remove('hidden');
             }
             applyDarkMode();
+            // Rebuild mobile nav to reflect profile changes
+            buildNavItems();
         }
 
         window.saveProfileSettings = async function () {
@@ -2999,9 +3249,8 @@
             try {
                 const { data, error } = await supabaseClient.auth.updateUser({
                     data: {
-                        display_name: displayName,
-                        avatar_url: avatarUrl,
-                        dark_mode: profileSettings.dark_mode
+                        display_name: displayName, avatar_url: avatarUrl, dark_mode: profileSettings
+                            .dark_mode
                     }
                 });
                 if (error) throw error;
@@ -3010,7 +3259,10 @@
                 applyProfileToUI();
                 showToast('Profile updated!', 'success');
             } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Save Failed', text: err.message || 'Could not update profile.' });
+                await Swal.fire({
+                    icon: 'error', title: 'Save Failed', text: err.message ||
+                        'Could not update profile.'
+                });
             }
         };
 
@@ -3019,13 +3271,12 @@
             const reminderMinutes = parseInt(document.getElementById('settingsReminderMinutes').value, 10) || 15;
             const browserNotif = document.getElementById('settingsBrowserNotif').checked;
             if (browserNotif && 'Notification' in window && Notification.permission === 'default') {
-                try { await Notification.requestPermission(); } catch (e) { /* ignore */ }
+                try { await Notification.requestPermission(); } catch (_) { }
             }
             try {
                 const { data, error } = await supabaseClient.auth.updateUser({
                     data: {
-                        reminders_enabled: remindersEnabled,
-                        reminder_minutes: reminderMinutes,
+                        reminders_enabled: remindersEnabled, reminder_minutes: reminderMinutes,
                         browser_notifications: browserNotif
                     }
                 });
@@ -3035,13 +3286,16 @@
                 notifiedMeetingIds.clear();
                 showToast('Reminder settings saved!', 'success');
             } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Save Failed', text: err.message || 'Could not update reminder settings.' });
+                await Swal.fire({
+                    icon: 'error', title: 'Save Failed', text: err.message ||
+                        'Could not update reminder settings.'
+                });
             }
         };
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 8. MEETING REMINDERS
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         function startReminderChecks() {
             stopReminderChecks();
             checkUpcomingMeetings();
@@ -3067,14 +3321,13 @@
                 const t = new Date(m.meeting_date).getTime();
                 return t > now && t <= now + windowMs;
             });
-            // Update badge count excluding already-notified meetings
             updateReminderBadge();
             upcoming.forEach(m => {
                 if (notifiedMeetingIds.has(m.id)) return;
                 notifiedMeetingIds.add(m.id);
                 const minsAway = Math.max(1, Math.round((new Date(m.meeting_date).getTime() - now) / 60000));
                 showToast(`📅 "${m.title}" starts in ${minsAway} min`, 'info');
-                try { playReminderSound(); } catch (e) { }
+                try { playReminderSound(); } catch (_) { }
                 Swal.fire({
                     icon: 'info',
                     title: 'Upcoming Meeting',
@@ -3082,56 +3335,61 @@
                     confirmButtonText: 'Got it',
                     toast: false
                 });
-                // Browser notification
-                if (profileSettings.browser_notifications && 'Notification' in window && Notification.permission === 'granted') {
+                if (profileSettings.browser_notifications && 'Notification' in window && Notification.permission ===
+                    'granted') {
                     try {
-                        const notif = new Notification(`Upcoming meeting: ${m.title}`, { body: `Starts in ${minsAway} minute${minsAway === 1 ? '' : 's'}`, data: { link: m.link } });
-                        notif.onclick = (ev) => { ev.preventDefault(); if (m.link) window.open(m.link, '_blank'); window.focus(); };
-                    } catch (e) { /* ignore */ }
+                        const notif = new Notification(`Upcoming meeting: ${m.title}`, {
+                            body: `Starts in ${minsAway} minute${minsAway === 1 ? '' : 's'}`,
+                            data: { link: m.link }
+                        });
+                        notif.onclick = (ev) => {
+                            ev.preventDefault();
+                            if (m.link) window.open(m.link, '_blank');
+                            window.focus();
+                        };
+                    } catch (_) { }
                 }
-                // Also attempt to send email reminder (best-effort)
-                try { sendReminderEmail(m, minsAway); } catch (e) { console.warn('sendReminderEmail error', e); }
+                try { sendReminderEmail(m, minsAway); } catch (_) { }
             });
         }
 
-        // Try to send a reminder email via Supabase backend; fall back to local email store if not available
         async function sendReminderEmail(meeting, minsAway) {
             if (!currentUser || !meeting) return;
             const subject = `Reminder: ${meeting.title} starts in ${minsAway} minute${minsAway === 1 ? '' : 's'}`;
-            const body = `Your meeting "${meeting.title}" is starting in ${minsAway} minute${minsAway === 1 ? '' : 's'}.\n\nLink: ${meeting.link || 'n/a'}\n\nDescription:\n${meeting.description || ''}`;
+            const body =
+                `Your meeting "${meeting.title}" is starting in ${minsAway} minute${minsAway === 1 ? '' : 's'}.\n\nLink: ${meeting.link || 'n/a'}\n\nDescription:\n${meeting.description || ''}`;
             const now = new Date().toISOString();
-            // If Supabase is available, try to insert into an 'emails' table for server-side delivery
             if (typeof supabaseClient !== 'undefined') {
                 try {
                     const to_email = currentUser.email || currentUser?.user_metadata?.email || '';
                     if (!to_email) throw new Error('No recipient email');
-                    const { data, error } = await supabaseClient.from('emails').insert([{ to_email, from_email: currentUser.email, subject, body, sent_at: now, user_id: currentUser.id }]);
-                    if (!error) {
-                        console.log('Reminder email queued via Supabase', data);
-                        return;
-                    } else {
-                        console.warn('Supabase email insert error', error);
+                    const { data, error } = await supabaseClient.from('emails').insert([{
+                        to_email, from_email: currentUser
+                            .email, subject, body, sent_at: now, user_id: currentUser.id
+                    }]);
+                    if (!error) { console.log('Reminder email queued via Supabase', data); return; } else {
+                        console
+                            .warn('Supabase email insert error', error);
                     }
-                } catch (e) {
-                    console.warn('sendReminderEmail supabase error', e);
-                }
+                } catch (_) { }
             }
-            // Fallback: save to local emails list so user sees it in the app
             try {
-                const emailObj = { id: 'email_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6), from_email: currentUser.email || 'me@example.com', to_email: currentUser.email || 'me@example.com', subject, body, sent_at: now, is_read: false, created_at: now, user_id: currentUser.id || 'local' };
+                const emailObj = {
+                    id: 'email_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+                    from_email: currentUser.email || 'me@example.com', to_email: currentUser.email ||
+                        'me@example.com', subject, body, sent_at: now, is_read: false, created_at: now,
+                    user_id: currentUser.id || 'local'
+                };
                 emails.unshift(emailObj);
                 saveEmailsToStorage();
-                console.log('Reminder email saved locally', emailObj);
-            } catch (e) { console.warn('Failed to save local reminder email', e); }
+            } catch (_) { }
         }
 
-        // ================= Reminders popover UI =================
         function openReminders(e) {
             if (e && e.stopPropagation) e.stopPropagation();
             const pop = document.getElementById('reminderPopover');
             const list = document.getElementById('reminderPopoverList');
             if (!pop || !list) return;
-            // Build upcoming list (next 24h, sorted)
             const now = Date.now();
             const upcoming = meetings.filter(m => m.meeting_date && new Date(m.meeting_date).getTime() > now)
                 .sort((a, b) => new Date(a.meeting_date).getTime() - new Date(b.meeting_date).getTime()).slice(0, 20);
@@ -3140,24 +3398,27 @@
                 list.innerHTML = '<div class="text-gray-400 text-center py-6">No upcoming reminders</div>';
             } else {
                 upcoming.forEach(m => {
-                    const minsAway = Math.max(1, Math.round((new Date(m.meeting_date).getTime() - now) / 60000));
+                    const minsAway = Math.max(1, Math.round((new Date(m.meeting_date).getTime() - now) /
+                        60000));
                     const item = document.createElement('div');
                     item.className = 'p-2 rounded hover:bg-gray-50 flex items-start justify-between gap-2';
                     item.innerHTML = `
-                        <div class="flex-1 min-w-0">
-                            <div class="font-medium text-gray-800">${escHtml(m.title)}</div>
-                            <div class="text-xs text-gray-400">${new Date(m.meeting_date).toLocaleString()} • in ${minsAway} min</div>
-                        </div>
-                        <div class="flex-shrink-0 flex gap-1">
-                            <button class="text-xs text-indigo-600 px-2 py-1 rounded" title="Open" onclick="(function(e){e.stopPropagation(); openMeetingModal(${JSON.stringify({}).replace(/\"/g, '\"')});}) (event)">Open</button>
-                            <button class="text-xs text-gray-500 px-2 py-1 rounded" title="Snooze 5m" onclick="(function(e){e.stopPropagation(); snoozeReminder('${m.id}',5);}) (event)">Snooze</button>
-                            <button class="text-xs text-red-500 px-2 py-1 rounded" title="Dismiss" onclick="(function(e){e.stopPropagation(); dismissReminder('${m.id}');}) (event)">Dismiss</button>
-                        </div>`;
-                    // Attach data and proper Open handler that uses existing openMeetingModal
-                    // Replace the temporary Open button to call openMeetingModal with the meeting object
+                            <div class="flex-1 min-w-0">
+                                <div class="font-medium text-gray-800">${escHtml(m.title)}</div>
+                                <div class="text-xs text-gray-400">${new Date(m.meeting_date).toLocaleString()} • in ${minsAway} min</div>
+                            </div>
+                            <div class="flex-shrink-0 flex gap-1">
+                                <button class="text-xs text-indigo-600 px-2 py-1 rounded" title="Open" onclick="(function(e){e.stopPropagation(); openMeetingModal(${JSON.stringify({}).replace(/\"/g, '\"')});}) (event)">Open</button>
+                                <button class="text-xs text-gray-500 px-2 py-1 rounded" title="Snooze 5m" onclick="(function(e){e.stopPropagation(); snoozeReminder('${m.id}',5);}) (event)">Snooze</button>
+                                <button class="text-xs text-red-500 px-2 py-1 rounded" title="Dismiss" onclick="(function(e){e.stopPropagation(); dismissReminder('${m.id}');}) (event)">Dismiss</button>
+                            </div>`;
                     const openBtn = item.querySelector('button[title="Open"]');
                     if (openBtn) {
-                        openBtn.onclick = function (ev) { ev.stopPropagation(); openMeetingModal(m); closeReminders(); };
+                        openBtn.onclick = function (ev) {
+                            ev.stopPropagation();
+                            openMeetingModal(m);
+                            closeReminders();
+                        };
                     }
                     list.appendChild(item);
                 });
@@ -3166,17 +3427,28 @@
         }
 
         function closeReminders() {
-            const pop = document.getElementById('reminderPopover');
-            if (pop) pop.classList.add('hidden');
+            const pop = document.getElementById('reminderPopover'); if (pop) pop.classList.add(
+                'hidden');
         }
 
         function dismissReminder(id) {
-            if (!id) return; notifiedMeetingIds.add(id); closeReminders(); updateReminderBadge();
+            if (!id) return;
+            notifiedMeetingIds.add(id);
+            closeReminders();
+            updateReminderBadge();
         }
 
         function snoozeReminder(id, minutes) {
-            if (!id) return; notifiedMeetingIds.add(id); closeReminders(); updateReminderBadge();
-            setTimeout(() => { try { notifiedMeetingIds.delete(id); checkUpcomingMeetings(); } catch (e) { } }, (minutes || 5) * 60000);
+            if (!id) return;
+            notifiedMeetingIds.add(id);
+            closeReminders();
+            updateReminderBadge();
+            setTimeout(() => {
+                try {
+                    notifiedMeetingIds.delete(id);
+                    checkUpcomingMeetings();
+                } catch (_) { }
+            }, (minutes || 5) * 60000);
         }
 
         function updateReminderBadge() {
@@ -3184,24 +3456,26 @@
             if (!badge) return;
             const now = Date.now();
             const windowMs = (profileSettings.reminder_minutes || 15) * 60 * 1000;
-            const upcoming = meetings.filter(m => m.meeting_date && new Date(m.meeting_date).getTime() > now && new Date(m.meeting_date).getTime() <= now + windowMs && !notifiedMeetingIds.has(m.id));
-            if (upcoming.length > 0) { badge.textContent = upcoming.length; badge.classList.remove('hidden'); } else { badge.classList.add('hidden'); }
+            const upcoming = meetings.filter(m => m.meeting_date && new Date(m.meeting_date).getTime() > now && new Date(m
+                .meeting_date).getTime() <= now + windowMs && !notifiedMeetingIds.has(m.id));
+            if (upcoming.length > 0) {
+                badge.textContent = upcoming.length;
+                badge.classList.remove('hidden');
+            } else { badge.classList.add('hidden'); }
         }
 
-        // Close popover when clicking outside
         document.addEventListener('click', function (e) {
             const pop = document.getElementById('reminderPopover');
-            if (!pop) return;
+            if (!pop || pop.classList.contains('hidden')) return;
             const bell = document.querySelector('.fa-bell')?.parentElement;
-            if (pop.classList.contains('hidden')) return;
             if (pop.contains(e.target)) return;
             if (bell && bell.contains(e.target)) return;
             closeReminders();
         });
 
-        // ================================================================
-        // 9. LOAD DATA (silent errors)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 9. LOAD DATA
+        // ──────────────────────────────────────────────────────────────
         async function loadAllData() {
             if (!currentUser) return;
             await Promise.all([
@@ -3225,80 +3499,43 @@
 
         async function loadTasks() {
             try {
-                const { data, error } = await supabaseClient
-                    .from('tasks')
-                    .select('*')
-                    .eq('user_id', currentUser.id)
+                const { data, error } = await supabaseClient.from('tasks').select('*').eq('user_id', currentUser.id)
                     .order('created_at', { ascending: false });
-                if (error) {
-                    if (error.code === '42P01') { tasks = []; return; }
-                    throw error;
-                }
+                if (error) { if (error.code === '42P01') { tasks = []; return; } throw error; }
                 tasks = data || [];
-            } catch (err) {
-                console.warn('Tasks load error:', err);
-                tasks = [];
-            }
+            } catch (_) { tasks = []; }
         }
 
         async function loadNotes() {
             try {
-                const { data, error } = await supabaseClient
-                    .from('notes')
-                    .select('*')
-                    .eq('user_id', currentUser.id)
+                const { data, error } = await supabaseClient.from('notes').select('*').eq('user_id', currentUser.id)
                     .order('created_at', { ascending: false });
-                if (error) {
-                    if (error.code === '42P01') { notes = []; return; }
-                    throw error;
-                }
+                if (error) { if (error.code === '42P01') { notes = []; return; } throw error; }
                 notes = data || [];
-                console.log('loadNotes: loaded', (notes || []).length, 'notes from server');
-            } catch (err) {
-                console.warn('Notes load error:', err);
-                notes = [];
-            }
+            } catch (_) { notes = []; }
         }
 
         async function loadMeetings() {
             try {
-                const { data, error } = await supabaseClient
-                    .from('meetings')
-                    .select('*')
-                    .eq('user_id', currentUser.id)
+                const { data, error } = await supabaseClient.from('meetings').select('*').eq('user_id', currentUser.id)
                     .order('meeting_date', { ascending: true });
-                if (error) {
-                    if (error.code === '42P01') { meetings = []; return; }
-                    throw error;
-                }
+                if (error) { if (error.code === '42P01') { meetings = []; return; } throw error; }
                 meetings = data || [];
-            } catch (err) {
-                console.warn('Meetings load error:', err);
-                meetings = [];
-            }
+            } catch (_) { meetings = []; }
         }
 
         async function loadTimeEntries() {
             try {
-                const { data, error } = await supabaseClient
-                    .from('time_entries')
-                    .select('*, tasks(title)')
-                    .eq('user_id', currentUser.id)
-                    .order('created_at', { ascending: false });
-                if (error) {
-                    if (error.code === '42P01') { timeEntries = []; return; }
-                    throw error;
-                }
+                const { data, error } = await supabaseClient.from('time_entries').select('*, tasks(title)').eq('user_id',
+                    currentUser.id).order('created_at', { ascending: false });
+                if (error) { if (error.code === '42P01') { timeEntries = []; return; } throw error; }
                 timeEntries = data || [];
-            } catch (err) {
-                console.warn('Time entries load error:', err);
-                timeEntries = [];
-            }
+            } catch (_) { timeEntries = []; }
         }
 
-        // ================================================================
-        // 10. RENDER: TASKS (with search & tags)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 10. RENDER: TASKS
+        // ──────────────────────────────────────────────────────────────
         function renderTasks() {
             const searchTerm = document.getElementById('taskSearch')?.value?.toLowerCase() || '';
             const todoCol = document.getElementById('todoColumn');
@@ -3312,9 +3549,9 @@
 
             let filtered = tasks;
             if (searchTerm) {
-                filtered = tasks.filter(t => t.title.toLowerCase().includes(searchTerm) || (t.description || '').toLowerCase()
-                    .includes(searchTerm) || (t.assignee || '').toLowerCase().includes(searchTerm) || (t.tags || '')
-                        .toLowerCase().includes(searchTerm));
+                filtered = tasks.filter(t => t.title.toLowerCase().includes(searchTerm) || (t.description || '')
+                    .toLowerCase().includes(searchTerm) || (t.assignee || '').toLowerCase().includes(searchTerm) || (
+                        t.tags || '').toLowerCase().includes(searchTerm));
             }
 
             const todo = filtered.filter(t => t.status === 'todo');
@@ -3340,7 +3577,10 @@
             div.dataset.id = task.id;
             div.draggable = true;
 
-            const statusMap = { 'todo': 'To Do', 'in-progress': 'In Progress', 'in-review': 'In Review', 'done': 'Done' };
+            const statusMap = {
+                'todo': 'To Do', 'in-progress': 'In Progress', 'in-review': 'In Review',
+                'done': 'Done'
+            };
             const tags = (task.tags || '').split(',').filter(t => t.trim());
 
             const container = document.createElement('div');
@@ -3382,38 +3622,76 @@
             const meta = document.createElement('div');
             meta.className = 'flex items-center gap-1 mt-2 flex-wrap';
             if (task.assignee) {
-                const sp = document.createElement('span'); sp.className = 'text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full'; sp.textContent = '👤 ' + task.assignee; meta.appendChild(sp);
+                const sp = document.createElement('span');
+                sp.className = 'text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full';
+                sp.textContent = '👤 ' + task.assignee;
+                meta.appendChild(sp);
             }
             if (task.time_estimate) {
-                const sp = document.createElement('span'); sp.className = 'text-xs bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full'; sp.textContent = `⏱ ${task.time_estimate}h`; meta.appendChild(sp);
+                const sp = document.createElement('span');
+                sp.className = 'text-xs bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full';
+                sp.textContent = `⏱ ${task.time_estimate}h`;
+                meta.appendChild(sp);
             }
             if (task.due_date) {
-                const sp = document.createElement('span'); sp.className = `text-xs ${isOverdue ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'} px-2 py-0.5 rounded-full`; sp.textContent = `📅 ${new Date(task.due_date).toLocaleDateString()}`; meta.appendChild(sp);
+                const sp = document.createElement('span');
+                sp.className =
+                    `text-xs ${isOverdue ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'} px-2 py-0.5 rounded-full`;
+                sp.textContent = `📅 ${new Date(task.due_date).toLocaleDateString()}`;
+                meta.appendChild(sp);
             }
-            if (task.time) { const sp = document.createElement('span'); sp.className = 'text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full'; sp.textContent = `🕐 ${task.time}`; meta.appendChild(sp); }
-            if (task.recurrence && task.recurrence !== 'none') { const sp = document.createElement('span'); sp.className = 'text-xs bg-purple-50 text-purple-600 px-2 py-0.5 rounded-full'; sp.textContent = `🔄 ${task.recurrence}`; meta.appendChild(sp); }
-            tags.forEach(t => { const sp = document.createElement('span'); sp.className = 'tag-badge bg-indigo-100 text-indigo-700'; sp.innerHTML = escHtml(t.trim()); meta.appendChild(sp); });
-            const statusSpan = document.createElement('span'); statusSpan.className = `text-[10px] px-2 py-0.5 rounded-full status-${task.status}`; statusSpan.textContent = statusMap[task.status] || task.status; meta.appendChild(statusSpan);
+            if (task.time) {
+                const sp = document.createElement('span');
+                sp.className = 'text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full';
+                sp.textContent = `🕐 ${task.time}`;
+                meta.appendChild(sp);
+            }
+            if (task.recurrence && task.recurrence !== 'none') {
+                const sp = document.createElement('span');
+                sp.className = 'text-xs bg-purple-50 text-purple-600 px-2 py-0.5 rounded-full';
+                sp.textContent = `🔄 ${task.recurrence}`;
+                meta.appendChild(sp);
+            }
+            tags.forEach(t => {
+                const sp = document.createElement('span');
+                sp.className = 'tag-badge bg-indigo-100 text-indigo-700';
+                sp.innerHTML = escHtml(t.trim());
+                meta.appendChild(sp);
+            });
+            const statusSpan = document.createElement('span');
+            statusSpan.className = `text-[10px] px-2 py-0.5 rounded-full status-${task.status}`;
+            statusSpan.textContent = statusMap[task.status] || task.status;
+            meta.appendChild(statusSpan);
             left.appendChild(meta);
             if (task.blocked_by && tasks.some(t => t.id === task.blocked_by && t.status !== 'done')) {
-                const blockedNote = document.createElement('div'); blockedNote.className = 'text-xs text-red-500 mt-1'; blockedNote.textContent = '⛔ Blocked by another task'; left.appendChild(blockedNote);
+                const blockedNote = document.createElement('div');
+                blockedNote.className = 'text-xs text-red-500 mt-1';
+                blockedNote.textContent = '⛔ Blocked by another task';
+                left.appendChild(blockedNote);
             }
 
-            const right = document.createElement('div'); right.className = 'flex items-center gap-1 ml-2 flex-shrink-0';
+            const right = document.createElement('div');
+            right.className = 'flex items-center gap-1 ml-2 flex-shrink-0';
             const editBtn = document.createElement('button');
             editBtn.className = 'text-gray-400 hover:text-indigo-600 text-xs p-1 rounded hover:bg-gray-100 transition';
             editBtn.title = 'Edit';
             editBtn.draggable = false;
             editBtn.innerHTML = '<i class="fas fa-pen"></i>';
             editBtn.addEventListener('mousedown', (e) => e.stopPropagation());
-            editBtn.addEventListener('click', (e) => { e.stopPropagation(); editTask(task.id); });
+            editBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                editTask(task.id);
+            });
             const delBtn = document.createElement('button');
             delBtn.className = 'text-gray-400 hover:text-red-500 text-xs p-1 rounded hover:bg-gray-100 transition';
             delBtn.title = 'Delete';
             delBtn.draggable = false;
             delBtn.innerHTML = '<i class="fas fa-trash"></i>';
             delBtn.addEventListener('mousedown', (e) => e.stopPropagation());
-            delBtn.addEventListener('click', (e) => { e.stopPropagation(); deleteTask(task.id); });
+            delBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteTask(task.id);
+            });
 
             right.appendChild(editBtn);
             right.appendChild(delBtn);
@@ -3424,9 +3702,9 @@
             return div;
         }
 
-        // ================================================================
-        // 11. DRAG & DROP (unchanged)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 11. DRAG & DROP
+        // ──────────────────────────────────────────────────────────────
         function setupDragDrop() {
             sortableInstances.forEach(s => s.destroy());
             sortableInstances = [];
@@ -3445,16 +3723,19 @@
                         if (task && task.status !== newStatus) {
                             task.status = newStatus;
                             try {
-                                await supabaseClient
-                                    .from('tasks')
-                                    .update({ status: newStatus, updated_at: new Date().toISOString() })
-                                    .eq('id', taskId)
-                                    .eq('user_id', currentUser.id);
+                                await supabaseClient.from('tasks').update({
+                                    status: newStatus,
+                                    updated_at: new Date().toISOString()
+                                }).eq('id', taskId).eq(
+                                    'user_id', currentUser.id);
                                 updateDashboard();
                                 renderTasks();
                                 showToast(`Task moved to ${newStatus}`, 'success');
-                            } catch (err) {
-                                await Swal.fire({ icon: 'error', title: 'Update Failed', text: 'Could not update task status. Please try again.' });
+                            } catch (_) {
+                                await Swal.fire({
+                                    icon: 'error', title: 'Update Failed',
+                                    text: 'Could not update task status. Please try again.'
+                                });
                             }
                         }
                     }
@@ -3463,9 +3744,9 @@
             });
         }
 
-        // ================================================================
-        // 12. CRUD: TASKS (with time field)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 12. CRUD: TASKS
+        // ──────────────────────────────────────────────────────────────
         function openTaskModal(data, presetTime) {
             document.getElementById('taskEditId').value = data?.id || '';
             document.getElementById('taskModalTitle').textContent = data ? 'Edit Task' : 'New Task';
@@ -3487,25 +3768,18 @@
         function populateBlockedBySelect(currentTaskId, blockedById) {
             const sel = document.getElementById('taskBlockedBy');
             sel.innerHTML = '<option value="">None</option>';
-            tasks
-                .filter(t => t.id !== currentTaskId) // a task can't block itself
-                .forEach(t => {
-                    const opt = document.createElement('option');
-                    opt.value = t.id;
-                    opt.textContent = t.title;
-                    sel.appendChild(opt);
-                });
+            tasks.filter(t => t.id !== currentTaskId).forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t.id;
+                opt.textContent = t.title;
+                sel.appendChild(opt);
+            });
             sel.value = blockedById || '';
         }
 
         function editTask(id) {
-            console.log('editTask clicked:', id);
-            try { showToast(`Edit requested: ${id}`, 'info'); } catch (e) { /* ignore */ }
             const task = tasks.find(t => t.id === id);
-            if (task) {
-                openTaskModal(task);
-            } else {
-                // fallback: open modal with id prefilled
+            if (task) { openTaskModal(task); } else {
                 document.getElementById('taskEditId').value = id;
                 document.getElementById('taskModalTitle').textContent = 'Edit Task';
                 document.getElementById('taskModal').classList.remove('hidden');
@@ -3542,18 +3816,13 @@
             };
             try {
                 if (id) {
-                    const { error } = await supabaseClient
-                        .from('tasks')
-                        .update(payload)
-                        .eq('id', id)
-                        .eq('user_id', currentUser.id);
+                    const { error } = await supabaseClient.from('tasks').update(payload).eq('id', id).eq('user_id',
+                        currentUser.id);
                     if (error) throw error;
                     showToast('Task updated!', 'success');
                 } else {
                     payload.created_at = new Date().toISOString();
-                    const { error } = await supabaseClient
-                        .from('tasks')
-                        .insert([payload]);
+                    const { error } = await supabaseClient.from('tasks').insert([payload]);
                     if (error) throw error;
                     showToast('Task created!', 'success');
                 }
@@ -3565,8 +3834,8 @@
                 populateReportAssigneeFilter();
                 renderCalendar();
                 renderPlanner();
-            } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Save Failed', text: err.message || 'Could not save task.' });
+            } catch (_) {
+                await Swal.fire({ icon: 'error', title: 'Save Failed', text: 'Could not save task.' });
             }
         }
         window.saveTask = saveTask;
@@ -3583,11 +3852,7 @@
             });
             if (!confirm.isConfirmed) return;
             try {
-                const { error } = await supabaseClient
-                    .from('tasks')
-                    .delete()
-                    .eq('id', id)
-                    .eq('user_id', currentUser.id);
+                const { error } = await supabaseClient.from('tasks').delete().eq('id', id).eq('user_id', currentUser.id);
                 if (error) throw error;
                 showToast('Task deleted', 'info');
                 await loadTasks();
@@ -3597,15 +3862,15 @@
                 populateReportAssigneeFilter();
                 renderCalendar();
                 renderPlanner();
-            } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Delete Failed', text: err.message || 'Could not delete task.' });
+            } catch (_) {
+                await Swal.fire({ icon: 'error', title: 'Delete Failed', text: 'Could not delete task.' });
             }
         }
         window.deleteTask = deleteTask;
 
-        // ================================================================
-        // 13. CRUD: NOTES (with tags & search)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 13. CRUD: NOTES
+        // ──────────────────────────────────────────────────────────────
         function openNoteModal(data) {
             document.getElementById('noteEditId').value = data?.id || '';
             document.getElementById('noteModalTitle').textContent = data ? 'Edit Note' : 'New Note';
@@ -3617,16 +3882,10 @@
         window.openNoteModal = openNoteModal;
 
         function editNote(id) {
-            console.log('editNote clicked:', id);
             try {
-                if (typeof window.openInlineEditor === 'function') {
-                    window.openInlineEditor(id);
-                    return;
-                }
+                if (typeof window.openInlineEditor === 'function') { window.openInlineEditor(id); return; }
                 throw new Error('openInlineEditor not defined');
-            } catch (e) {
-                console.warn('openInlineEditor not available yet, opening modal fallback', e);
-                try { showToast(`Opening modal fallback for ${id}`, 'info'); } catch (e) { }
+            } catch (_) {
                 document.getElementById('taskModal')?.classList.add('hidden');
                 document.getElementById('noteEditId').value = id;
                 document.getElementById('noteModalTitle').textContent = 'Edit Note';
@@ -3651,18 +3910,13 @@
             };
             try {
                 if (id) {
-                    const { error } = await supabaseClient
-                        .from('notes')
-                        .update(payload)
-                        .eq('id', id)
-                        .eq('user_id', currentUser.id);
+                    const { error } = await supabaseClient.from('notes').update(payload).eq('id', id).eq('user_id',
+                        currentUser.id);
                     if (error) throw error;
                     showToast('Note updated!', 'success');
                 } else {
                     payload.created_at = new Date().toISOString();
-                    const { error } = await supabaseClient
-                        .from('notes')
-                        .insert([payload]);
+                    const { error } = await supabaseClient.from('notes').insert([payload]);
                     if (error) throw error;
                     showToast('Note created!', 'success');
                 }
@@ -3670,8 +3924,8 @@
                 await loadNotes();
                 renderNotes();
                 updateDashboard();
-            } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Save Failed', text: err.message || 'Could not save note.' });
+            } catch (_) {
+                await Swal.fire({ icon: 'error', title: 'Save Failed', text: 'Could not save note.' });
             }
         }
         window.saveNote = saveNote;
@@ -3688,18 +3942,14 @@
             });
             if (!confirm.isConfirmed) return;
             try {
-                const { error } = await supabaseClient
-                    .from('notes')
-                    .delete()
-                    .eq('id', id)
-                    .eq('user_id', currentUser.id);
+                const { error } = await supabaseClient.from('notes').delete().eq('id', id).eq('user_id', currentUser.id);
                 if (error) throw error;
                 showToast('Note deleted', 'info');
                 await loadNotes();
                 renderNotes();
                 updateDashboard();
-            } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Delete Failed', text: err.message || 'Could not delete note.' });
+            } catch (_) {
+                await Swal.fire({ icon: 'error', title: 'Delete Failed', text: 'Could not delete note.' });
             }
         }
         window.deleteNote = deleteNote;
@@ -3708,7 +3958,6 @@
             const searchTerm = document.getElementById('noteSearch')?.value?.toLowerCase() || '';
             const container = document.getElementById('notesList');
             let filtered = notes;
-            console.log('renderNotes: notes length=', (notes || []).length, 'search=', searchTerm);
             if (searchTerm) {
                 filtered = notes.filter(n => n.title.toLowerCase().includes(searchTerm) || (n.content || '').toLowerCase()
                     .includes(searchTerm) || (n.tags || '').toLowerCase().includes(searchTerm));
@@ -3716,7 +3965,6 @@
             if (filtered.length === 0) {
                 container.innerHTML =
                     `<div class="col-span-full text-center py-10 text-gray-300 text-sm">No notes found. Create your first note!</div>`;
-                console.log('renderNotes: no notes to display');
                 return;
             }
             container.innerHTML = filtered.map(n => {
@@ -3724,27 +3972,27 @@
                 const tagHtml = tags.map(t =>
                     `<span class="tag-badge bg-rose-100 text-rose-700">${escHtml(t.trim())}</span>`).join('');
                 return `
-                    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 card-hover">
-                        <div class="flex items-start justify-between">
-                            <div class="flex-1 min-w-0">
-                                <h4 class="text-sm font-semibold text-gray-800 truncate">${escHtml(n.title)}</h4>
-                                <p class="text-xs text-gray-400 mt-1 line-clamp-3">${escHtml(n.content || '')}</p>
-                                <div class="flex items-center gap-1 mt-2 flex-wrap">${tagHtml}</div>
-                                <span class="text-[10px] text-gray-400 mt-2 block">${new Date(n.created_at).toLocaleDateString()}</span>
-                            </div>
-                            <div class="flex gap-1 ml-2 flex-shrink-0">
-                                <button onclick="editNote('${n.id}')" class="text-gray-400 hover:text-rose-600 text-xs p-1 rounded hover:bg-gray-100 transition"><i class="fas fa-pen"></i></button>
-                                <button onclick="deleteNote('${n.id}')" class="text-gray-400 hover:text-red-500 text-xs p-1 rounded hover:bg-gray-100 transition"><i class="fas fa-trash"></i></button>
+                        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 card-hover">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm font-semibold text-gray-800 truncate">${escHtml(n.title)}</h4>
+                                    <p class="text-xs text-gray-400 mt-1 line-clamp-3">${escHtml(n.content || '')}</p>
+                                    <div class="flex items-center gap-1 mt-2 flex-wrap">${tagHtml}</div>
+                                    <span class="text-[10px] text-gray-400 mt-2 block">${new Date(n.created_at).toLocaleDateString()}</span>
+                                </div>
+                                <div class="flex gap-1 ml-2 flex-shrink-0">
+                                    <button onclick="editNote('${n.id}')" class="text-gray-400 hover:text-rose-600 text-xs p-1 rounded hover:bg-gray-100 transition"><i class="fas fa-pen"></i></button>
+                                    <button onclick="deleteNote('${n.id}')" class="text-gray-400 hover:text-red-500 text-xs p-1 rounded hover:bg-gray-100 transition"><i class="fas fa-trash"></i></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
+                    `;
             }).join('');
         }
 
-        // ================================================================
-        // 14. CRUD: MEETINGS (unchanged)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 14. CRUD: MEETINGS
+        // ──────────────────────────────────────────────────────────────
         function openMeetingModal(data) {
             document.getElementById('meetingEditId').value = data?.id || '';
             document.getElementById('meetingModalTitle').textContent = data ? 'Edit Meeting' : 'New Meeting';
@@ -3756,10 +4004,7 @@
         }
         window.openMeetingModal = openMeetingModal;
 
-        function editMeeting(id) {
-            const m = meetings.find(m => m.id === id);
-            if (m) openMeetingModal(m);
-        }
+        function editMeeting(id) { const m = meetings.find(m => m.id === id); if (m) openMeetingModal(m); }
         window.editMeeting = editMeeting;
 
         async function saveMeeting() {
@@ -3780,18 +4025,13 @@
             };
             try {
                 if (id) {
-                    const { error } = await supabaseClient
-                        .from('meetings')
-                        .update(payload)
-                        .eq('id', id)
-                        .eq('user_id', currentUser.id);
+                    const { error } = await supabaseClient.from('meetings').update(payload).eq('id', id).eq('user_id',
+                        currentUser.id);
                     if (error) throw error;
                     showToast('Meeting updated!', 'success');
                 } else {
                     payload.created_at = new Date().toISOString();
-                    const { error } = await supabaseClient
-                        .from('meetings')
-                        .insert([payload]);
+                    const { error } = await supabaseClient.from('meetings').insert([payload]);
                     if (error) throw error;
                     showToast('Meeting added!', 'success');
                 }
@@ -3803,8 +4043,8 @@
                 renderPlanner();
                 notifiedMeetingIds.clear();
                 checkUpcomingMeetings();
-            } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Save Failed', text: err.message || 'Could not save meeting.' });
+            } catch (_) {
+                await Swal.fire({ icon: 'error', title: 'Save Failed', text: 'Could not save meeting.' });
             }
         }
         window.saveMeeting = saveMeeting;
@@ -3821,11 +4061,8 @@
             });
             if (!confirm.isConfirmed) return;
             try {
-                const { error } = await supabaseClient
-                    .from('meetings')
-                    .delete()
-                    .eq('id', id)
-                    .eq('user_id', currentUser.id);
+                const { error } = await supabaseClient.from('meetings').delete().eq('id', id).eq('user_id', currentUser
+                    .id);
                 if (error) throw error;
                 showToast('Meeting deleted', 'info');
                 await loadMeetings();
@@ -3833,8 +4070,8 @@
                 updateDashboard();
                 renderCalendar();
                 renderPlanner();
-            } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Delete Failed', text: err.message || 'Could not delete meeting.' });
+            } catch (_) {
+                await Swal.fire({ icon: 'error', title: 'Delete Failed', text: 'Could not delete meeting.' });
             }
         }
         window.deleteMeeting = deleteMeeting;
@@ -3851,29 +4088,28 @@
                 const isSoon = m.meeting_date && new Date(m.meeting_date).getTime() > now &&
                     new Date(m.meeting_date).getTime() <= now + (profileSettings.reminder_minutes || 15) * 60000;
                 return `
-                    <div class="bg-white rounded-xl p-4 shadow-sm border ${isSoon ? 'border-amber-300 ring-1 ring-amber-200' : 'border-gray-100'} flex flex-wrap items-center justify-between gap-3">
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-2"><span class="text-lg">🎥</span><span class="font-semibold text-gray-800">${escHtml(m.title)}</span>${m.meeting_date ? `<span class="text-xs text-gray-400">${new Date(m.meeting_date).toLocaleString()}</span>` : ''}${isSoon ? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Starting soon</span>` : ''}</div>
-                            ${m.description ? `<p class="text-sm text-gray-500 mt-0.5">${escHtml(m.description)}</p>` : ''}
-                            <a href="${escHtml(m.link)}" target="_blank" class="text-sm text-blue-600 hover:underline break-all">${escHtml(m.link)}</a>
+                        <div class="bg-white rounded-xl p-4 shadow-sm border ${isSoon ? 'border-amber-300 ring-1 ring-amber-200' : 'border-gray-100'} flex flex-wrap items-center justify-between gap-3">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2"><span class="text-lg">🎥</span><span class="font-semibold text-gray-800">${escHtml(m.title)}</span>${m.meeting_date ? `<span class="text-xs text-gray-400">${new Date(m.meeting_date).toLocaleString()}</span>` : ''}${isSoon ? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Starting soon</span>` : ''}</div>
+                                ${m.description ? `<p class="text-sm text-gray-500 mt-0.5">${escHtml(m.description)}</p>` : ''}
+                                <a href="${escHtml(m.link)}" target="_blank" class="text-sm text-blue-600 hover:underline break-all">${escHtml(m.link)}</a>
+                            </div>
+                            <div class="flex gap-1 flex-shrink-0">
+                                <button onclick="editMeeting('${m.id}')" class="text-gray-400 hover:text-blue-600 text-sm p-1.5 rounded hover:bg-gray-100 transition"><i class="fas fa-pen"></i></button>
+                                <button onclick="deleteMeeting('${m.id}')" class="text-gray-400 hover:text-red-500 text-sm p-1.5 rounded hover:bg-gray-100 transition"><i class="fas fa-trash"></i></button>
+                            </div>
                         </div>
-                        <div class="flex gap-1 flex-shrink-0">
-                            <button onclick="editMeeting('${m.id}')" class="text-gray-400 hover:text-blue-600 text-sm p-1.5 rounded hover:bg-gray-100 transition"><i class="fas fa-pen"></i></button>
-                            <button onclick="deleteMeeting('${m.id}')" class="text-gray-400 hover:text-red-500 text-sm p-1.5 rounded hover:bg-gray-100 transition"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                `;
+                    `;
             }).join('');
         }
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 15. CALENDAR
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             const label = document.getElementById('calendarMonthLabel');
             if (!grid) return;
-
             const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
                 'October', 'November', 'December'
             ];
@@ -3882,14 +4118,14 @@
             const firstDay = new Date(calendarYear, calendarMonth, 1).getDay();
             const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
             const daysInPrevMonth = new Date(calendarYear, calendarMonth, 0).getDate();
-
             const today = new Date();
             const todayStr = today.toDateString();
 
             let html = '';
             const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             dayNames.forEach(d => {
-                html += `<div class="text-center text-xs font-semibold text-gray-400 py-1">${d}</div>`;
+                html +=
+                `<div class="text-center text-xs font-semibold text-gray-400 py-1">${d}</div>`;
             });
 
             const startOffset = firstDay;
@@ -3905,22 +4141,18 @@
                 const dateObj = new Date(calendarYear, calendarMonth, d);
                 const dateStr = dateObj.toDateString();
                 const isToday = dateStr === todayStr;
-
                 const dayTasks = tasks.filter(t => t.due_date && new Date(t.due_date).toDateString() === dateStr);
                 const dayMeetings = meetings.filter(m => m.meeting_date && new Date(m.meeting_date).toDateString() ===
                     dateStr);
-
                 let dotsHtml = '';
-                if (dayTasks.length > 0) dotsHtml +=
-                    `<span class="dot bg-indigo-500" title="${dayTasks.length} task(s)"></span>`;
+                if (dayTasks.length > 0) dotsHtml += `<span class="dot bg-indigo-500" title="${dayTasks.length} task(s)"></span>`;
                 if (dayMeetings.length > 0) dotsHtml +=
                     `<span class="dot bg-blue-500" title="${dayMeetings.length} meeting(s)"></span>`;
-
                 html +=
                     `<div class="day-cell ${isToday ? 'today' : ''}" data-date="${dateStr}" onclick="selectCalendarDay('${dateStr}')">
-                        <div class="day-number">${d}</div>
-                        <div class="day-dots">${dotsHtml}</div>
-                    </div>`;
+                            <div class="day-number">${d}</div>
+                            <div class="day-dots">${dotsHtml}</div>
+                        </div>`;
             }
 
             const totalCells = startOffset + daysInMonth;
@@ -3944,7 +4176,8 @@
             const dayMeetings = meetings.filter(m => m.meeting_date && new Date(m.meeting_date).toDateString() === dateStr);
 
             if (dayTasks.length === 0 && dayMeetings.length === 0) {
-                container.innerHTML = `<div class="text-gray-400 text-sm">No events on ${date.toLocaleDateString()}</div>`;
+                container.innerHTML =
+                    `<div class="text-gray-400 text-sm">No events on ${date.toLocaleDateString()}</div>`;
                 return;
             }
 
@@ -3967,12 +4200,11 @@
                 calendarMonth = now.getMonth();
                 calendarYear = now.getFullYear();
             } else {
-                calendarMonth += delta;
-                if (calendarMonth > 11) {
-                    calendarMonth = 0;
+                calendarMonth += delta; if (calendarMonth > 11) {
+                    calendarMonth =
+                    0;
                     calendarYear++;
-                }
-                if (calendarMonth < 0) {
+                } if (calendarMonth < 0) {
                     calendarMonth = 11;
                     calendarYear--;
                 }
@@ -3980,9 +4212,9 @@
             renderCalendar();
         };
 
-        // ================================================================
-        // 16. DAILY PLANNER (FIXED - Interactive)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 16. DAILY PLANNER
+        // ──────────────────────────────────────────────────────────────
         function renderPlanner() {
             const container = document.getElementById('plannerTimeline');
             const label = document.getElementById('plannerDayLabel');
@@ -3992,19 +4224,15 @@
             label.textContent = plannerDate.toDateString() === new Date().toDateString() ? 'Today' : plannerDate
                 .toLocaleDateString();
 
-            // Get tasks and meetings for this day
             const dayTasks = tasks.filter(t => t.due_date && new Date(t.due_date).toDateString() === dateStr);
             const dayMeetings = meetings.filter(m => m.meeting_date && new Date(m.meeting_date).toDateString() === dateStr);
 
             let html = '';
-            // Create timeline from 7AM to 8PM
             for (let hour = 7; hour <= 20; hour++) {
                 const timeLabel = hour <= 12 ? `${hour}:00 AM` : hour === 12 ? `12:00 PM` : `${hour - 12}:00 PM`;
                 const timeStr = String(hour).padStart(2, '0') + ':00';
 
-                // Find tasks at this hour
                 const tasksAtHour = dayTasks.filter(t => t.time && t.time.startsWith(String(hour).padStart(2, '0')));
-                // Find meetings at this hour
                 const meetingsAtHour = dayMeetings.filter(m => {
                     if (!m.meeting_date) return false;
                     const mHour = new Date(m.meeting_date).getHours();
@@ -4021,16 +4249,9 @@
                         `<span class="meeting-item" onclick="editMeeting('${m.id}')"><i class="fas fa-video mr-1"></i>${escHtml(m.title)}</span>`;
                 });
 
-                // Add "+" button to create task at this time
                 const addBtn =
                     `<button class="add-btn" onclick="addTaskAtTime('${timeStr}')" title="Add task at ${timeLabel}"><i class="fas fa-plus"></i> Add</button>`;
-
-                // If no tasks and no meetings, show the add button more prominently
-                if (!content) {
-                    content = addBtn;
-                } else {
-                    content += ` ${addBtn}`;
-                }
+                if (!content) { content = addBtn; } else { content += ` ${addBtn}`; }
 
                 html += `
                         <div class="planner-time-slot" onclick="addTaskAtTime('${timeStr}')">
@@ -4039,24 +4260,14 @@
                         </div>
                     `;
             }
-
-            // If no tasks or meetings for the whole day, show a message but keep the timeline
-            if (dayTasks.length === 0 && dayMeetings.length === 0) {
-                // Still show the timeline, but with empty slots
-                // The timeline already shows "Add" buttons on each slot
-            }
-
             container.innerHTML = html;
         }
 
         window.addTaskAtTime = function (time) {
-            // Open task modal with preset time
             const today = new Date().toISOString().split('T')[0];
-            // Navigate to tasks page first
             navigateTo('tasks');
             setTimeout(() => {
                 openTaskModal(null, time);
-                // Set due date to today if not set
                 if (!document.getElementById('taskDueDate').value) {
                     document.getElementById('taskDueDate').value = today;
                 }
@@ -4064,17 +4275,13 @@
         };
 
         window.changePlannerDay = function (delta) {
-            if (delta === 0) {
-                plannerDate = new Date();
-            } else {
-                plannerDate.setDate(plannerDate.getDate() + delta);
-            }
+            if (delta === 0) { plannerDate = new Date(); } else { plannerDate.setDate(plannerDate.getDate() + delta); }
             renderPlanner();
         };
 
-        // ================================================================
-        // 17. TIME TRACKING (Task Timer with persistence)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 17. TIME TRACKING
+        // ──────────────────────────────────────────────────────────────
         async function populateTimerSelect() {
             const sel = document.getElementById('timerTaskSelect');
             if (!sel) return;
@@ -4101,7 +4308,6 @@
             if (mainDisplay) mainDisplay.textContent = formatted;
             const dashDisplay = document.getElementById('dashTimerDisplay');
             if (dashDisplay) dashDisplay.textContent = formatted;
-            // control pause button state
             const pauseBtn = document.getElementById('pauseTimerBtn');
             if (pauseBtn) pauseBtn.disabled = !timerRunning;
         }
@@ -4114,9 +4320,7 @@
                 const task = tasks.find(t => t.id === selectedTaskId);
                 const taskLabel = document.getElementById('dashTimerTask');
                 if (taskLabel) taskLabel.textContent = task ? task.title : 'Unknown';
-            } else {
-                widget.style.display = 'none';
-            }
+            } else { widget.style.display = 'none'; }
         }
 
         function resumeTimerFromStorage() {
@@ -4141,7 +4345,6 @@
                     updateDashboardTimerWidget();
                     showToast('⏱️ Timer resumed', 'info');
                 } else if (state.paused && state.elapsed && state.taskId) {
-                    // restore paused timer state
                     selectedTaskId = state.taskId;
                     timerPaused = true;
                     pausedElapsed = state.elapsed;
@@ -4154,9 +4357,7 @@
                     updateDashboardTimerWidget();
                     showToast('⏱️ Paused timer restored', 'info');
                 }
-            } catch (e) {
-                console.warn('resumeTimerFromStorage parse error', e);
-            }
+            } catch (_) { }
         }
 
         window.startTimer = function () {
@@ -4234,9 +4435,7 @@
                 created_at: new Date().toISOString()
             };
             try {
-                const { error } = await supabaseClient
-                    .from('time_entries')
-                    .insert([payload]);
+                const { error } = await supabaseClient.from('time_entries').insert([payload]);
                 if (error) throw error;
                 showToast(`Logged ${formatTime(seconds)}`, 'success');
                 stopTimer();
@@ -4250,8 +4449,8 @@
                 updateDashboard();
                 populateReportAssigneeFilter();
                 updateInsights();
-            } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Log Failed', text: err.message || 'Could not log time.' });
+            } catch (_) {
+                await Swal.fire({ icon: 'error', title: 'Log Failed', text: 'Could not log time.' });
             }
         };
 
@@ -4284,9 +4483,9 @@
             document.getElementById('totalLoggedHours').textContent = `Total: ${total.toFixed(1)}h`;
         }
 
-        // ================================================================
-        // 18. WORK TIMER (with persistence)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 18. WORK TIMER
+        // ──────────────────────────────────────────────────────────────
         function updateWorkTimerDisplays() {
             let seconds = 0;
             if (workTimerRunning && workTimerStartTime) {
@@ -4377,9 +4576,7 @@
                     updateWorkTimerDisplays();
                     showToast('⏱️ Paused work timer restored', 'info');
                 }
-            } catch (e) {
-                console.warn('resumeWorkTimerFromStorage parse error', e);
-            }
+            } catch (_) { }
         }
 
         window.startWorkTimer = function () {
@@ -4389,7 +4586,10 @@
             workTimerStartTime = Date.now();
             workTimerPaused = false;
             workPausedElapsed = 0;
-            localStorage.setItem('workTimerState', JSON.stringify({ running: true, startTime: workTimerStartTime, lunchMinutes: workTimerLunchMinutes || 0 }));
+            localStorage.setItem('workTimerState', JSON.stringify({
+                running: true, startTime: workTimerStartTime,
+                lunchMinutes: workTimerLunchMinutes || 0
+            }));
             if (workTimerInterval) clearInterval(workTimerInterval);
             workTimerInterval = setInterval(() => { updateWorkTimerDisplays(); }, 1000);
             updateWorkTimerDisplays();
@@ -4403,7 +4603,10 @@
             workTimerRunning = false;
             clearInterval(workTimerInterval);
             workTimerInterval = null;
-            localStorage.setItem('workTimerState', JSON.stringify({ paused: true, elapsed: workPausedElapsed, lunchMinutes: workTimerLunchMinutes || 0 }));
+            localStorage.setItem('workTimerState', JSON.stringify({
+                paused: true, elapsed: workPausedElapsed,
+                lunchMinutes: workTimerLunchMinutes || 0
+            }));
             updateWorkTimerDisplays();
             showToast('Work timer paused', 'info');
         };
@@ -4413,7 +4616,10 @@
             workTimerStartTime = Date.now() - (workPausedElapsed || 0);
             workTimerRunning = true;
             workTimerPaused = false;
-            localStorage.setItem('workTimerState', JSON.stringify({ running: true, startTime: workTimerStartTime, lunchMinutes: workTimerLunchMinutes || 0 }));
+            localStorage.setItem('workTimerState', JSON.stringify({
+                running: true, startTime: workTimerStartTime,
+                lunchMinutes: workTimerLunchMinutes || 0
+            }));
             if (workTimerInterval) clearInterval(workTimerInterval);
             workTimerInterval = setInterval(() => { updateWorkTimerDisplays(); }, 1000);
             updateWorkTimerDisplays();
@@ -4427,7 +4633,10 @@
             workPausedElapsed = 0;
             clearInterval(workTimerInterval);
             workTimerInterval = null;
-            localStorage.setItem('workTimerState', JSON.stringify({ running: false, startTime: workTimerStartTime, lunchMinutes: workTimerLunchMinutes || 0 }));
+            localStorage.setItem('workTimerState', JSON.stringify({
+                running: false, startTime: workTimerStartTime,
+                lunchMinutes: workTimerLunchMinutes || 0
+            }));
             updateWorkTimerDisplays();
             showToast('Work Timer stopped', 'info');
         };
@@ -4503,10 +4712,7 @@
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString()
                 };
-                const { data, error } = await supabaseClient
-                    .from('tasks')
-                    .insert([newTask])
-                    .select();
+                const { data, error } = await supabaseClient.from('tasks').insert([newTask]).select();
                 if (error) {
                     await Swal.fire({ icon: 'error', title: 'Error', text: 'Could not create work task.' });
                     return;
@@ -4525,9 +4731,7 @@
                 created_at: new Date().toISOString()
             };
             try {
-                const { error } = await supabaseClient
-                    .from('time_entries')
-                    .insert([payload]);
+                const { error } = await supabaseClient.from('time_entries').insert([payload]);
                 if (error) throw error;
                 showToast(`Logged ${hours.toFixed(1)} hours for today`, 'success');
                 workTimerRunning = false;
@@ -4541,14 +4745,14 @@
                 renderTimeEntries();
                 updateDashboard();
                 updateInsights();
-            } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Log Failed', text: err.message || 'Could not log work day.' });
+            } catch (_) {
+                await Swal.fire({ icon: 'error', title: 'Log Failed', text: 'Could not log work day.' });
             }
         };
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 19. DASHBOARD
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         function updateDashboard() {
             document.getElementById('statTasks').textContent = tasks.length;
             document.getElementById('statDone').textContent = tasks.filter(t => t.status === 'done').length;
@@ -4557,8 +4761,7 @@
             const now = new Date();
             const weekStart = new Date(now);
             weekStart.setDate(now.getDate() - now.getDay());
-            const weekHours = timeEntries
-                .filter(e => new Date(e.created_at) >= weekStart)
+            const weekHours = timeEntries.filter(e => new Date(e.created_at) >= weekStart)
                 .reduce((sum, e) => sum + (e.hours || 0), 0);
             document.getElementById('statHours').textContent = weekHours.toFixed(1) + 'h';
             const container = document.getElementById('recentActivity');
@@ -4586,9 +4789,9 @@
             updateWorkTimerDisplays();
         }
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 20. INSIGHTS
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         function updateInsights() {
             const now = new Date();
             const thirtyDaysAgo = new Date(now);
@@ -4665,11 +4868,10 @@
                     data: {
                         labels: ['To Do', 'In Progress', 'In Review', 'Done'],
                         datasets: [{
-                            data: [statusCounts.todo, statusCounts['in-progress'], statusCounts['in-review'],
-                            statusCounts.done
-                            ],
-                            backgroundColor: ['#f59e0b', '#3b82f6', '#a855f7', '#10b981'],
-                            borderWidth: 0
+                            data: [statusCounts.todo, statusCounts['in-progress'], statusCounts[
+                                'in-review'], statusCounts.done], backgroundColor: ['#f59e0b',
+                                    '#3b82f6', '#a855f7', '#10b981'
+                                ], borderWidth: 0
                         }]
                     },
                     options: {
@@ -4689,9 +4891,9 @@
             }
         }
 
-        // ================================================================
-        // 21. REPORTS (FIXED)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 21. REPORTS
+        // ──────────────────────────────────────────────────────────────
         function populateReportAssigneeFilter() {
             const sel = document.getElementById('reportAssigneeFilter');
             if (!sel) return;
@@ -4725,9 +4927,7 @@
                 return d >= fromD && d <= toD;
             });
 
-            if (assigneeFilter) {
-                filtered = filtered.filter(t => t.assignee === assigneeFilter);
-            }
+            if (assigneeFilter) { filtered = filtered.filter(t => t.assignee === assigneeFilter); }
 
             const spentMap = {};
             timeEntries.forEach(e => {
@@ -4735,9 +4935,7 @@
                 const fromD = new Date(from);
                 const toD = new Date(to);
                 toD.setHours(23, 59, 59);
-                if (d >= fromD && d <= toD) {
-                    spentMap[e.task_id] = (spentMap[e.task_id] || 0) + (e.hours || 0);
-                }
+                if (d >= fromD && d <= toD) { spentMap[e.task_id] = (spentMap[e.task_id] || 0) + (e.hours || 0); }
             });
 
             filtered = filtered.filter(t => {
@@ -4790,13 +4988,8 @@
                     if (est > 0 && spent > 0) {
                         const pct = ((spent - est) / est * 100);
                         varianceDisplay = (pct > 0 ? '+' : '') + pct.toFixed(0) + '%';
-                    } else if (est > 0 && spent === 0) {
-                        varianceDisplay = '-100%';
-                    } else if (est === 0 && spent > 0) {
-                        varianceDisplay = '+∞';
-                    } else {
-                        varianceDisplay = '—';
-                    }
+                    } else if (est > 0 && spent === 0) { varianceDisplay = '-100%'; } else if (est === 0 && spent >
+                        0) { varianceDisplay = '+∞'; } else { varianceDisplay = '—'; }
                     const varColor = est > 0 && spent > est ? 'text-red-500' :
                         est > 0 && spent < est ? 'text-emerald-500' :
                             est === 0 && spent > 0 ? 'text-amber-500' :
@@ -4832,11 +5025,10 @@
                     data: {
                         labels: ['To Do', 'In Progress', 'In Review', 'Done'],
                         datasets: [{
-                            data: [statusCounts.todo, statusCounts['in-progress'], statusCounts['in-review'],
-                            statusCounts.done
-                            ],
-                            backgroundColor: ['#f59e0b', '#3b82f6', '#a855f7', '#10b981'],
-                            borderWidth: 0
+                            data: [statusCounts.todo, statusCounts['in-progress'], statusCounts[
+                                'in-review'], statusCounts.done], backgroundColor: ['#f59e0b',
+                                    '#3b82f6', '#a855f7', '#10b981'
+                                ], borderWidth: 0
                         }]
                     },
                     options: {
@@ -4853,14 +5045,12 @@
                         cutout: '70%'
                     }
                 });
-            } catch (err) {
-                console.error('Chart error:', err);
-            }
+            } catch (_) { }
         }
 
-        // ================================================================
-        // 22. REPORT EXPORT (unchanged)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 22. REPORT EXPORT
+        // ──────────────────────────────────────────────────────────────
         window.generateReport = async function (format) {
             const from = document.getElementById('reportFrom').value;
             const to = document.getElementById('reportTo').value;
@@ -4890,11 +5080,8 @@
                         if (est > 0 && spent > 0) {
                             const pct = ((spent - est) / est * 100);
                             varianceDisplay = (pct > 0 ? '+' : '') + pct.toFixed(0) + '%';
-                        } else if (est > 0 && spent === 0) {
-                            varianceDisplay = '-100%';
-                        } else if (est === 0 && spent > 0) {
-                            varianceDisplay = '+∞';
-                        }
+                        } else if (est > 0 && spent === 0) { varianceDisplay = '-100%'; } else if (est === 0 &&
+                            spent > 0) { varianceDisplay = '+∞'; }
                         csv +=
                             `"${t.title}","${t.assignee || ''}","${t.status}",${est.toFixed(1)},${spent.toFixed(1)},${varianceDisplay}\n`;
                     });
@@ -4907,32 +5094,29 @@
                     URL.revokeObjectURL(url);
                     showToast('CSV downloaded!', 'success');
                 }
-            } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Export Failed', text: err.message || 'Could not generate report.' });
+            } catch (_) {
+                await Swal.fire({ icon: 'error', title: 'Export Failed', text: 'Could not generate report.' });
             }
         };
 
-        // ================================================================
-        // 23. FILES MANAGER (with folders)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 23. FILES
+        // ──────────────────────────────────────────────────────────────
         function loadFilesFromStorage() {
             try {
-                const data = localStorage.getItem('devhub_files');
-                if (data) {
-                    files = JSON.parse(data);
-                } else {
-                    files = [];
+                const data = localStorage.getItem('devhub_files'); if (data) { files = JSON.parse(data); } else {
+                    files =
+                    [];
                 }
-            } catch (e) { files = []; }
+            } catch (_) { files = []; }
             renderFiles();
             renderFolderTree();
         }
 
         function saveFilesToStorage() {
-            try {
-                localStorage.setItem('devhub_files', JSON.stringify(files));
-            } catch (e) {
-                showToast('Failed to save files to storage', 'error');
+            try { localStorage.setItem('devhub_files', JSON.stringify(files)); } catch (_) {
+                showToast(
+                    'Failed to save files to storage', 'error');
             }
         }
 
@@ -4943,22 +5127,21 @@
             for (let i = 0; i < fileList.length; i++) {
                 const file = fileList[i];
                 let handled = false;
-                // Try Supabase Storage first when available
                 if (typeof supabaseClient !== 'undefined' && currentUser) {
                     try {
                         const safeName = file.name.replace(/\s+/g, '_');
                         const folderSegment = currentFolder && currentFolder !== 'root' ? currentFolder : 'root';
                         const path = `${currentUser.id}/${folderSegment}/${Date.now()}_${i}_${safeName}`;
-                        const up = await supabaseClient.storage.from('files').upload(path, file, { cacheControl: '3600', upsert: false });
+                        const up = await supabaseClient.storage.from('files').upload(path, file, {
+                            cacheControl: '3600',
+                            upsert: false
+                        });
                         if (up?.error) throw up.error;
-                        // get public URL if possible
                         let publicUrl = null;
                         try {
                             const urlResp = supabaseClient.storage.from('files').getPublicUrl(path);
                             publicUrl = urlResp?.data?.publicUrl || urlResp?.publicUrl || null;
-                        } catch (e) { /* ignore */ }
-
-                        // insert metadata row into DB
+                        } catch (_) { }
                         try {
                             const meta = {
                                 name: file.name,
@@ -4970,10 +5153,10 @@
                                 uploaded_at: new Date().toISOString(),
                                 user_id: currentUser.id
                             };
-                            const { data: inserted, error: insertErr } = await supabaseClient.from('files').insert([meta]).select().maybeSingle();
-                            if (insertErr) {
-                                console.warn('files metadata insert failed', insertErr);
-                            }
+                            const { data: inserted, error: insertErr } = await supabaseClient.from('files').insert([
+                                meta
+                            ]).select().maybeSingle();
+                            if (insertErr) { console.warn('files metadata insert failed', insertErr); }
                             const fileData = {
                                 id: inserted?.id || (meta.path || ('file_' + Date.now())),
                                 name: meta.name,
@@ -4992,22 +5175,17 @@
                             renderFolderTree();
                             showToast(`Uploaded to Supabase: ${file.name}`, 'success');
                             handled = true;
-                        } catch (e) {
-                            console.warn('failed inserting file metadata', e);
-                        }
-                    } catch (e) {
-                        console.warn('Supabase upload failed, falling back to local', e);
-                    }
+                        } catch (_) { }
+                    } catch (_) { }
                 }
-
-                // Fallback: save file to localStorage as Data URL
                 if (!handled) {
                     try {
                         const reader = new FileReader();
                         await new Promise((res, rej) => {
                             reader.onload = function (e) {
                                 const fileData = {
-                                    id: Date.now() + '_' + i + '_' + Math.random().toString(36).substr(2, 6),
+                                    id: Date.now() + '_' + i + '_' + Math.random().toString(36).substr(2,
+                                        6),
                                     name: file.name,
                                     type: file.type || 'application/octet-stream',
                                     size: file.size,
@@ -5027,10 +5205,7 @@
                             reader.onerror = rej;
                             reader.readAsDataURL(file);
                         });
-                    } catch (e) {
-                        console.error('Local file save failed', e);
-                        showToast('Failed to save file', 'error');
-                    }
+                    } catch (_) { showToast('Failed to save file', 'error'); }
                 }
             }
             event.target.value = '';
@@ -5049,13 +5224,20 @@
                 if (result.isConfirmed && result.value) {
                     const name = result.value.trim();
                     if (!name) return;
-                    // Try to save folder as metadata in Supabase
                     if (typeof supabaseClient !== 'undefined' && currentUser) {
                         try {
-                            const meta = { name: name, type: 'folder', created_at: new Date().toISOString(), user_id: currentUser.id };
-                            const { data: inserted, error } = await supabaseClient.from('files').insert([meta]).select().maybeSingle();
+                            const meta = {
+                                name: name, type: 'folder', created_at: new Date().toISOString(),
+                                user_id: currentUser.id
+                            };
+                            const { data: inserted, error } = await supabaseClient.from('files').insert([meta])
+                                .select().maybeSingle();
                             if (!error && inserted) {
-                                const folderData = { id: inserted.id || ('folder_' + Date.now()), name: inserted.name, type: 'folder', created_at: inserted.created_at, user_id: inserted.user_id };
+                                const folderData = {
+                                    id: inserted.id || ('folder_' + Date.now()),
+                                    name: inserted.name, type: 'folder', created_at: inserted
+                                        .created_at, user_id: inserted.user_id
+                                };
                                 files.unshift(folderData);
                                 saveFilesToStorage();
                                 renderFiles();
@@ -5063,9 +5245,8 @@
                                 showToast(`Folder "${name}" created`, 'success');
                                 return;
                             }
-                        } catch (e) { console.warn('Supabase folder create failed', e); }
+                        } catch (_) { }
                     }
-                    // Fallback: local folder entry
                     const folderData = {
                         id: 'folder_' + Date.now(),
                         name: name,
@@ -5092,11 +5273,11 @@
                 return;
             }
             container.innerHTML = folders.map(f => `
-                    <div class="folder-item ${currentFolder === f.id ? 'active' : ''}" onclick="selectFolder('${f.id}')">
-                        <i class="fas fa-folder mr-2 ${currentFolder === f.id ? 'text-indigo-600' : 'text-amber-400'}"></i>
-                        ${escHtml(f.name)}
-                    </div>
-                `).join('');
+                        <div class="folder-item ${currentFolder === f.id ? 'active' : ''}" onclick="selectFolder('${f.id}')">
+                            <i class="fas fa-folder mr-2 ${currentFolder === f.id ? 'text-indigo-600' : 'text-amber-400'}"></i>
+                            ${escHtml(f.name)}
+                        </div>
+                    `).join('');
         }
 
         window.selectFolder = function (folderId) {
@@ -5118,12 +5299,8 @@
             if (!container) return;
 
             let filtered = files.filter(f => f.type !== 'folder');
-            if (currentFolder) {
-                filtered = filtered.filter(f => f.folder === currentFolder);
-            }
-            if (searchTerm) {
-                filtered = filtered.filter(f => f.name.toLowerCase().includes(searchTerm));
-            }
+            if (currentFolder) { filtered = filtered.filter(f => f.folder === currentFolder); }
+            if (searchTerm) { filtered = filtered.filter(f => f.name.toLowerCase().includes(searchTerm)); }
 
             if (filtered.length === 0) {
                 container.innerHTML =
@@ -5166,33 +5343,30 @@
             }
 
             container.innerHTML = filtered.map(f => `
-                    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 card-hover file-item">
-                        <div class="flex items-start gap-3">
-                            <div class="file-icon text-${f.type?.startsWith('image/') ? 'indigo' : 'cyan'}-500"><i class="fas ${getFileIcon(f.type, f.name)}"></i></div>
-                            <div class="flex-1 min-w-0">
-                                <div class="text-sm font-medium text-gray-800 truncate" title="${escHtml(f.name)}">${escHtml(f.name)}</div>
-                                <div class="text-xs text-gray-400">${formatSize(f.size)} · ${new Date(f.uploaded_at).toLocaleDateString()}</div>
-                                ${f.folder && f.folder !== 'root' ? `<div class="text-xs text-amber-500">📁 ${escHtml(f.folder)}</div>` : ''}
-                            </div>
-                            <div class="flex gap-1 flex-shrink-0">
-                                <button onclick="previewFile('${f.id}')" class="text-gray-400 hover:text-indigo-600 text-xs p-1.5 rounded hover:bg-gray-100 transition" title="Preview"><i class="fas fa-eye"></i></button>
-                                <button onclick="downloadFile('${f.id}')" class="text-gray-400 hover:text-blue-600 text-xs p-1.5 rounded hover:bg-gray-100 transition" title="Download"><i class="fas fa-download"></i></button>
-                                <button onclick="moveFile('${f.id}')" class="text-gray-400 hover:text-amber-600 text-xs p-1.5 rounded hover:bg-gray-100 transition" title="Move"><i class="fas fa-folder-open"></i></button>
-                                <button onclick="deleteFile('${f.id}')" class="text-gray-400 hover:text-red-500 text-xs p-1.5 rounded hover:bg-gray-100 transition" title="Delete"><i class="fas fa-trash"></i></button>
+                        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 card-hover file-item">
+                            <div class="flex items-start gap-3">
+                                <div class="file-icon text-${f.type?.startsWith('image/') ? 'indigo' : 'cyan'}-500"><i class="fas ${getFileIcon(f.type, f.name)}"></i></div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="text-sm font-medium text-gray-800 truncate" title="${escHtml(f.name)}">${escHtml(f.name)}</div>
+                                    <div class="text-xs text-gray-400">${formatSize(f.size)} · ${new Date(f.uploaded_at).toLocaleDateString()}</div>
+                                    ${f.folder && f.folder !== 'root' ? `<div class="text-xs text-amber-500">📁 ${escHtml(f.folder)}</div>` : ''}
+                                </div>
+                                <div class="flex gap-1 flex-shrink-0">
+                                    <button onclick="previewFile('${f.id}')" class="text-gray-400 hover:text-indigo-600 text-xs p-1.5 rounded hover:bg-gray-100 transition" title="Preview"><i class="fas fa-eye"></i></button>
+                                    <button onclick="downloadFile('${f.id}')" class="text-gray-400 hover:text-blue-600 text-xs p-1.5 rounded hover:bg-gray-100 transition" title="Download"><i class="fas fa-download"></i></button>
+                                    <button onclick="moveFile('${f.id}')" class="text-gray-400 hover:text-amber-600 text-xs p-1.5 rounded hover:bg-gray-100 transition" title="Move"><i class="fas fa-folder-open"></i></button>
+                                    <button onclick="deleteFile('${f.id}')" class="text-gray-400 hover:text-red-500 text-xs p-1.5 rounded hover:bg-gray-100 transition" title="Delete"><i class="fas fa-trash"></i></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `).join('');
+                    `).join('');
         }
 
         window.moveFile = function (id) {
             const file = files.find(f => f.id === id);
             if (!file) return;
             const folders = files.filter(f => f.type === 'folder');
-            if (folders.length === 0) {
-                showToast('No folders to move to. Create a folder first.', 'info');
-                return;
-            }
+            if (folders.length === 0) { showToast('No folders to move to. Create a folder first.', 'info'); return; }
             const folderOptions = folders.map(f => `<option value="${f.id}">${escHtml(f.name)}</option>`).join('');
             Swal.fire({
                 title: 'Move File',
@@ -5200,9 +5374,7 @@
                 showCancelButton: true,
                 confirmButtonText: 'Move',
                 cancelButtonText: 'Cancel',
-                preConfirm: () => {
-                    return document.getElementById('moveFolderSelect').value;
-                }
+                preConfirm: () => { return document.getElementById('moveFolderSelect').value; }
             }).then(result => {
                 if (result.isConfirmed && result.value) {
                     const folderId = result.value;
@@ -5220,10 +5392,7 @@
 
         window.previewFile = function (id) {
             const file = files.find(f => f.id === id);
-            if (!file) {
-                showToast('File not found', 'error');
-                return;
-            }
+            if (!file) { showToast('File not found', 'error'); return; }
             currentFilePreview = file;
             document.getElementById('filePreviewTitle').textContent = file.name;
             const content = document.getElementById('filePreviewContent');
@@ -5240,7 +5409,7 @@
                     const text = atob(file.data.split(',')[1] || '');
                     content.innerHTML =
                         `<pre class="file-text-preview">${escHtml(text.slice(0, 50000))}${text.length > 50000 ? '\n\n... (truncated)' : ''}</pre>`;
-                } catch (e) {
+                } catch (_) {
                     content.innerHTML =
                         `<div class="text-gray-400 p-4">Could not display text preview. <button onclick="downloadFile('${file.id}')" class="text-indigo-600 underline">Download</button> instead.</div>`;
                 }
@@ -5282,7 +5451,7 @@
                     `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(url)}`;
                 window.open(viewerUrl, '_blank');
                 setTimeout(() => URL.revokeObjectURL(url), 60000);
-            } catch (e) {
+            } catch (_) {
                 showToast('Could not open in Office Online. Please download the file.', 'error');
                 downloadFile(id);
             }
@@ -5294,20 +5463,14 @@
             const byteString = atob(parts[1]);
             const ab = new ArrayBuffer(byteString.length);
             const ia = new Uint8Array(ab);
-            for (let i = 0; i < byteString.length; i++) {
-                ia[i] = byteString.charCodeAt(i);
-            }
+            for (let i = 0; i < byteString.length; i++) { ia[i] = byteString.charCodeAt(i); }
             return new Blob([ab], { type: mime });
         }
 
         window.downloadFile = function (id) {
             const file = files.find(f => f.id === id);
-            if (!file) {
-                showToast('File not found', 'error');
-                return;
-            }
+            if (!file) { showToast('File not found', 'error'); return; }
             const link = document.createElement('a');
-            // If file has a public URL (Supabase), use it; otherwise use local data URL
             (async () => {
                 try {
                     let href = file.data || file.url || null;
@@ -5315,7 +5478,7 @@
                         try {
                             const urlResp = supabaseClient.storage.from('files').getPublicUrl(file.path);
                             href = urlResp?.data?.publicUrl || urlResp?.publicUrl || null;
-                        } catch (e) { console.warn('getPublicUrl failed', e); }
+                        } catch (_) { }
                     }
                     if (!href && file.data && file.data.startsWith('data:')) href = file.data;
                     if (!href) { showToast('Unable to download file', 'error'); return; }
@@ -5325,18 +5488,11 @@
                     link.click();
                     document.body.removeChild(link);
                     showToast(`Downloading: ${file.name}`, 'success');
-                } catch (e) {
-                    console.error('Download failed', e);
-                    showToast('Download failed', 'error');
-                }
+                } catch (_) { showToast('Download failed', 'error'); }
             })();
         };
 
-        window.downloadCurrentFile = function () {
-            if (currentFilePreview) {
-                downloadFile(currentFilePreview.id);
-            }
-        };
+        window.downloadCurrentFile = function () { if (currentFilePreview) { downloadFile(currentFilePreview.id); } };
 
         window.deleteFile = function (id) {
             Swal.fire({
@@ -5347,15 +5503,17 @@
                 confirmButtonColor: '#ef4444',
                 cancelButtonColor: '#6b7280',
                 confirmButtonText: 'Yes, delete'
-            }).then(async result => {   // 👈 added 'async' here
+            }).then(async result => {
                 if (result.isConfirmed) {
                     const file = files.find(f => f.id === id);
                     if (file && file.path && typeof supabaseClient !== 'undefined') {
                         try {
-                            const { error: remErr } = await supabaseClient.storage.from('files').remove([file.path]);
+                            const { error: remErr } = await supabaseClient.storage.from('files').remove([file
+                                .path
+                            ]);
                             if (remErr) console.warn('Supabase storage remove error', remErr);
-                            try { await supabaseClient.from('files').delete().eq('id', id); } catch (e) { /* ignore */ }
-                        } catch (e) { console.warn('Error removing from supabase', e); }
+                            try { await supabaseClient.from('files').delete().eq('id', id); } catch (_) { }
+                        } catch (_) { }
                     }
                     files = files.filter(f => f.id !== id);
                     saveFilesToStorage();
@@ -5369,26 +5527,24 @@
                 }
             });
         };
-        // ================================================================
-        // 24. EMAILS ORGANIZER (with labels & search)
-        // ================================================================
+
+        // ──────────────────────────────────────────────────────────────
+        // 24. EMAILS
+        // ──────────────────────────────────────────────────────────────
         function loadEmailsFromStorage() {
             try {
-                const data = localStorage.getItem('devhub_emails');
-                if (data) {
-                    emails = JSON.parse(data);
-                } else {
-                    emails = [];
+                const data = localStorage.getItem('devhub_emails'); if (data) { emails = JSON.parse(data); } else {
+                    emails =
+                    [];
                 }
-            } catch (e) { emails = []; }
+            } catch (_) { emails = []; }
             renderEmails();
         }
 
         function saveEmailsToStorage() {
-            try {
-                localStorage.setItem('devhub_emails', JSON.stringify(emails));
-            } catch (e) {
-                showToast('Failed to save emails to storage', 'error');
+            try { localStorage.setItem('devhub_emails', JSON.stringify(emails)); } catch (_) {
+                showToast(
+                    'Failed to save emails to storage', 'error');
             }
         }
 
@@ -5421,7 +5577,10 @@
             if (id) {
                 const idx = emails.findIndex(e => e.id === id);
                 if (idx !== -1) {
-                    emails[idx] = { ...emails[idx], from_email, to_email, subject, body, labels, updated_at: now };
+                    emails[idx] = {
+                        ...emails[idx], from_email, to_email, subject, body, labels,
+                        updated_at: now
+                    };
                 }
             } else {
                 emails.unshift({
@@ -5473,18 +5632,18 @@
                 const labelHtml = labels.map(l =>
                     `<span class="tag-badge bg-rose-100 text-rose-700">${escHtml(l.trim())}</span>`).join('');
                 return `
-                    <div class="email-item ${e.is_read ? '' : 'unread'} px-4 py-3 flex items-center justify-between" onclick="viewEmail('${e.id}')">
-                        <div class="flex-1 min-w-0">
-                            <div class="text-sm truncate ${e.is_read ? 'font-normal text-gray-600' : 'font-semibold text-gray-800'}">${escHtml(e.subject)}</div>
-                            <div class="text-xs text-gray-400 truncate">${escHtml(e.from_email)} · ${new Date(e.sent_at).toLocaleDateString()}</div>
-                            ${labelHtml ? `<div class="flex gap-1 mt-1 flex-wrap">${labelHtml}</div>` : ''}
+                        <div class="email-item ${e.is_read ? '' : 'unread'} px-4 py-3 flex items-center justify-between" onclick="viewEmail('${e.id}')">
+                            <div class="flex-1 min-w-0">
+                                <div class="text-sm truncate ${e.is_read ? 'font-normal text-gray-600' : 'font-semibold text-gray-800'}">${escHtml(e.subject)}</div>
+                                <div class="text-xs text-gray-400 truncate">${escHtml(e.from_email)} · ${new Date(e.sent_at).toLocaleDateString()}</div>
+                                ${labelHtml ? `<div class="flex gap-1 mt-1 flex-wrap">${labelHtml}</div>` : ''}
+                            </div>
+                            <div class="flex gap-1 flex-shrink-0 ml-2">
+                                <button onclick="event.stopPropagation();toggleReadEmail('${e.id}')" class="text-gray-400 hover:text-indigo-600 text-xs p-1 rounded hover:bg-gray-100 transition" title="${e.is_read ? 'Mark unread' : 'Mark read'}"><i class="fas ${e.is_read ? 'fa-envelope-open' : 'fa-envelope'}"></i></button>
+                                <button onclick="event.stopPropagation();deleteEmail('${e.id}')" class="text-gray-400 hover:text-red-500 text-xs p-1 rounded hover:bg-gray-100 transition" title="Delete"><i class="fas fa-trash"></i></button>
+                            </div>
                         </div>
-                        <div class="flex gap-1 flex-shrink-0 ml-2">
-                            <button onclick="event.stopPropagation();toggleReadEmail('${e.id}')" class="text-gray-400 hover:text-indigo-600 text-xs p-1 rounded hover:bg-gray-100 transition" title="${e.is_read ? 'Mark unread' : 'Mark read'}"><i class="fas ${e.is_read ? 'fa-envelope-open' : 'fa-envelope'}"></i></button>
-                            <button onclick="event.stopPropagation();deleteEmail('${e.id}')" class="text-gray-400 hover:text-red-500 text-xs p-1 rounded hover:bg-gray-100 transition" title="Delete"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                `;
+                    `;
             }).join('');
 
             if (currentEmailDetailId && emails.find(e => e.id === currentEmailDetailId)) {
@@ -5511,23 +5670,23 @@
                 `<span class="tag-badge bg-rose-100 text-rose-700">${escHtml(l.trim())}</span>`).join('');
 
             detailContainer.innerHTML = `
-                    <div class="space-y-3">
-                        <div class="flex items-start justify-between">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-800">${escHtml(email.subject)}</h3>
-                                <div class="text-sm text-gray-500 mt-1">From: ${escHtml(email.from_email)}</div>
-                                <div class="text-sm text-gray-500">To: ${escHtml(email.to_email)}</div>
-                                <div class="text-xs text-gray-400">${new Date(email.sent_at).toLocaleString()}</div>
-                                ${labelHtml ? `<div class="flex gap-1 mt-2 flex-wrap">${labelHtml}</div>` : ''}
+                        <div class="space-y-3">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">${escHtml(email.subject)}</h3>
+                                    <div class="text-sm text-gray-500 mt-1">From: ${escHtml(email.from_email)}</div>
+                                    <div class="text-sm text-gray-500">To: ${escHtml(email.to_email)}</div>
+                                    <div class="text-xs text-gray-400">${new Date(email.sent_at).toLocaleString()}</div>
+                                    ${labelHtml ? `<div class="flex gap-1 mt-2 flex-wrap">${labelHtml}</div>` : ''}
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="replyToEmail()" class="text-gray-400 hover:text-rose-600 text-sm p-1.5 rounded hover:bg-gray-100 transition" title="Reply"><i class="fas fa-reply"></i></button>
+                                    <button onclick="deleteEmail('${email.id}')" class="text-gray-400 hover:text-red-500 text-sm p-1.5 rounded hover:bg-gray-100 transition" title="Delete"><i class="fas fa-trash"></i></button>
+                                </div>
                             </div>
-                            <div class="flex gap-2">
-                                <button onclick="replyToEmail()" class="text-gray-400 hover:text-rose-600 text-sm p-1.5 rounded hover:bg-gray-100 transition" title="Reply"><i class="fas fa-reply"></i></button>
-                                <button onclick="deleteEmail('${email.id}')" class="text-gray-400 hover:text-red-500 text-sm p-1.5 rounded hover:bg-gray-100 transition" title="Delete"><i class="fas fa-trash"></i></button>
-                            </div>
+                            <div class="border-t border-gray-200 pt-3 text-sm text-gray-700" style="white-space:pre-wrap;line-height:1.6;">${escHtml(email.body || 'No content')}</div>
                         </div>
-                        <div class="border-t border-gray-200 pt-3 text-sm text-gray-700" style="white-space:pre-wrap;line-height:1.6;">${escHtml(email.body || 'No content')}</div>
-                    </div>
-                `;
+                    `;
         };
 
         window.replyToEmail = function () {
@@ -5551,9 +5710,7 @@
             email.is_read = !email.is_read;
             saveEmailsToStorage();
             renderEmails();
-            if (currentEmailDetailId === id) {
-                viewEmail(id);
-            }
+            if (currentEmailDetailId === id) { viewEmail(id); }
         };
 
         window.deleteEmail = function (id) {
@@ -5583,15 +5740,9 @@
             });
         };
 
-        window.deleteEmailFromDetail = function () {
-            if (currentEmailDetailId) {
-                deleteEmail(currentEmailDetailId);
-            }
-        };
-
-        // ================================================================
-        // 25. TOOL INTEGRATIONS (unchanged)
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
+        // 25. TOOL INTEGRATIONS
+        // ──────────────────────────────────────────────────────────────
         window.connectTool = function (name) {
             showToast(`🔌 Connecting to ${name}... (demo)`, 'info');
             setTimeout(() => showToast(`✅ ${name} connected successfully!`, 'success'), 1500);
@@ -5609,9 +5760,9 @@
             document.getElementById('customToolKey').value = '';
         };
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 26. DATA EXPORT / IMPORT
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         window.exportAllData = function () {
             const data = {
                 tasks: tasks,
@@ -5636,9 +5787,7 @@
             showToast('Data exported successfully!', 'success');
         };
 
-        window.importAllData = function () {
-            document.getElementById('importFileInput').click();
-        };
+        window.importAllData = function () { document.getElementById('importFileInput').click(); };
 
         window.handleImport = function (event) {
             const file = event.target.files[0];
@@ -5659,33 +5808,37 @@
                     saveEmailsToStorage();
                     if (tasks.length > 0 && currentUser) {
                         tasks.forEach(async t => {
-                            const { error } = await supabaseClient
-                                .from('tasks')
-                                .upsert({ ...t, user_id: currentUser.id }, { onConflict: 'id' });
+                            const { error } = await supabaseClient.from('tasks').upsert({
+                                ...t,
+                                user_id: currentUser.id
+                            }, { onConflict: 'id' });
                             if (error) console.warn('Import task error:', error);
                         });
                     }
                     if (notes.length > 0 && currentUser) {
                         notes.forEach(async n => {
-                            const { error } = await supabaseClient
-                                .from('notes')
-                                .upsert({ ...n, user_id: currentUser.id }, { onConflict: 'id' });
+                            const { error } = await supabaseClient.from('notes').upsert({
+                                ...n,
+                                user_id: currentUser.id
+                            }, { onConflict: 'id' });
                             if (error) console.warn('Import note error:', error);
                         });
                     }
                     if (meetings.length > 0 && currentUser) {
                         meetings.forEach(async m => {
-                            const { error } = await supabaseClient
-                                .from('meetings')
-                                .upsert({ ...m, user_id: currentUser.id }, { onConflict: 'id' });
+                            const { error } = await supabaseClient.from('meetings').upsert({
+                                ...m,
+                                user_id: currentUser.id
+                            }, { onConflict: 'id' });
                             if (error) console.warn('Import meeting error:', error);
                         });
                     }
                     if (timeEntries.length > 0 && currentUser) {
                         timeEntries.forEach(async te => {
-                            const { error } = await supabaseClient
-                                .from('time_entries')
-                                .upsert({ ...te, user_id: currentUser.id }, { onConflict: 'id' });
+                            const { error } = await supabaseClient.from('time_entries').upsert({
+                                ...te,
+                                user_id: currentUser.id
+                            }, { onConflict: 'id' });
                             if (error) console.warn('Import time entry error:', error);
                         });
                     }
@@ -5693,9 +5846,8 @@
                     applyProfileToUI();
                     renderAll();
                     showToast('Data imported successfully!', 'success');
-                } catch (err) {
+                } catch (_) {
                     Swal.fire({ icon: 'error', title: 'Import Failed', text: 'Invalid backup file format.' });
-                    console.error(err);
                 }
             };
             reader.readAsText(file);
@@ -5746,32 +5898,32 @@
             updateReport();
         }
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 27. NAVIGATION
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         function setupNavigation() {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', (e) => {
+            // Desktop sidebar nav
+            document.getElementById('sidebarNav').addEventListener('click', (e) => {
+                const item = e.target.closest('.nav-item');
+                if (item) {
                     e.preventDefault();
                     const page = item.dataset.page;
                     navigateTo(page);
-                    // Close mobile sidebar on navigation
-                    if (window.innerWidth < 768) {
-                        document.getElementById('sidebar').classList.add('sidebar-collapsed');
-                        document.getElementById('sidebarBackdrop').classList.remove('active');
-                    }
-                });
+                }
             });
-            document.getElementById('toggleSidebar')?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                toggleSidebarMobile();
-            });
+            // Mobile nav is handled in buildNavItems
         }
 
         window.navigateTo = function (page) {
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            const navItem = document.querySelector(`.nav-item[data-page="${page}"]`);
+            // Desktop sidebar active state
+            document.querySelectorAll('#sidebarNav .nav-item').forEach(el => el.classList.remove('active'));
+            const navItem = document.querySelector(`#sidebarNav .nav-item[data-page="${page}"]`);
             if (navItem) navItem.classList.add('active');
+
+            // Mobile nav active state
+            document.querySelectorAll('#mobileNavContainer .nav-item-mobile').forEach(el => el.classList.remove('active'));
+            const mobileItem = document.querySelector(`#mobileNavContainer .nav-item-mobile[data-page="${page}"]`);
+            if (mobileItem) mobileItem.classList.add('active');
 
             const titles = {
                 dashboard: 'Dashboard',
@@ -5821,39 +5973,27 @@
             }
             if (page === 'settings') applyProfileToUI();
 
-            // Persist last opened page
-            try { localStorage.setItem('adv_last_page', page); } catch (e) { /* ignore */ }
-            // Close mobile sidebar after navigation
-            if (window.innerWidth < 768) {
-                document.getElementById('sidebar').classList.add('sidebar-collapsed');
-                document.getElementById('sidebarBackdrop').classList.remove('active');
-            }
+            try { localStorage.setItem('adv_last_page', page); } catch (_) { }
+            // Close mobile menu on navigation
+            closeMobileMenu();
         };
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 28. MODAL HELPERS
-        // ================================================================
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
+        // ──────────────────────────────────────────────────────────────
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
         window.closeModal = closeModal;
 
         document.querySelectorAll('.modal-overlay').forEach(el => {
-            el.addEventListener('click', (e) => {
-                if (e.target === el) {
-                    el.classList.add('hidden');
-                }
-            });
+            el.addEventListener('click', (e) => { if (e.target === el) { el.classList.add('hidden'); } });
         });
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 29. UTILITY
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         function escHtml(str) {
-            if (!str) return '';
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
+            if (!str) return ''; const div = document.createElement('div');
+            div.textContent = str; return div.innerHTML;
         }
 
         window.refreshData = function () {
@@ -5864,14 +6004,14 @@
             showToast('Data refreshed!', 'success');
         };
 
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         // 30. INIT
-        // ================================================================
+        // ──────────────────────────────────────────────────────────────
         document.addEventListener('DOMContentLoaded', initApp);
         window.__supabase = supabaseClient;
-        console.log('🚀 DevAdvocate Hub v2.1 - Fixed: Daily Planner (interactive), Hamburger (mobile), Dark Mode (background)');
+        console.log('🚀 DevAdvocate Hub v2.2 - Mobile: dropdown from top, sidebar hidden on phones');
         console.log('📌 Press ? for keyboard shortcuts');
-        console.log('💡 Click any time slot in the Planner to add a task at that time.');
+        console.log('💡 Tap the hamburger on mobile for the full menu dropdown.');
     </script>
 </body>
 
