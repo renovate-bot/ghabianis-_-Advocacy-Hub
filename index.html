@@ -2445,6 +2445,7 @@
         let workPausedElapsed = 0;
         let workTimerLunchMinutes = 0;
         let workTimerInterval = null;
+        window._inlineEditId = null;  // track which note is being edited (null = new)
 
         // ──────────────────────────────────────────────────────────────
         // 3. TOAST
@@ -2682,6 +2683,172 @@
             // Init whiteboard after app is ready
             initWhiteboard();
         }
+
+
+window.openInlineEditor = function(id) {
+    const editor = document.getElementById('noteEditor');
+    if (!editor) return;
+
+    // If editing an existing note, load its content
+    if (id) {
+        const note = notes.find(n => n.id === id);
+        if (!note) {
+            showToast('Note not found', 'error');
+            return;
+        }
+        window._inlineEditId = id;
+        document.getElementById('noteTitle').value = note.title || '';
+        document.getElementById('notePaper').innerHTML = note.content || '';
+    } else {
+        // New note
+        window._inlineEditId = null;
+        document.getElementById('noteTitle').value = '';
+        document.getElementById('notePaper').innerHTML = '';
+    }
+
+    // Show the editor and scroll to it
+    editor.classList.remove('hidden');
+    editor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Update word/char count
+    updateNoteStats();
+
+    showToast(id ? 'Editing note...' : 'New note', 'info');
+};
+
+window.toggleInlineFocusMode = function() {
+    document.body.classList.toggle('notes-focus-mode');
+    const isFocus = document.body.classList.contains('notes-focus-mode');
+    document.getElementById('focusBtn').textContent = isFocus ? 'Exit Focus' : 'Toggle Focus';
+    showToast(isFocus ? 'Focus mode on' : 'Focus mode off', 'info');
+};
+
+window.saveInlineNote = async function() {
+    const title = document.getElementById('noteTitle').value.trim();
+    const content = document.getElementById('notePaper').innerHTML;
+
+    if (!title) {
+        Swal.fire({ icon: 'warning', title: 'Missing Title', text: 'Please add a title before saving.' });
+        return;
+    }
+
+    const payload = {
+        title,
+        content,
+        user_id: currentUser.id,
+        updated_at: new Date().toISOString()
+    };
+
+    try {
+        if (window._inlineEditId) {
+            // Update existing note
+            const { error } = await supabaseClient
+                .from('notes')
+                .update(payload)
+                .eq('id', window._inlineEditId)
+                .eq('user_id', currentUser.id);
+            if (error) throw error;
+            showToast('Note updated!', 'success');
+        } else {
+            // Create new note
+            payload.created_at = new Date().toISOString();
+            const { error } = await supabaseClient
+                .from('notes')
+                .insert([payload]);
+            if (error) throw error;
+            showToast('Note created!', 'success');
+        }
+
+        await loadNotes();
+        renderNotes();
+        // Optionally close the editor after save
+        // closeEditor();  // uncomment if you want it to close automatically
+    } catch (err) {
+        Swal.fire({ icon: 'error', title: 'Save Failed', text: err.message || 'Could not save note.' });
+    }
+};
+
+window.exportInlineNotePDF = function() {
+    const title = document.getElementById('noteTitle').value.trim() || 'Note';
+    const content = document.getElementById('notePaper').innerHTML;
+
+    if (!content) {
+        showToast('Nothing to export', 'info');
+        return;
+    }
+
+    // Build a temporary container for rendering
+    const tempDiv = document.createElement('div');
+    tempDiv.style.position = 'absolute';
+    tempDiv.style.left = '-9999px';
+    tempDiv.style.top = '0';
+    tempDiv.style.width = '800px';
+    tempDiv.style.padding = '40px';
+    tempDiv.style.background = '#ffffff';
+    tempDiv.style.fontFamily = 'Inter, sans-serif';
+    tempDiv.innerHTML = `<h1 style="font-size:24px;font-weight:bold;margin-bottom:20px;">${escHtml(title)}</h1><div style="font-size:16px;line-height:1.6;">${content}</div>`;
+    document.body.appendChild(tempDiv);
+
+    html2canvas(tempDiv, { scale: 2, backgroundColor: '#ffffff' })
+        .then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`${title}.pdf`);
+            document.body.removeChild(tempDiv);
+            showToast('PDF exported!', 'success');
+        })
+        .catch(() => {
+            document.body.removeChild(tempDiv);
+            showToast('Could not export PDF', 'error');
+        });
+};
+
+window.closeEditor = function() {
+    document.getElementById('noteEditor').classList.add('hidden');
+    document.body.classList.remove('notes-focus-mode');
+    document.getElementById('focusBtn').textContent = 'Toggle Focus';
+};
+
+window.clearNote = function() {
+    Swal.fire({
+        title: 'Clear note content?',
+        text: 'This will remove all text from the editor.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        confirmButtonText: 'Yes, clear'
+    }).then(result => {
+        if (result.isConfirmed) {
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('notePaper').innerHTML = '';
+            updateNoteStats();
+            showToast('Cleared', 'info');
+        }
+    });
+};
+
+// Helper: update word & character counts
+function updateNoteStats() {
+    const content = document.getElementById('notePaper').innerText || '';
+    const words = content.trim() ? content.trim().split(/\s+/).length : 0;
+    const chars = content.length;
+    document.getElementById('wordCount').textContent = words;
+    document.getElementById('charCount').textContent = chars;
+}
+
+// Auto‑update stats on input
+document.addEventListener('DOMContentLoaded', function() {
+    const paper = document.getElementById('notePaper');
+    if (paper) {
+        paper.addEventListener('input', updateNoteStats);
+    }
+});
+
+
 
         // ──────────────────────────────────────────────────────────────
         // 7b. NAV ITEMS (shared between sidebar & mobile)
