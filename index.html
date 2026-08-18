@@ -4568,13 +4568,13 @@
                     if (workTimerInterval) clearInterval(workTimerInterval);
                     workTimerInterval = setInterval(() => { updateWorkTimerDisplays(); }, 1000);
                     updateWorkTimerDisplays();
-                    showToast('⏱️ Work Timer resumed', 'info');
+                    console.log('⏱️ Work Timer resumed', 'info');
                 } else if (state.paused && state.elapsed) {
                     workTimerPaused = true;
                     workPausedElapsed = state.elapsed;
                     workTimerRunning = false;
                     updateWorkTimerDisplays();
-                    showToast('⏱️ Paused work timer restored', 'info');
+                    console.log('⏱️ Paused work timer restored', 'info');
                 }
             } catch (_) { }
         }
