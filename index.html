@@ -5788,6 +5788,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         window.previewFile = function(id) {
             const file = files.find(f => f.id === id);
+            console.log(file);
             if (!file) { showToast('File not found', 'error'); return; }
             currentFilePreview = file;
             document.getElementById('filePreviewTitle').textContent = file.name;
@@ -5799,7 +5800,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const isPDF = file.type?.includes('pdf') || file.name.endsWith('.pdf');
 
             if (isImage) {
-                content.innerHTML = `<img src="${file.data}" alt="${escHtml(file.name)}" />`;
+                content.innerHTML = `<img src="${file?.url}" alt="${escHtml(file?.name)}" />`;
             } else if (isText) {
                 try {
                     const text = atob(file.data.split(',')[1] || '');
@@ -5810,7 +5811,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         `<div class="text-gray-400 p-4">Could not display text preview. <button onclick="downloadFile('${file.id}')" class="text-indigo-600 underline">Download</button> instead.</div>`;
                 }
             } else if (isPDF) {
-                content.innerHTML = `<iframe src="${file.data}" type="application/pdf"></iframe>`;
+                content.innerHTML = `<iframe src="${file.url}" type="application/pdf"></iframe>`;
             } else {
                 const isOffice = file.name.endsWith('.docx') || file.name.endsWith('.doc') ||
                     file.name.endsWith('.xlsx') || file.name.endsWith('.xls') ||
@@ -5841,8 +5842,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const file = files.find(f => f.id === id);
             if (!file) return;
             try {
-                const blob = dataURLToBlob(file.data);
-                const url = URL.createObjectURL(blob);
+                const url = file.url;
                 const viewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(url)}`;
                 window.open(viewerUrl, '_blank');
                 setTimeout(() => URL.revokeObjectURL(url), 60000);
