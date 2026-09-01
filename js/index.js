@@ -401,6 +401,69 @@
 		if (url) applyFormat('createLink', url);
 	}
 
+	window.toggleNoteExportMenu = function(event) {
+		event?.stopPropagation();
+		$('noteExportOptions')?.classList.toggle('hidden');
+	}
+
+	document.addEventListener('click', (event) => {
+		const menu = $('noteExportMenu');
+		if (menu && !menu.contains(event.target)) $('noteExportOptions')?.classList.add('hidden');
+	});
+
+	window.exportNoteFile = async function(format) {
+		$('noteExportOptions')?.classList.add('hidden');
+		if (format === 'pdf') return window.exportInlineNotePDF();
+		const title = $('noteTitle')?.value.trim() || 'Note';
+		const editor = $('notePaper');
+		if (!editor || !editor.innerText.trim()) return showToast('Nothing to export', 'info');
+		if (!window.docx) return showToast('DOCX export library is unavailable', 'error');
+
+		const { Document, Packer, Paragraph, TextRun, HeadingLevel, LevelFormat, Table, TableRow, TableCell, WidthType } = window.docx;
+		const paragraphs = [];
+		const addNode = (node, listLevel = 0, numbered = false) => {
+			if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+				paragraphs.push(new Paragraph({ children: [new TextRun(node.textContent)] }));
+				return;
+			}
+			if (node.nodeType !== Node.ELEMENT_NODE) return;
+			const tag = node.tagName.toLowerCase();
+			if (tag === 'table') {
+				const rows = Array.from(node.children).flatMap(section => Array.from(section.children).filter(row => row.tagName.toLowerCase() === 'tr'));
+				const tableRows = rows.map(row => new TableRow({ children: Array.from(row.children).filter(cell => ['td', 'th'].includes(cell.tagName.toLowerCase())).map(cell => new TableCell({ children: (cell.innerText || '').split(/\r?\n/).map(line => new Paragraph({ children: [new TextRun(line)] })), width: { size: 100, type: WidthType.AUTO } })) }));
+			if (tableRows.length) paragraphs.push(new Table({ rows: tableRows, width: { size: 100, type: WidthType.PERCENTAGE } }));
+			return;
+		}
+			if (tag === 'ul' || tag === 'ol') {
+				Array.from(node.children).filter(item => item.tagName.toLowerCase() === 'li').forEach(item => addNode(item, listLevel, tag === 'ol'));
+				return;
+			}
+			if (tag === 'li') {
+				const nestedLists = Array.from(node.children).filter(child => ['ul', 'ol'].includes(child.tagName.toLowerCase()));
+				const itemText = Array.from(node.childNodes).filter(child => child.nodeType === Node.TEXT_NODE || !['UL', 'OL'].includes(child.tagName)).map(child => child.textContent).join('').trim();
+				if (itemText) paragraphs.push(new Paragraph({ text: itemText, numbering: { reference: numbered ? 'note-numbering' : 'note-bullets', level: listLevel } }));
+				nestedLists.forEach(list => addNode(list, listLevel + 1, list.tagName.toLowerCase() === 'ol'));
+				return;
+			}
+			if (/^h[1-6]$/.test(tag)) {
+				paragraphs.push(new Paragraph({ text: node.innerText.trim(), heading: tag === 'h1' ? HeadingLevel.HEADING_1 : tag === 'h2' ? HeadingLevel.HEADING_2 : HeadingLevel.HEADING_3 }));
+				return;
+			}
+			if (tag === 'br') return;
+			if (node.children.length) Array.from(node.childNodes).forEach(child => addNode(child, listLevel, numbered));
+			else if (node.innerText.trim()) paragraphs.push(new Paragraph({ text: node.innerText.trim() }));
+		};
+		Array.from(editor.childNodes).forEach(node => addNode(node));
+		const documentFile = new Document({ numbering: { config: [{ reference: 'note-numbering', levels: [{ level: 0, format: LevelFormat.DECIMAL, text: '%1.', alignment: 'left' }, { level: 1, format: LevelFormat.DECIMAL, text: '%2.', alignment: 'left' }] }, { reference: 'note-bullets', levels: [{ level: 0, format: LevelFormat.BULLET, text: '\u2022', alignment: 'left' }, { level: 1, format: LevelFormat.BULLET, text: '\u2022', alignment: 'left' }] }] }, sections: [{ children: [new Paragraph({ text: title, heading: HeadingLevel.TITLE }), ...paragraphs] }] });
+		const blob = await Packer.toBlob(documentFile);
+		const link = document.createElement('a');
+		link.href = URL.createObjectURL(blob);
+		link.download = `${title.replace(/[^a-z0-9_-]+/gi, '_') || 'note'}.docx`;
+		link.click();
+		URL.revokeObjectURL(link.href);
+		showToast('DOCX exported', 'success');
+	}
+
 	// Focus mode toggles a fullscreen focused editor UI
 	function enterFocusMode() {
 		document.body.classList.add('notes-focus-mode');
@@ -423,20 +486,32 @@
 		const el = $('notePaper');
 		if (!el) return;
 		showToast('Preparing PDF...');
+		const title = $('noteTitle')?.value.trim() || 'Note';
+		const exportRoot = document.createElement('div');
+		exportRoot.style.cssText = 'position:fixed;left:-10000px;top:0;width:800px;padding:40px;background:#fff;color:#111;overflow:visible;';
+		exportRoot.innerHTML = `<h1 style="font-size:24px;margin:0 0 24px;">${escapeHtml(title)}</h1><div style="font-size:16px;line-height:1.6;">${el.innerHTML}</div>`;
+		document.body.appendChild(exportRoot);
 		try {
-			const canvas = await html2canvas(el, { scale: 2, useCORS: true });
-			const imgData = canvas.toDataURL('image/png');
+			const canvas = await html2canvas(exportRoot, { scale: 2, useCORS: true, width: 880, windowWidth: 880, scrollX: 0, scrollY: 0 });
 			const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
 			const pageWidth = pdf.internal.pageSize.getWidth();
 			const pageHeight = pdf.internal.pageSize.getHeight();
-			const imgProps = pdf.getImageProperties(imgData);
-			const imgWidth = pageWidth - 20;
-			const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
-			pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-			pdf.save((($('noteTitle').value||'note') + '.pdf').replace(/\s+/g,'_'));
+			const margin = 10;
+			const imgWidth = pageWidth - margin * 2;
+			const pageCanvasHeight = Math.floor(canvas.width * ((pageHeight - margin * 2) / imgWidth));
+			for (let offset = 0, page = 0; offset < canvas.height; offset += pageCanvasHeight, page++) {
+				const pageCanvas = document.createElement('canvas');
+				pageCanvas.width = canvas.width;
+				pageCanvas.height = Math.min(pageCanvasHeight, canvas.height - offset);
+				pageCanvas.getContext('2d').drawImage(canvas, 0, offset, canvas.width, pageCanvas.height, 0, 0, pageCanvas.width, pageCanvas.height);
+				if (page > 0) pdf.addPage();
+				const imgHeight = (pageCanvas.height * imgWidth) / pageCanvas.width;
+				pdf.addImage(pageCanvas.toDataURL('image/png'), 'PNG', margin, margin, imgWidth, imgHeight);
+			}
+			pdf.save(`${title.replace(/[^a-z0-9_-]+/gi, '_') || 'note'}.pdf`);
 		} catch (e) {
 			console.error(e); showToast('Export failed', 'error');
-		}
+		} finally { exportRoot.remove(); }
 	}
 
 	// Utility toast

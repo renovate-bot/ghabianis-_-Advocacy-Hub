@@ -26,10 +26,21 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js">
+    </script>
    
 </head>
 
 <body>
+
+    <!-- Global loading indicator -->
+    <div id="appLoader" class="app-loader hidden" role="status" aria-live="polite" aria-label="Loading">
+        <div class="app-loader-card">
+            <img src="./assets/images/advo.png" alt="DevAdvocate" class="app-loader-logo" />
+            <div class="app-loader-spinner"></div>
+            <span>Loading...</span>
+        </div>
+    </div>
 
     <!-- Toast -->
     <div id="toast" class="toast"></div>
@@ -569,9 +580,14 @@
                                     Focus</button>
                                 <button onclick="window.saveInlineNote()" id="saveNoteBtn"
                                     class="w-full px-3 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-md text-sm">Save</button>
-                                <button onclick="window.exportInlineNotePDF()" id="exportNoteBtn"
-                                    class="w-full px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm">Export
-                                    PDF</button>
+                                <div class="relative" id="noteExportMenu">
+                                    <button onclick="toggleNoteExportMenu(event)" id="exportNoteBtn"
+                                        class="w-full px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm flex items-center justify-center gap-2"><i class="fas fa-download"></i> Export <i class="fas fa-chevron-down text-xs"></i></button>
+                                    <div id="noteExportOptions" class="hidden absolute right-0 bottom-full mb-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-20 overflow-hidden">
+                                        <button type="button" onclick="exportNoteFile('pdf')" class="w-full text-left px-3 py-2 text-sm hover:bg-gray-50"><i class="fas fa-file-pdf text-red-500 mr-2"></i>PDF</button>
+                                        <button type="button" onclick="exportNoteFile('docx')" class="w-full text-left px-3 py-2 text-sm hover:bg-gray-50"><i class="fas fa-file-word text-blue-500 mr-2"></i>DOCX</button>
+                                    </div>
+                                </div>
                                 <button onclick="clearNote()" id="clearNoteBtn"
                                     class="w-full px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-md text-sm">Clear</button>
                                 <button onclick="closeEditor()" id="closeNoteBtn"
@@ -1596,6 +1612,7 @@
         }
 
         async function login(email, password) {
+            showAppLoader();
             try {
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
                 if (error) {
@@ -1606,16 +1623,19 @@
                 }
                 currentUser = data.user;
                 showToast(`Welcome ${currentUser.email}!`, 'success');
-                afterAuth();
+                await afterAuth();
                 return true;
             } catch (err) {
                 await Swal.fire({ icon: 'error', title: 'Network Error', text: err.message ||
                         'Could not reach authentication server.' });
                 return false;
+            } finally {
+                hideAppLoader();
             }
         }
 
         async function register(email, password) {
+            showAppLoader();
             try {
                 const { data, error } = await supabaseClient.auth.signUp({ email, password });
                 if (error) {
@@ -1637,6 +1657,8 @@
                 await Swal.fire({ icon: 'error', title: 'Network Error', text: err.message ||
                         'Could not reach registration server.' });
                 return false;
+            } finally {
+                hideAppLoader();
             }
         }
 
@@ -5962,6 +5984,21 @@
         // ──────────────────────────────────────────────────────────────
         // 27. NAVIGATION
         // ──────────────────────────────────────────────────────────────
+        function showAppLoader() {
+            document.getElementById('appLoader')?.classList.remove('hidden');
+        }
+
+        function hideAppLoader() {
+            document.getElementById('appLoader')?.classList.add('hidden');
+        }
+
+        function showPageSkeleton(page) {
+            const target = document.getElementById(`page-${page}`);
+            if (!target) return;
+            target.classList.add('page-skeleton-loading');
+            window.setTimeout(() => target.classList.remove('page-skeleton-loading'), 320);
+        }
+
         function setupNavigation() {
             document.getElementById('sidebarNav').addEventListener('click', (e) => {
                 const item = e.target.closest('.nav-item');
@@ -5974,6 +6011,8 @@
         }
 
         window.navigateTo = function(page) {
+            showAppLoader();
+            showPageSkeleton(page);
             document.querySelectorAll('#sidebarNav .nav-item').forEach(el => el.classList.remove('active'));
             const navItem = document.querySelector(`#sidebarNav .nav-item[data-page="${page}"]`);
             if (navItem) navItem.classList.add('active');
@@ -6040,6 +6079,7 @@
 
             try { localStorage.setItem('adv_last_page', page); } catch (_) {}
             closeMobileMenu();
+            window.setTimeout(hideAppLoader, 220);
         };
 
         // ──────────────────────────────────────────────────────────────
