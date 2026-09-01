@@ -135,6 +135,7 @@ alter table public.tasks add column if not exists team_id uuid references public
 alter table public.tasks add column if not exists sprint_id uuid references public.sprints(id) on delete set null;
 alter table public.notes add column if not exists team_id uuid references public.teams(id) on delete set null;
 alter table public.meetings add column if not exists team_id uuid references public.teams(id) on delete set null;
+alter table public.meetings add column if not exists recurrence text not null default 'none';
 alter table public.files add column if not exists team_id uuid references public.teams(id) on delete set null;
 alter table public.emails add column if not exists team_id uuid references public.teams(id) on delete set null;
 

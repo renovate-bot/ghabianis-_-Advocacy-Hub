@@ -11,12 +11,28 @@
 	let localNotes = [];
 	let currentNoteId = null;
 	let autosaveTimer = null;
+	let savedEditorRange = null;
+
+	function rememberEditorSelection(editor) {
+		const selection = window.getSelection();
+		if (selection && selection.rangeCount && editor.contains(selection.anchorNode)) {
+			savedEditorRange = selection.getRangeAt(0).cloneRange();
+		}
+	}
 
 	// Initialize when DOM ready
 	document.addEventListener('DOMContentLoaded', () => {
 		// Wire up elements
 		const editor = $('notePaper');
 		if (!editor) return;
+
+		const toolbar = $('editorToolbar');
+		if (toolbar) toolbar.addEventListener('mousedown', (e) => {
+			rememberEditorSelection(editor);
+		});
+		document.addEventListener('selectionchange', () => {
+			rememberEditorSelection(editor);
+		});
 
 		// Load local notes
 		loadLocalNotes();
@@ -144,7 +160,7 @@
 		// If not found in local storage, try server-loaded global `notes` array (supabase-backed)
 		if (!note && window.notes && Array.isArray(window.notes)) {
 			console.log('openNoteForEdit: server notes ids=', window.notes.map(n=>n.id));
-			const serverNote = window.notes.find(n => n.id === id || String(n.id) === String(id));
+			let serverNote = window.notes.find(n => n.id === id || String(n.id) === String(id));
 			if (!serverNote) {
 				// try looser matching (some codepaths may give partial ids)
 				const partial = window.notes.find(n => String(n.id).includes(String(id)) || String(id).includes(String(n.id)));
@@ -268,12 +284,116 @@
 	// Simple formatting helper using execCommand for broad support
 	window.applyFormat = function(cmd, value) {
 		const editor = $('notePaper');
+		if (!editor) return;
+		rememberEditorSelection(editor);
 		editor.focus();
 		try {
+			if (savedEditorRange) {
+				const selection = window.getSelection();
+				selection.removeAllRanges();
+				selection.addRange(savedEditorRange);
+			}
 			document.execCommand(cmd, false, value || null);
+			savedEditorRange = null;
 			updateCounts();
 			scheduleAutosave();
 		} catch (e) { console.warn('Formatting not supported', e); }
+	}
+
+	window.toggleList = function(command) {
+		const editor = $('notePaper');
+		if (!editor) return;
+		const selection = window.getSelection();
+		const range = (savedEditorRange || (selection.rangeCount ? selection.getRangeAt(0) : null))?.cloneRange();
+		if (!range || !editor.contains(range.commonAncestorContainer)) {
+			editor.focus();
+			insertEmptyList(editor, command === 'insertOrderedList' ? 'ol' : 'ul');
+			return;
+		}
+		editor.focus();
+		const listType = command === 'insertOrderedList' ? 'ol' : 'ul';
+		const text = range.toString() || '';
+		if (!text.trim()) {
+			convertCurrentLineToList(editor, range, listType);
+		} else {
+			range.deleteContents();
+			const list = document.createElement(listType);
+			text.split(/\r?\n/).map(line => line.trim()).filter(Boolean).forEach(line => {
+				const item = document.createElement('li');
+				item.textContent = line;
+				list.appendChild(item);
+			});
+			range.insertNode(list);
+		}
+		savedEditorRange = null;
+		updateCounts();
+		scheduleAutosave();
+	}
+
+	function convertCurrentLineToList(editor, range, listType) {
+		const startNode = range.startContainer.nodeType === Node.TEXT_NODE ? range.startContainer.parentElement : range.startContainer;
+		const block = startNode?.closest('p, div, h1, h2, h3, h4, h5, h6, li');
+		if (block && block !== editor && editor.contains(block)) {
+			if (block.tagName === 'LI') {
+				document.execCommand(listType === 'ol' ? 'insertOrderedList' : 'insertUnorderedList', false, null);
+				return;
+			}
+			const list = document.createElement(listType);
+			const item = document.createElement('li');
+			item.innerHTML = block.innerHTML || '<br>';
+			list.appendChild(item);
+			block.replaceWith(list);
+			placeCaretAtEnd(item);
+			return;
+		}
+
+		const lines = (editor.innerText || editor.textContent || '').split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+		if (!lines.length) {
+			insertEmptyList(editor, listType);
+			return;
+		}
+		editor.innerHTML = `<${listType}>${lines.map(line => `<li>${escapeHtml(line)}</li>`).join('')}</${listType}>`;
+		placeCaretAtEnd(editor.querySelector(`${listType} li:last-child`));
+	}
+
+	function placeCaretAtEnd(element) {
+		if (!element) return;
+		const caret = document.createRange();
+		caret.selectNodeContents(element);
+		caret.collapse(false);
+		const selection = window.getSelection();
+		selection.removeAllRanges();
+		selection.addRange(caret);
+	}
+
+	function insertEmptyList(editor, listType) {
+		const range = document.createRange();
+		range.selectNodeContents(editor);
+		range.collapse(false);
+		insertEmptyListAtRange(range, listType, editor);
+	}
+
+	function insertEmptyListAtRange(range, listType, editor) {
+		const list = document.createElement(listType);
+		const item = document.createElement('li');
+		item.innerHTML = '<br>';
+		list.appendChild(item);
+		range.deleteContents();
+		range.insertNode(list);
+		const caret = document.createRange();
+		caret.selectNodeContents(item);
+		caret.collapse(false);
+		const selection = window.getSelection();
+		selection.removeAllRanges();
+		selection.addRange(caret);
+		editor.focus();
+	}
+
+	window.insertTable = function() {
+		const rows = Math.min(10, Math.max(1, Number(prompt('Number of rows', '3')) || 3));
+		const columns = Math.min(8, Math.max(1, Number(prompt('Number of columns', '3')) || 3));
+		const cells = Array.from({ length: rows }, () => `<tr>${'<td><br></td>'.repeat(columns)}</tr>`).join('');
+		applyFormat('insertHTML', `<table class="note-table"><tbody>${cells}</tbody></table><p><br></p>`);
 	}
 
 	window.insertLink = function() {

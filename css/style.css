@@ -355,6 +355,50 @@
             flex-shrink: 0;
         }
 
+        #sidebar > nav {
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        #sidebar > nav + div {
+            flex-shrink: 0;
+        }
+
+        .note-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+
+        .note-table td {
+            min-width: 72px;
+            border: 1px solid #cbd5e1;
+            padding: 8px;
+            vertical-align: top;
+        }
+
+        .note-paper ul,
+        .note-paper ol,
+        .note-paper li {
+            font-size: inherit !important;
+            line-height: inherit;
+        }
+
+        body.mywork-focus #sidebar,
+        body.mywork-focus .shortcuts-help {
+            display: none !important;
+        }
+
+        body.mywork-focus #mainContent {
+            width: 100% !important;
+        }
+
+        body.mywork-focus #page-mywork {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
         #sidebar.sidebar-collapsed {
             width: 72px !important;
         }
@@ -368,6 +412,10 @@
 
         #sidebar.sidebar-collapsed .nav-item {
             justify-content: center;
+        }
+
+        #sidebar.sidebar-collapsed > nav {
+            overflow-y: hidden;
         }
 
         /* ─────────────── MOBILE MENU (dropdown from top) ─────────────── */

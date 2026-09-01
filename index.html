@@ -114,7 +114,7 @@
             <div class="px-8 py-2 border-t border-gray-100 text-[15px] text-gray-400 flex items-center justify-between">
                 <button onclick="logout()" class="text-gray-400 hover:text-red-500 transition text-sm" title="Sign out">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span class="nav-label" style="margin-right:110px;">Logout</span>
+                    <span class="nav-label">Logout</span>
                 </button>
             </div>
         </aside>
@@ -151,6 +151,9 @@
                     <button onclick="openSearch()" class="text-gray-400 hover:text-indigo-600 transition text-sm"
                         title="Search (Ctrl+Shift+F)">
                         <i class="fas fa-search"></i>
+                    </button>
+                    <button onclick="navigateTo('mywork'); openQuickCapture()" class="text-gray-400 hover:text-emerald-600 transition text-sm" title="Quick capture">
+                        <i class="fas fa-bolt"></i>
                     </button>
                     <div id="reminderPopover"
                         class="hidden absolute right-6 top-12 z-50 w-80 bg-white rounded-lg shadow-lg border border-gray-100 p-3">
@@ -292,6 +295,62 @@
                                     class="fas fa-calendar-day"></i> Daily Planner</button>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- TASKS -->
+            <!-- MY WORK -->
+            <div id="page-mywork" class="p-6 hidden">
+                <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
+                    <div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-emerald-600">Personal workspace</div>
+                        <h2 class="text-2xl font-bold text-gray-800">My Work</h2>
+                        <p class="text-sm text-gray-500 mt-1" id="myWorkDateLabel"></p>
+                    </div>
+                    <div class="flex gap-2 flex-wrap">
+                        <button onclick="openQuickCapture()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm"><i class="fas fa-bolt mr-1"></i> Quick capture</button>
+                        <button onclick="toggleMyWorkFocus()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm"><i class="fas fa-crosshairs mr-1"></i> Focus mode</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5" id="myWorkStats"></div>
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
+                    <section class="xl:col-span-2 space-y-5">
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                            <div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-inbox text-emerald-500 mr-2"></i>Today</h3><span class="text-xs text-gray-400" id="todayHoursLabel"></span></div>
+                            <div id="todayWorkList" class="space-y-2"></div>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                            <div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-layer-group text-indigo-500 mr-2"></i>Personal work queue</h3><button onclick="navigateTo('tasks'); openTaskModal()" class="text-xs text-indigo-600 hover:underline">Add task</button></div>
+                            <div id="myWorkQueue" class="space-y-2"></div>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                            <div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-calendar-week text-orange-500 mr-2"></i>Content planner</h3><button onclick="addContentPlan()" class="text-xs text-orange-600 hover:underline">Add idea</button></div>
+                            <div id="contentPlannerList" class="space-y-2"></div>
+                        </div>
+                    </section>
+                    <aside class="space-y-5">
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                            <h3 class="font-semibold text-gray-800 mb-3"><i class="fas fa-pen-nib text-emerald-500 mr-2"></i>Quick capture</h3>
+                            <div class="flex gap-2 mb-2"><select id="captureType" class="px-2 py-2 border border-gray-200 rounded-lg text-sm"><option value="thought">Thought</option><option value="link">Link</option><option value="task">Task idea</option><option value="email">Email follow-up</option></select><input id="captureText" class="flex-1 min-w-0 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Capture something..." /></div>
+                            <button onclick="saveQuickCapture()" class="w-full px-3 py-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg text-sm">Save capture</button>
+                            <div id="captureList" class="mt-3 space-y-2"></div>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                            <div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-reply text-blue-500 mr-2"></i>Follow-ups</h3><button onclick="addFollowUp()" class="text-xs text-blue-600 hover:underline">Add</button></div><div id="followUpList" class="space-y-2"></div>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                            <div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-book-open text-rose-500 mr-2"></i>Work journal</h3><button onclick="saveJournalEntry()" class="text-xs text-rose-600 hover:underline">Save entry</button></div><textarea id="journalEntry" rows="4" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="What did you accomplish today?"></textarea><div id="journalHistory" class="mt-3 space-y-2"></div>
+                        </div>
+                    </aside>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100"><div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-chart-pie text-cyan-500 mr-2"></i>Personal analytics</h3><span class="text-xs text-gray-400">Last 30 days</span></div><div id="personalAnalytics" class="space-y-3"></div></div>
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100"><div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-clipboard-check text-violet-500 mr-2"></i>Weekly review</h3><span class="text-xs text-gray-400" id="weeklyReviewLabel"></span></div><div id="weeklyReview" class="space-y-2"></div></div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100"><div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-copy text-amber-500 mr-2"></i>Reusable templates</h3><button onclick="addPersonalTemplate()" class="text-xs text-amber-600 hover:underline">Add</button></div><div id="personalTemplates" class="space-y-2"></div></div>
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100"><div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-bookmark text-sky-500 mr-2"></i>Knowledge base</h3><button onclick="addKnowledgeItem()" class="text-xs text-sky-600 hover:underline">Add link</button></div><div id="knowledgeBase" class="space-y-2"></div></div>
                 </div>
             </div>
 
@@ -471,6 +530,18 @@
                                     onclick="applyFormat('undo')"><i class="fas fa-undo"></i></button>
                                 <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Redo"
                                     onclick="applyFormat('redo')"><i class="fas fa-redo"></i></button>
+                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Bulleted list"
+                                    type="button" onclick="toggleList('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Numbered list"
+                                    type="button" onclick="toggleList('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Strikethrough"
+                                    onclick="applyFormat('strikeThrough')"><i class="fas fa-strikethrough"></i></button>
+                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Heading"
+                                    onclick="applyFormat('formatBlock', 'h3')"><i class="fas fa-heading"></i></button>
+                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Insert table"
+                                    onclick="insertTable()"><i class="fas fa-table"></i></button>
+                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Align text center"
+                                    onclick="applyFormat('justifyCenter')"><i class="fas fa-align-center"></i></button>
                                 <select id="fontSizeSelect" onchange="applyFormat('fontSize', this.value)"
                                     class="px-2 py-1 border border-gray-200 rounded-md text-sm">
                                     <option value="">Font size</option>
@@ -1278,6 +1349,12 @@
                         id="meetingDate"
                         class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-400 outline-none transition" />
                 </div>
+                <div><label class="text-xs text-gray-400 block mb-1">Repeat</label><select id="meetingRecurrence"
+                    class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-400 outline-none transition bg-white">
+                    <option value="none">Does not repeat</option>
+                    <option value="weekly">Every week</option>
+                    </select>
+                </div>
             </div>
             <div class="flex gap-3 mt-5"><button onclick="saveMeeting()"
                     class="flex-1 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition">Save</button><button
@@ -1437,6 +1514,7 @@
         let plannerDate = new Date();
         let currentFileFilter = 'all';
         let currentFolder = null;
+        let personalData = null;
 
         let profileSettings = {
             display_name: '',
@@ -1453,6 +1531,8 @@
         let workPausedElapsed = 0;
         let workTimerLunchMinutes = 0;
         let workTimerInterval = null;
+        let workTimerAutoLogging = false;
+        const MAX_WORK_SECONDS = 8 * 60 * 60;
         window._inlineEditId = null; // track which note is being edited (null = new)
 
         // ──────────────────────────────────────────────────────────────
@@ -1874,6 +1954,7 @@
         // ──────────────────────────────────────────────────────────────
         const NAV_ITEMS = [
             { page: 'dashboard', icon: 'fa-th-large', label: 'Dashboard', color: 'indigo' },
+            { page: 'mywork', icon: 'fa-compass', label: 'My Work', color: 'emerald' },
             { page: 'tasks', icon: 'fa-tasks', label: 'Tasks', color: 'amber' },
             { page: 'time', icon: 'fa-clock', label: 'Time Tracking', color: 'emerald' },
             { page: 'notes', icon: 'fa-sticky-note', label: 'Notes', color: 'rose' },
@@ -2505,7 +2586,13 @@
                 const { data, error } = await supabaseClient.from('meetings').select('*').eq('user_id', currentUser.id)
                     .order('meeting_date', { ascending: true });
                 if (error) { if (error.code === '42P01') { meetings = []; return; } throw error; }
-                meetings = data || [];
+                const now = Date.now();
+                meetings = (data || []).map(meeting => {
+                    if (meeting.recurrence !== 'weekly' || !meeting.meeting_date) return meeting;
+                    const nextDate = new Date(meeting.meeting_date);
+                    while (nextDate.getTime() <= now) nextDate.setDate(nextDate.getDate() + 7);
+                    return { ...meeting, meeting_date: nextDate.toISOString() };
+                });
             } catch (_) { meetings = []; }
         }
 
@@ -3548,6 +3635,7 @@
             document.getElementById('meetingLink').value = data?.link || '';
             document.getElementById('meetingDesc').value = data?.description || '';
             document.getElementById('meetingDate').value = data?.meeting_date ? data.meeting_date.slice(0, 16) : '';
+            document.getElementById('meetingRecurrence').value = data?.recurrence || 'none';
             document.getElementById('meetingModal').classList.remove('hidden');
         }
         window.openMeetingModal = openMeetingModal;
@@ -3568,6 +3656,7 @@
                 link,
                 description: document.getElementById('meetingDesc').value.trim(),
                 meeting_date: document.getElementById('meetingDate').value || new Date().toISOString().slice(0, 16),
+                recurrence: document.getElementById('meetingRecurrence').value || 'none',
                 user_id: currentUser.id,
                 updated_at: new Date().toISOString()
             };
@@ -3639,7 +3728,7 @@
                 return `
                             <div class="bg-white rounded-xl p-4 shadow-sm border ${isSoon ? 'border-amber-300 ring-1 ring-amber-200' : 'border-gray-100'} flex flex-wrap items-center justify-between gap-3">
                                 <div class="flex-1 min-w-0">
-                                    <div class="flex items-center gap-2"><span class="text-lg">🎥</span><span class="font-semibold text-gray-800">${escHtml(m.title)}</span>${m.meeting_date ? `<span class="text-xs text-gray-400">${new Date(m.meeting_date).toLocaleString()}</span>` : ''}${isSoon ? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Starting soon</span>` : ''}</div>
+                                    <div class="flex items-center gap-2"><span class="text-lg">🎥</span><span class="font-semibold text-gray-800">${escHtml(m.title)}</span>${m.meeting_date ? `<span class="text-xs text-gray-400">${new Date(m.meeting_date).toLocaleString()}</span>` : ''}${m.recurrence === 'weekly' ? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">Every week</span>` : ''}${isSoon ? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Starting soon</span>` : ''}</div>
                                     ${m.description ? `<p class="text-sm text-gray-500 mt-0.5">${escHtml(m.description)}</p>` : ''}
                                     <a href="${escHtml(m.link)}" target="_blank" class="text-sm text-blue-600 hover:underline break-all">${escHtml(m.link)}</a>
                                 </div>
@@ -3655,6 +3744,16 @@
         // ──────────────────────────────────────────────────────────────
         // 15. CALENDAR
         // ──────────────────────────────────────────────────────────────
+        function meetingOccursOnDate(meeting, dateObj) {
+            if (!meeting.meeting_date) return false;
+            const meetingDate = new Date(meeting.meeting_date);
+            if (meeting.recurrence !== 'weekly') return meetingDate.toDateString() === dateObj.toDateString();
+            const meetingDay = new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate());
+            const calendarDay = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+            const daysSinceStart = Math.round((calendarDay - meetingDay) / 86400000);
+            return daysSinceStart >= 0 && daysSinceStart % 7 === 0;
+        }
+
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             const label = document.getElementById('calendarMonthLabel');
@@ -3690,8 +3789,7 @@
                 const dateStr = dateObj.toDateString();
                 const isToday = dateStr === todayStr;
                 const dayTasks = tasks.filter(t => t.due_date && new Date(t.due_date).toDateString() === dateStr);
-                const dayMeetings = meetings.filter(m => m.meeting_date && new Date(m.meeting_date).toDateString() ===
-                    dateStr);
+                const dayMeetings = meetings.filter(m => meetingOccursOnDate(m, dateObj));
                 let dotsHtml = '';
                 if (dayTasks.length > 0) dotsHtml +=
                     `<span class="dot bg-indigo-500" title="${dayTasks.length} task(s)"></span>`;
@@ -3722,7 +3820,7 @@
             if (!container) return;
             const date = new Date(dateStr);
             const dayTasks = tasks.filter(t => t.due_date && new Date(t.due_date).toDateString() === dateStr);
-            const dayMeetings = meetings.filter(m => m.meeting_date && new Date(m.meeting_date).toDateString() === dateStr);
+            const dayMeetings = meetings.filter(m => meetingOccursOnDate(m, date));
 
             if (dayTasks.length === 0 && dayMeetings.length === 0) {
                 container.innerHTML =
@@ -4200,6 +4298,11 @@
                 seconds = Math.max(0, Math.floor((workPausedElapsed - lunchMs) / 1000));
             }
 
+            if (workTimerRunning && seconds >= MAX_WORK_SECONDS && !workTimerAutoLogging) {
+                workTimerAutoLogging = true;
+                logWorkDay(true);
+            }
+
             const formatted = formatTime(seconds);
             const workDisplay = document.getElementById('workTimerDisplay');
             if (workDisplay) workDisplay.textContent = formatted;
@@ -4305,6 +4408,7 @@
             if (workTimerRunning) { showToast('Work timer already running', 'info'); return; }
             if (workTimerPaused) { return resumeWorkTimer(); }
             workTimerRunning = true;
+            workTimerAutoLogging = false;
             workTimerStartTime = Date.now();
             workTimerPaused = false;
             workPausedElapsed = 0;
@@ -4371,21 +4475,9 @@
             showToast('Work timer resumed', 'success');
         };
 
-        window.stopWorkTimer = function() {
+        window.stopWorkTimer = async function() {
             if (!workTimerRunning && !workTimerPaused) { showToast('Work timer is not running', 'info'); return; }
-            workTimerRunning = false;
-            workTimerPaused = false;
-            workPausedElapsed = 0;
-            clearInterval(workTimerInterval);
-            workTimerInterval = null;
-            localStorage.setItem('workTimerState', JSON.stringify({
-                running: false,
-                startTime: workTimerStartTime,
-                lunchMinutes: workTimerLunchMinutes || 0
-            }));
-            persistTimerState('work', { running: false });
-            updateWorkTimerDisplays();
-            showToast('Work Timer stopped', 'info');
+            await logWorkDay(false);
         };
 
         window.pauseTimer = function() {
@@ -4444,7 +4536,7 @@
             showToast('🍽️ Lunch break added (30 min deducted)', 'success');
         };
 
-        window.logWorkDay = async function() {
+        window.logWorkDay = async function(automatic = false) {
             if (!workTimerRunning && !workTimerPaused && workTimerLunchMinutes === 0) {
                 await Swal.fire({
                     icon: 'warning',
@@ -4469,6 +4561,7 @@
                 });
                 return;
             }
+            seconds = Math.min(seconds, MAX_WORK_SECONDS);
             if (seconds < 60) {
                 await Swal.fire({ icon: 'warning', title: 'Too Short', text: 'Work at least 1 minute to log.' });
                 return;
@@ -4507,9 +4600,11 @@
             try {
                 const { error } = await supabaseClient.from('time_entries').insert([payload]);
                 if (error) throw error;
-                showToast(`Logged ${hours.toFixed(1)} hours for today`, 'success');
+                recordAutomaticJournal(hours, workTask.title);
+                showToast(automatic ? '8-hour workday logged automatically' : `Logged ${hours.toFixed(1)} hours for today`, 'success');
                 workTimerRunning = false;
                 workTimerPaused = false;
+                workTimerAutoLogging = false;
                 clearInterval(workTimerInterval);
                 workTimerInterval = null;
                 workTimerLunchMinutes = 0;
@@ -4522,6 +4617,7 @@
                 updateDashboard();
                 updateInsights();
             } catch (_) {
+                workTimerAutoLogging = false;
                 await Swal.fire({ icon: 'error', title: 'Log Failed', text: 'Could not log work day.' });
             }
         };
@@ -4566,7 +4662,102 @@
         }
 
         // ──────────────────────────────────────────────────────────────
-        // 20. INSIGHTS
+        // 20. PERSONAL WORKSPACE
+        // ──────────────────────────────────────────────────────────────
+        function personalStorageKey() {
+            return `adv_personal_work_${currentUser?.id || 'local'}`;
+        }
+
+        function loadPersonalData() {
+            if (personalData) return personalData;
+            try { personalData = JSON.parse(localStorage.getItem(personalStorageKey()) || 'null'); } catch (_) { personalData = null; }
+            personalData = personalData || { captures: [], content: [], followUps: [], journal: [], templates: [], knowledge: [] };
+            if (!personalData.templates.length) {
+                personalData.templates = [
+                    { id: 'demo', name: 'Customer call', body: 'Context:\nQuestions:\nDecisions:\nFollow-up:' },
+                    { id: 'demo-2', name: 'Technical article', body: 'Problem:\nApproach:\nExample:\nTakeaways:' },
+                    { id: 'demo-3', name: 'Weekly planning', body: 'Wins:\nPriorities:\nRisks:\nNext week:' }
+                ];
+                savePersonalData();
+            }
+            return personalData;
+        }
+
+        function savePersonalData() {
+            localStorage.setItem(personalStorageKey(), JSON.stringify(personalData));
+        }
+
+        function recordAutomaticJournal(hours, activity) {
+            const data = loadPersonalData();
+            const label = `${Number(hours).toFixed(1)}h logged on ${activity || 'work'}`;
+            const existing = data.journal.find(item => item.date === todayDate() && item.auto);
+            if (existing) existing.text = `${existing.text.split('\n')[0]}\n${label}`;
+            else data.journal.push({ date: todayDate(), text: `Time logged\n${label}`, auto: true });
+            savePersonalData();
+        }
+
+        function todayDate() { return new Date().toISOString().slice(0, 10); }
+
+        function renderMyWork() {
+            const data = loadPersonalData();
+            const now = new Date();
+            const today = todayDate();
+            const weekStart = new Date(now); weekStart.setDate(now.getDate() - now.getDay());
+            const weekEnd = new Date(weekStart); weekEnd.setDate(weekStart.getDate() + 7);
+            const todayTasks = tasks.filter(task => task.due_date === today);
+            const todayMeetings = meetings.filter(meeting => meeting.meeting_date && new Date(meeting.meeting_date).toDateString() === now.toDateString());
+            const todayEntries = timeEntries.filter(entry => entry.created_at && entry.created_at.slice(0, 10) === today);
+            const unfinished = tasks.filter(task => task.status !== 'done');
+            const priorities = { high: 0, urgent: 0, medium: 1, low: 2 };
+            const queue = unfinished.slice().sort((a, b) => (priorities[a.priority] ?? 1) - (priorities[b.priority] ?? 1) || (a.due_date || '9999').localeCompare(b.due_date || '9999')).slice(0, 8);
+            const weekHours = timeEntries.filter(entry => new Date(entry.created_at) >= weekStart && new Date(entry.created_at) < weekEnd).reduce((sum, entry) => sum + Number(entry.hours || 0), 0);
+            const monthEntries = timeEntries.filter(entry => new Date(entry.created_at) >= new Date(now.getTime() - 30 * 86400000));
+            const hoursByActivity = {};
+            monthEntries.forEach(entry => { const label = entry.tasks?.title || entry.description || 'General work'; hoursByActivity[label] = (hoursByActivity[label] || 0) + Number(entry.hours || 0); });
+            const topActivities = Object.entries(hoursByActivity).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            const overdue = unfinished.filter(task => task.due_date && task.due_date < today);
+            const upcoming = meetings.filter(meeting => meeting.meeting_date && new Date(meeting.meeting_date) >= now && new Date(meeting.meeting_date) <= new Date(now.getTime() + 7 * 86400000));
+
+            document.getElementById('myWorkDateLabel').textContent = now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+            document.getElementById('myWorkStats').innerHTML = [
+                ['Today tasks', todayTasks.length, 'fa-check-square', 'indigo'],
+                ['Meetings', todayMeetings.length, 'fa-video', 'blue'],
+                ['Hours this week', weekHours.toFixed(1), 'fa-clock', 'emerald'],
+                ['Open queue', unfinished.length, 'fa-layer-group', 'orange'],
+                ['Follow-ups', data.followUps.filter(item => !item.done).length, 'fa-reply', 'rose']
+            ].map(stat => `<div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm"><div class="text-xs text-gray-400">${stat[0]}</div><div class="flex items-center justify-between mt-2"><strong class="text-xl text-gray-800">${stat[1]}</strong><i class="fas ${stat[2]} text-${stat[3]}-500"></i></div></div>`).join('');
+            document.getElementById('todayHoursLabel').textContent = `${todayEntries.reduce((sum, entry) => sum + Number(entry.hours || 0), 0).toFixed(1)}h logged today`;
+            document.getElementById('todayWorkList').innerHTML = [...todayTasks.map(task => `<div class="flex items-center gap-3 p-2 rounded-lg bg-indigo-50/70"><i class="fas fa-check-square text-indigo-500"></i><span class="flex-1 text-sm">${escHtml(task.title)}</span><span class="text-xs text-gray-500">task</span></div>`), ...todayMeetings.map(meeting => `<div class="flex items-center gap-3 p-2 rounded-lg bg-blue-50/70"><i class="fas fa-video text-blue-500"></i><span class="flex-1 text-sm">${escHtml(meeting.title)}</span><button onclick="prepareMeeting('${meeting.id}')" class="text-xs text-blue-600 hover:underline">Prepare</button></div>`)].join('') || '<div class="text-sm text-gray-400 py-3">Nothing scheduled today. Capture an idea or choose a priority.</div>';
+            document.getElementById('myWorkQueue').innerHTML = queue.map(task => `<div class="flex items-start gap-3 p-2 border-b border-gray-100"><i class="fas fa-grip-lines text-gray-300 mt-1"></i><div class="flex-1 min-w-0"><div class="text-sm font-medium text-gray-800 truncate">${escHtml(task.title)}</div><div class="text-xs text-gray-400 mt-1">${escHtml(task.description || 'No next action')} ${task.due_date ? `· due ${task.due_date}` : ''}</div></div><span class="text-[10px] uppercase text-${task.priority === 'high' || task.priority === 'urgent' ? 'rose' : 'gray'}-500">${escHtml(task.priority || 'next')}</span></div>`).join('') || '<div class="text-sm text-gray-400 py-3">Your queue is clear.</div>';
+            document.getElementById('contentPlannerList').innerHTML = data.content.slice().reverse().map(item => `<div class="flex items-center gap-2 p-2 border-b border-gray-100"><i class="fas fa-${item.type === 'video' ? 'video' : item.type === 'talk' ? 'microphone' : 'pen-nib'} text-orange-500"></i><div class="flex-1"><div class="text-sm font-medium">${escHtml(item.title)}</div><div class="text-xs text-gray-400">${escHtml(item.type)} · ${escHtml(item.status)}${item.date ? ` · ${item.date}` : ''}</div></div></div>`).join('') || '<div class="text-sm text-gray-400 py-3">Plan your next article, tutorial, talk, video, or social post.</div>';
+            document.getElementById('captureList').innerHTML = data.captures.slice(-5).reverse().map(item => `<div class="text-xs p-2 rounded bg-gray-50"><span class="font-semibold text-emerald-600">${escHtml(item.type)}</span> ${escHtml(item.text)}</div>`).join('');
+            document.getElementById('followUpList').innerHTML = data.followUps.slice().reverse().map((item, index) => `<div class="flex gap-2 items-start"><button onclick="completeFollowUp(${data.followUps.length - 1 - index})" class="mt-0.5 text-${item.done ? 'emerald' : 'gray'}-400"><i class="fas fa-${item.done ? 'check-circle' : 'circle'}"></i></button><div class="min-w-0"><div class="text-sm ${item.done ? 'line-through text-gray-400' : 'text-gray-700'}">${escHtml(item.person)} · ${escHtml(item.topic)}</div><div class="text-xs text-gray-400">${item.due || 'No due date'}</div></div></div>`).join('') || '<div class="text-sm text-gray-400">No follow-ups tracked.</div>';
+            document.getElementById('journalHistory').innerHTML = data.journal.slice(-3).reverse().map(item => `<div class="border-t border-gray-100 pt-2"><div class="text-xs text-gray-400">${item.date}</div><div class="text-sm text-gray-600 whitespace-pre-line">${escHtml(item.text)}</div></div>`).join('');
+            document.getElementById('personalAnalytics').innerHTML = topActivities.map(([label, hours]) => `<div><div class="flex justify-between text-xs mb-1"><span>${escHtml(label)}</span><span>${hours.toFixed(1)}h</span></div><div class="h-2 bg-gray-100 rounded"><div class="h-2 bg-cyan-500 rounded" style="width:${Math.min(100, hours / Math.max(1, weekHours) * 100)}%"></div></div></div>`).join('') || '<div class="text-sm text-gray-400">Log time to see your activity breakdown.</div>';
+            document.getElementById('weeklyReviewLabel').textContent = `${weekStart.toLocaleDateString()} - ${new Date(weekEnd - 1).toLocaleDateString()}`;
+            document.getElementById('weeklyReview').innerHTML = `<div class="text-sm"><i class="fas fa-exclamation-circle text-rose-500 mr-2"></i>${overdue.length} overdue task${overdue.length === 1 ? '' : 's'}</div><div class="text-sm"><i class="fas fa-calendar text-blue-500 mr-2"></i>${upcoming.length} upcoming meeting${upcoming.length === 1 ? '' : 's'}</div><div class="text-sm"><i class="fas fa-list-check text-indigo-500 mr-2"></i>${unfinished.length} unfinished task${unfinished.length === 1 ? '' : 's'}</div><div class="text-sm"><i class="fas fa-flag text-orange-500 mr-2"></i>${data.followUps.filter(item => !item.done).length} follow-up${data.followUps.filter(item => !item.done).length === 1 ? '' : 's'} to revisit</div>`;
+            document.getElementById('personalTemplates').innerHTML = data.templates.map((item, index) => `<button onclick="usePersonalTemplate(${index})" class="w-full text-left flex items-center gap-2 p-2 rounded hover:bg-amber-50"><i class="fas fa-file-lines text-amber-500"></i><span class="text-sm">${escHtml(item.name)}</span></button>`).join('');
+            document.getElementById('knowledgeBase').innerHTML = data.knowledge.slice().reverse().map(item => `<a href="${escHtml(item.url)}" target="_blank" class="flex items-center gap-2 p-2 rounded hover:bg-sky-50"><i class="fas fa-link text-sky-500"></i><span class="text-sm truncate">${escHtml(item.title)}</span></a>`).join('') || '<div class="text-sm text-gray-400">Save useful documentation, tools, and references here.</div>';
+        }
+
+        window.openQuickCapture = function() { document.getElementById('captureText')?.focus(); };
+        window.saveQuickCapture = function() {
+            const input = document.getElementById('captureText');
+            if (!input?.value.trim()) return;
+            const data = loadPersonalData(); data.captures.push({ type: document.getElementById('captureType').value, text: input.value.trim(), createdAt: new Date().toISOString() }); savePersonalData(); input.value = ''; renderMyWork(); showToast('Captured', 'success');
+        };
+        window.addContentPlan = function() { const title = prompt('Title or idea'); if (!title?.trim()) return; const type = prompt('Type: article, tutorial, talk, video, or social', 'article') || 'article'; const date = prompt('Target date (optional)', ''); const data = loadPersonalData(); data.content.push({ title: title.trim(), type: type.trim(), date, status: 'idea' }); savePersonalData(); renderMyWork(); };
+        window.addFollowUp = function() { const person = prompt('Person or company'); if (!person?.trim()) return; const topic = prompt('Follow-up topic'); if (!topic?.trim()) return; const due = prompt('Due date (optional)', ''); const data = loadPersonalData(); data.followUps.push({ person: person.trim(), topic: topic.trim(), due, done: false }); savePersonalData(); renderMyWork(); };
+        window.completeFollowUp = function(index) { const data = loadPersonalData(); if (data.followUps[index]) data.followUps[index].done = !data.followUps[index].done; savePersonalData(); renderMyWork(); };
+        window.saveJournalEntry = function() { const input = document.getElementById('journalEntry'); if (!input?.value.trim()) return; const data = loadPersonalData(); data.journal.push({ date: todayDate(), text: input.value.trim() }); savePersonalData(); input.value = ''; renderMyWork(); showToast('Journal entry saved', 'success'); };
+        window.addPersonalTemplate = function() { const name = prompt('Template name'); if (!name?.trim()) return; const body = prompt('Template prompts or structure', 'Context:\nNext action:') || ''; const data = loadPersonalData(); data.templates.push({ name: name.trim(), body }); savePersonalData(); renderMyWork(); };
+        window.usePersonalTemplate = function(index) { const item = loadPersonalData().templates[index]; if (!item) return; document.getElementById('captureText').value = item.body; document.getElementById('captureType').value = 'thought'; document.getElementById('captureText').focus(); };
+        window.addKnowledgeItem = function() { const title = prompt('Reference title'); if (!title?.trim()) return; const url = prompt('URL'); if (!url?.trim()) return; const data = loadPersonalData(); data.knowledge.push({ title: title.trim(), url: url.trim() }); savePersonalData(); renderMyWork(); };
+        window.prepareMeeting = function(id) { const meeting = meetings.find(item => item.id === id); if (!meeting) return; navigateTo('notes'); window.openInlineEditor(); document.getElementById('noteTitle').value = `${meeting.title} - preparation`; document.getElementById('notePaper').innerHTML = `<h3>Agenda</h3><ul><li>Objective</li><li>Questions</li><li>Decisions</li><li>Follow-up actions</li></ul>`; };
+        window.toggleMyWorkFocus = function() { document.body.classList.toggle('mywork-focus'); };
+
+        // ──────────────────────────────────────────────────────────────
+        // 21. INSIGHTS
         // ──────────────────────────────────────────────────────────────
         function updateInsights() {
             const now = new Date();
@@ -5793,6 +5984,7 @@
 
             const titles = {
                 dashboard: 'Dashboard',
+                mywork: 'My Work',
                 tasks: 'Task Board',
                 time: 'Time Tracking',
                 notes: 'Notes',
@@ -5816,6 +6008,7 @@
             if (target) target.classList.remove('hidden');
 
             if (page === 'tasks') renderTasks();
+            if (page === 'mywork') renderMyWork();
             if (page === 'notes') renderNotes();
             if (page === 'meetings') renderMeetings();
             if (page === 'calendar') renderCalendar();
@@ -6482,6 +6675,7 @@
         console.log('🖌️ Whiteboard: draw, undo, save, export PNG, fullscreen.');
         console.log('✏️ Work Timer: click "Edit" next to the start time to adjust it while running or paused.');
     </script>
+    <script src="./js/index.js"></script>
 </body>
 
 </html>
