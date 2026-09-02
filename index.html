@@ -30,7 +30,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js">
     </script>
-   
+
 </head>
 
 <body>
@@ -166,7 +166,8 @@
                         title="Search (Ctrl+Shift+F)">
                         <i class="fas fa-search"></i>
                     </button>
-                    <button onclick="navigateTo('mywork'); openQuickCapture()" class="text-gray-400 hover:text-emerald-600 transition text-sm" title="Quick capture">
+                    <button onclick="navigateTo('mywork'); openQuickCapture()"
+                        class="text-gray-400 hover:text-emerald-600 transition text-sm" title="Quick capture">
                         <i class="fas fa-bolt"></i>
                     </button>
                     <div id="reminderPopover"
@@ -208,9 +209,11 @@
                             <span class="work-time" id="workTimerDisplay">00:00:00</span>
                             <span class="text-xs text-gray-500" id="workTimerLunchInfo"></span>
                         </div>
-                        <div class="text-xs text-gray-500 mt-1 flex items-center gap-1 flex-wrap" id="workTimerStartInfoWrap">
+                        <div class="text-xs text-gray-500 mt-1 flex items-center gap-1 flex-wrap"
+                            id="workTimerStartInfoWrap">
                             <span id="workTimerStartInfo">Not started</span>
-                            <button class="edit-start-btn" id="workEditStartBtn" onclick="editWorkTimerStart()" disabled title="Edit the start time (only available when running)">
+                            <button class="edit-start-btn" id="workEditStartBtn" onclick="editWorkTimerStart()" disabled
+                                title="Edit the start time (only available when running)">
                                 <i class="fas fa-pen"></i> Edit
                             </button>
                         </div>
@@ -317,13 +320,18 @@
             <div id="page-mywork" class="p-6 hidden">
                 <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
                     <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-emerald-600">Personal workspace</div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-emerald-600">Personal workspace
+                        </div>
                         <h2 class="text-2xl font-bold text-gray-800">My Work</h2>
                         <p class="text-sm text-gray-500 mt-1" id="myWorkDateLabel"></p>
                     </div>
                     <div class="flex gap-2 flex-wrap">
-                        <button onclick="openQuickCapture()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm"><i class="fas fa-bolt mr-1"></i> Quick capture</button>
-                        <button onclick="toggleMyWorkFocus()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm"><i class="fas fa-crosshairs mr-1"></i> Focus mode</button>
+                        <button onclick="openQuickCapture()"
+                            class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm"><i
+                                class="fas fa-bolt mr-1"></i> Quick capture</button>
+                        <button onclick="toggleMyWorkFocus()"
+                            class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm"><i
+                                class="fas fa-crosshairs mr-1"></i> Focus mode</button>
                     </div>
                 </div>
 
@@ -331,40 +339,108 @@
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
                     <section class="xl:col-span-2 space-y-5">
                         <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                            <div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-inbox text-emerald-500 mr-2"></i>Today</h3><span class="text-xs text-gray-400" id="todayHoursLabel"></span></div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-gray-800"><i
+                                        class="fas fa-inbox text-emerald-500 mr-2"></i>Today</h3><span
+                                    class="text-xs text-gray-400" id="todayHoursLabel"></span>
+                            </div>
                             <div id="todayWorkList" class="space-y-2"></div>
                         </div>
                         <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                            <div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-layer-group text-indigo-500 mr-2"></i>Personal work queue</h3><button onclick="navigateTo('tasks'); openTaskModal()" class="text-xs text-indigo-600 hover:underline">Add task</button></div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-gray-800"><i
+                                        class="fas fa-layer-group text-indigo-500 mr-2"></i>Personal work queue</h3>
+                                <button onclick="navigateTo('tasks'); openTaskModal()"
+                                    class="text-xs text-indigo-600 hover:underline">Add task</button>
+                            </div>
                             <div id="myWorkQueue" class="space-y-2"></div>
                         </div>
                         <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                            <div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-calendar-week text-orange-500 mr-2"></i>Content planner</h3><button onclick="addContentPlan()" class="text-xs text-orange-600 hover:underline">Add idea</button></div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-gray-800"><i
+                                        class="fas fa-calendar-week text-orange-500 mr-2"></i>Content planner</h3>
+                                <button onclick="addContentPlan()" class="text-xs text-orange-600 hover:underline">Add
+                                    idea</button>
+                            </div>
                             <div id="contentPlannerList" class="space-y-2"></div>
                         </div>
                     </section>
                     <aside class="space-y-5">
                         <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                            <h3 class="font-semibold text-gray-800 mb-3"><i class="fas fa-pen-nib text-emerald-500 mr-2"></i>Quick capture</h3>
-                            <div class="flex gap-2 mb-2"><select id="captureType" class="px-2 py-2 border border-gray-200 rounded-lg text-sm"><option value="thought">Thought</option><option value="link">Link</option><option value="task">Task idea</option><option value="email">Email follow-up</option></select><input id="captureText" class="flex-1 min-w-0 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Capture something..." /></div>
-                            <button onclick="saveQuickCapture()" class="w-full px-3 py-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg text-sm">Save capture</button>
+                            <h3 class="font-semibold text-gray-800 mb-3"><i
+                                    class="fas fa-pen-nib text-emerald-500 mr-2"></i>Quick capture</h3>
+                            <div class="flex gap-2 mb-2"><select id="captureType"
+                                    class="px-2 py-2 border border-gray-200 rounded-lg text-sm">
+                                    <option value="thought">Thought</option>
+                                    <option value="link">Link</option>
+                                    <option value="task">Task idea</option>
+                                    <option value="email">Email follow-up</option>
+                                </select><input id="captureText"
+                                    class="flex-1 min-w-0 px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                                    placeholder="Capture something..." /></div>
+                            <button onclick="saveQuickCapture()"
+                                class="w-full px-3 py-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg text-sm">Save
+                                capture</button>
                             <div id="captureList" class="mt-3 space-y-2"></div>
                         </div>
                         <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                            <div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-reply text-blue-500 mr-2"></i>Follow-ups</h3><button onclick="addFollowUp()" class="text-xs text-blue-600 hover:underline">Add</button></div><div id="followUpList" class="space-y-2"></div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-gray-800"><i
+                                        class="fas fa-reply text-blue-500 mr-2"></i>Follow-ups</h3><button
+                                    onclick="addFollowUp()" class="text-xs text-blue-600 hover:underline">Add</button>
+                            </div>
+                            <div id="followUpList" class="space-y-2"></div>
                         </div>
                         <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                            <div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-book-open text-rose-500 mr-2"></i>Work journal</h3><button onclick="saveJournalEntry()" class="text-xs text-rose-600 hover:underline">Save entry</button></div><textarea id="journalEntry" rows="4" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="What did you accomplish today?"></textarea><div id="journalHistory" class="mt-3 space-y-2"></div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-gray-800"><i
+                                        class="fas fa-book-open text-rose-500 mr-2"></i>Work journal</h3><button
+                                    onclick="saveJournalEntry()" class="text-xs text-rose-600 hover:underline">Save
+                                    entry</button>
+                            </div><textarea id="journalEntry" rows="4"
+                                class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                                placeholder="What did you accomplish today?"></textarea>
+                            <div id="journalHistory" class="mt-3 space-y-2"></div>
                         </div>
                     </aside>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
-                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100"><div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-chart-pie text-cyan-500 mr-2"></i>Personal analytics</h3><span class="text-xs text-gray-400">Last 30 days</span></div><div id="personalAnalytics" class="space-y-3"></div></div>
-                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100"><div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-clipboard-check text-violet-500 mr-2"></i>Weekly review</h3><span class="text-xs text-gray-400" id="weeklyReviewLabel"></span></div><div id="weeklyReview" class="space-y-2"></div></div>
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold text-gray-800"><i
+                                    class="fas fa-chart-pie text-cyan-500 mr-2"></i>Personal analytics</h3><span
+                                class="text-xs text-gray-400">Last 30 days</span>
+                        </div>
+                        <div id="personalAnalytics" class="space-y-3"></div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold text-gray-800"><i
+                                    class="fas fa-clipboard-check text-violet-500 mr-2"></i>Weekly review</h3><span
+                                class="text-xs text-gray-400" id="weeklyReviewLabel"></span>
+                        </div>
+                        <div id="weeklyReview" class="space-y-2"></div>
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
-                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100"><div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-copy text-amber-500 mr-2"></i>Reusable templates</h3><button onclick="addPersonalTemplate()" class="text-xs text-amber-600 hover:underline">Add</button></div><div id="personalTemplates" class="space-y-2"></div></div>
-                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100"><div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-800"><i class="fas fa-bookmark text-sky-500 mr-2"></i>Knowledge base</h3><button onclick="addKnowledgeItem()" class="text-xs text-sky-600 hover:underline">Add link</button></div><div id="knowledgeBase" class="space-y-2"></div></div>
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold text-gray-800"><i
+                                    class="fas fa-copy text-amber-500 mr-2"></i>Reusable templates</h3><button
+                                onclick="addPersonalTemplate()"
+                                class="text-xs text-amber-600 hover:underline">Add</button>
+                        </div>
+                        <div id="personalTemplates" class="space-y-2"></div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold text-gray-800"><i
+                                    class="fas fa-bookmark text-sky-500 mr-2"></i>Knowledge base</h3><button
+                                onclick="addKnowledgeItem()" class="text-xs text-sky-600 hover:underline">Add
+                                link</button>
+                        </div>
+                        <div id="knowledgeBase" class="space-y-2"></div>
+                    </div>
                 </div>
             </div>
 
@@ -447,9 +523,12 @@
                         <div class="flex-1 min-w-[120px]">
                             <div class="text-2xl font-mono font-bold text-gray-800" id="workTimerDisplayLarge">00:00:00
                             </div>
-                            <div class="text-xs text-gray-400 flex items-center gap-1 flex-wrap" id="workTimerStatusLargeWrap">
+                            <div class="text-xs text-gray-400 flex items-center gap-1 flex-wrap"
+                                id="workTimerStatusLargeWrap">
                                 <span id="workTimerStatusLarge">Stopped</span>
-                                <button class="edit-start-btn text-xs" id="workEditStartBtnLarge" onclick="editWorkTimerStart()" disabled title="Edit the start time (only available when running)">
+                                <button class="edit-start-btn text-xs" id="workEditStartBtnLarge"
+                                    onclick="editWorkTimerStart()" disabled
+                                    title="Edit the start time (only available when running)">
                                     <i class="fas fa-pen"></i> Edit
                                 </button>
                             </div>
@@ -544,18 +623,22 @@
                                     onclick="applyFormat('undo')"><i class="fas fa-undo"></i></button>
                                 <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Redo"
                                     onclick="applyFormat('redo')"><i class="fas fa-redo"></i></button>
-                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Bulleted list"
-                                    type="button" onclick="toggleList('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
-                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Numbered list"
-                                    type="button" onclick="toggleList('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
-                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Strikethrough"
-                                    onclick="applyFormat('strikeThrough')"><i class="fas fa-strikethrough"></i></button>
+                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm"
+                                    title="Bulleted list" type="button" onclick="toggleList('insertUnorderedList')"><i
+                                        class="fas fa-list-ul"></i></button>
+                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm"
+                                    title="Numbered list" type="button" onclick="toggleList('insertOrderedList')"><i
+                                        class="fas fa-list-ol"></i></button>
+                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm"
+                                    title="Strikethrough" onclick="applyFormat('strikeThrough')"><i
+                                        class="fas fa-strikethrough"></i></button>
                                 <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Heading"
                                     onclick="applyFormat('formatBlock', 'h3')"><i class="fas fa-heading"></i></button>
                                 <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Insert table"
                                     onclick="insertTable()"><i class="fas fa-table"></i></button>
-                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm" title="Align text center"
-                                    onclick="applyFormat('justifyCenter')"><i class="fas fa-align-center"></i></button>
+                                <button class="px-3 py-1 rounded-md border border-gray-200 text-sm"
+                                    title="Align text center" onclick="applyFormat('justifyCenter')"><i
+                                        class="fas fa-align-center"></i></button>
                                 <select id="fontSizeSelect" onchange="applyFormat('fontSize', this.value)"
                                     class="px-2 py-1 border border-gray-200 rounded-md text-sm">
                                     <option value="">Font size</option>
@@ -585,10 +668,17 @@
                                     class="w-full px-3 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-md text-sm">Save</button>
                                 <div class="relative" id="noteExportMenu">
                                     <button onclick="toggleNoteExportMenu(event)" id="exportNoteBtn"
-                                        class="w-full px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm flex items-center justify-center gap-2"><i class="fas fa-download"></i> Export <i class="fas fa-chevron-down text-xs"></i></button>
-                                    <div id="noteExportOptions" class="hidden absolute right-0 bottom-full mb-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-20 overflow-hidden">
-                                        <button type="button" onclick="exportNoteFile('pdf')" class="w-full text-left px-3 py-2 text-sm hover:bg-gray-50"><i class="fas fa-file-pdf text-red-500 mr-2"></i>PDF</button>
-                                        <button type="button" onclick="exportNoteFile('docx')" class="w-full text-left px-3 py-2 text-sm hover:bg-gray-50"><i class="fas fa-file-word text-blue-500 mr-2"></i>DOCX</button>
+                                        class="w-full px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm flex items-center justify-center gap-2"><i
+                                            class="fas fa-download"></i> Export <i
+                                            class="fas fa-chevron-down text-xs"></i></button>
+                                    <div id="noteExportOptions"
+                                        class="hidden absolute right-0 bottom-full mb-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-20 overflow-hidden">
+                                        <button type="button" onclick="exportNoteFile('pdf')"
+                                            class="w-full text-left px-3 py-2 text-sm hover:bg-gray-50"><i
+                                                class="fas fa-file-pdf text-red-500 mr-2"></i>PDF</button>
+                                        <button type="button" onclick="exportNoteFile('docx')"
+                                            class="w-full text-left px-3 py-2 text-sm hover:bg-gray-50"><i
+                                                class="fas fa-file-word text-blue-500 mr-2"></i>DOCX</button>
                                     </div>
                                 </div>
                                 <button onclick="clearNote()" id="clearNoteBtn"
@@ -878,103 +968,165 @@
                     </div>
                 </div>
                 <div id="whiteboardShell" class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                    <button id="whiteboardCloseFullscreen" type="button" onclick="toggleWhiteboardFullscreen()" class="whiteboard-close-fullscreen" title="Exit fullscreen" aria-label="Exit fullscreen"><i class="fas fa-times"></i></button>
+                    <button id="whiteboardCloseFullscreen" type="button" onclick="toggleWhiteboardFullscreen()"
+                        class="whiteboard-close-fullscreen" title="Exit fullscreen" aria-label="Exit fullscreen"><i
+                            class="fas fa-times"></i></button>
                     <div class="collapsible-card-header">
-                        <div><h3 class="text-sm font-semibold text-gray-800"><i class="fas fa-paintbrush text-indigo-500 mr-2"></i>Paint board</h3><span class="text-xs text-gray-400">Sketch and annotate</span></div>
-                        <button type="button" class="collapse-card-btn" onclick="toggleCollapsibleCard('whiteboardShell')" title="Collapse paint board" aria-label="Collapse paint board"><i class="fas fa-chevron-up"></i></button>
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-800"><i
+                                    class="fas fa-paintbrush text-indigo-500 mr-2"></i>Paint board</h3><span
+                                class="text-xs text-gray-400">Sketch and annotate</span>
+                        </div>
+                        <button type="button" class="collapse-card-btn"
+                            onclick="toggleCollapsibleCard('whiteboardShell')" title="Collapse paint board"
+                            aria-label="Collapse paint board"><i class="fas fa-chevron-up"></i></button>
                     </div>
                     <div class="collapsible-card-content">
-                    <div class="whiteboard-toolbar flex flex-wrap gap-2 items-center mb-3">
-                        <button class="whiteboard-tool px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm active"
-                            data-tool="pen" onclick="setWhiteboardTool('pen')"><i class="fas fa-pen"></i> Pen</button>
-                        <button class="whiteboard-tool px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm"
-                            data-tool="eraser" onclick="setWhiteboardTool('eraser')"><i class="fas fa-eraser"></i>
-                            Eraser</button>
-                        <button class="whiteboard-tool px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm"
-                            data-tool="line" onclick="setWhiteboardTool('line')"><i class="fas fa-slash"></i>
-                            Line</button>
-                        <button class="whiteboard-tool px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm"
-                            data-tool="rectangle" onclick="setWhiteboardTool('rectangle')"><i class="far fa-square"></i>
-                            Rectangle</button>
-                        <button class="whiteboard-tool px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm"
-                            data-tool="circle" onclick="setWhiteboardTool('circle')"><i class="far fa-circle"></i>
-                            Circle</button>
-                        <span class="w-px h-8 bg-gray-300 mx-1"></span>
-                        <input id="whiteboardColor" type="color" value="#4f46e5"
-                            onchange="setWhiteboardColor(this.value)" class="w-10 h-9 border rounded cursor-pointer"
-                            title="Colour" />
-                        <label class="text-xs text-gray-500 flex items-center gap-1"><i class="fas fa-arrows-alt-h"></i>
-                            <input id="whiteboardSize" type="range" min="1" max="40" value="4"
-                                oninput="setWhiteboardSize(this.value)" class="w-24 cursor-pointer"
-                                title="Brush size" />
-                            <span id="whiteboardSizeLabel" class="text-xs text-gray-400 w-8">4</span>
-                        </label>
-                        <span class="w-px h-8 bg-gray-300 mx-1"></span>
-                        <button onclick="undoWhiteboard()"
-                            class="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg"
-                            title="Undo (Ctrl+Z)"><i class="fas fa-undo"></i></button>
-                        <button onclick="redoWhiteboard()"
-                            class="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg"
-                            title="Redo (Ctrl+Y)"><i class="fas fa-redo"></i></button>
-                        <button onclick="clearWhiteboard()"
-                            class="px-3 py-2 text-sm bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg"><i
-                                class="fas fa-trash"></i> Clear</button>
-                    </div>
-                    <div
-                        class="whiteboard-canvas-wrap relative w-full border border-gray-200 rounded-lg overflow-hidden bg-white">
-                        <canvas id="whiteboardCanvas" class="block w-full touch-none cursor-crosshair"
-                            style="height: min(62vh, 620px);"></canvas>
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-400 mt-2">
-                        <span id="wbStatus">Ready</span>
-                        <span id="wbZoom">100%</span>
-                    </div>
+                        <div class="whiteboard-toolbar flex flex-wrap gap-2 items-center mb-3">
+                            <button class="whiteboard-tool px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm active"
+                                data-tool="pen" onclick="setWhiteboardTool('pen')"><i class="fas fa-pen"></i>
+                                Pen</button>
+                            <button class="whiteboard-tool px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm"
+                                data-tool="eraser" onclick="setWhiteboardTool('eraser')"><i class="fas fa-eraser"></i>
+                                Eraser</button>
+                            <button class="whiteboard-tool px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm"
+                                data-tool="line" onclick="setWhiteboardTool('line')"><i class="fas fa-slash"></i>
+                                Line</button>
+                            <button class="whiteboard-tool px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm"
+                                data-tool="rectangle" onclick="setWhiteboardTool('rectangle')"><i
+                                    class="far fa-square"></i>
+                                Rectangle</button>
+                            <button class="whiteboard-tool px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm"
+                                data-tool="circle" onclick="setWhiteboardTool('circle')"><i class="far fa-circle"></i>
+                                Circle</button>
+                            <span class="w-px h-8 bg-gray-300 mx-1"></span>
+                            <input id="whiteboardColor" type="color" value="#4f46e5"
+                                onchange="setWhiteboardColor(this.value)" class="w-10 h-9 border rounded cursor-pointer"
+                                title="Colour" />
+                            <label class="text-xs text-gray-500 flex items-center gap-1"><i
+                                    class="fas fa-arrows-alt-h"></i>
+                                <input id="whiteboardSize" type="range" min="1" max="40" value="4"
+                                    oninput="setWhiteboardSize(this.value)" class="w-24 cursor-pointer"
+                                    title="Brush size" />
+                                <span id="whiteboardSizeLabel" class="text-xs text-gray-400 w-8">4</span>
+                            </label>
+                            <span class="w-px h-8 bg-gray-300 mx-1"></span>
+                            <button onclick="undoWhiteboard()"
+                                class="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg"
+                                title="Undo (Ctrl+Z)"><i class="fas fa-undo"></i></button>
+                            <button onclick="redoWhiteboard()"
+                                class="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg"
+                                title="Redo (Ctrl+Y)"><i class="fas fa-redo"></i></button>
+                            <button onclick="clearWhiteboard()"
+                                class="px-3 py-2 text-sm bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg"><i
+                                    class="fas fa-trash"></i> Clear</button>
+                        </div>
+                        <div
+                            class="whiteboard-canvas-wrap relative w-full border border-gray-200 rounded-lg overflow-hidden bg-white">
+                            <canvas id="whiteboardCanvas" class="block w-full touch-none cursor-crosshair"
+                                style="height: min(62vh, 620px);"></canvas>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-400 mt-2">
+                            <span id="wbStatus">Ready</span>
+                            <span id="wbZoom">100%</span>
+                        </div>
                     </div>
                 </div>
                 <div id="studioFilesCard" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mt-5">
                     <div class="collapsible-card-header">
-                        <div><h3 class="text-base font-semibold text-gray-800"><i class="fas fa-folder-open text-cyan-500 mr-2"></i>Files</h3><p class="text-sm text-gray-400 mt-1">View, update, and delete your saved files.</p></div>
-                        <div class="flex items-center gap-2"><button type="button" onclick="loadStudioFiles()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm"><i class="fas fa-sync-alt mr-1"></i>Refresh</button><button type="button" class="collapse-card-btn" onclick="toggleCollapsibleCard('studioFilesCard')" title="Collapse Files" aria-label="Collapse Files"><i class="fas fa-chevron-up"></i></button></div>
+                        <div>
+                            <h3 class="text-base font-semibold text-gray-800"><i
+                                    class="fas fa-folder-open text-cyan-500 mr-2"></i>Files</h3>
+                            <p class="text-sm text-gray-400 mt-1">View, update, and delete your saved files.</p>
+                        </div>
+                        <div class="flex items-center gap-2"><button type="button" onclick="loadStudioFiles()"
+                                class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm"><i
+                                    class="fas fa-sync-alt mr-1"></i>Refresh</button><button type="button"
+                                class="collapse-card-btn" onclick="toggleCollapsibleCard('studioFilesCard')"
+                                title="Collapse Files" aria-label="Collapse Files"><i
+                                    class="fas fa-chevron-up"></i></button></div>
                     </div>
-                    <div class="collapsible-card-content"><div id="studioFilesList" class="grid grid-cols-1 md:grid-cols-2 gap-3"><div class="text-sm text-gray-400">No studio files yet.</div></div></div>
+                    <div class="collapsible-card-content">
+                        <div id="studioFilesList" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="text-sm text-gray-400">No studio files yet.</div>
+                        </div>
+                    </div>
                 </div>
                 <div id="documentStudio" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mt-5">
                     <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
                         <div>
-                            <h3 class="text-base font-semibold text-gray-800"><i class="fas fa-file-pen text-indigo-500 mr-2"></i>Document Studio</h3>
-                            <p class="text-sm text-gray-400 mt-1">Create and edit text documents, Word files, and presentations.</p>
+                            <h3 class="text-base font-semibold text-gray-800"><i
+                                    class="fas fa-file-pen text-indigo-500 mr-2"></i>Document Studio</h3>
+                            <p class="text-sm text-gray-400 mt-1">Create and edit text documents, Word files, and
+                                presentations.</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <select id="studioType" onchange="switchStudioType(this.value)" class="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white">
-                                <option value="txt">Text file</option><option value="docx">Word document</option><option value="pptx">Presentation</option>
+                            <select id="studioType" onchange="switchStudioType(this.value)"
+                                class="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white">
+                                <option value="txt">Text file</option>
+                                <option value="docx">Word document</option>
+                                <option value="pptx">Presentation</option>
                             </select>
-                            <input id="studioFileName" value="my-document" class="px-3 py-2 border border-gray-200 rounded-lg text-sm w-36" placeholder="File name" />
-                            <select id="studioFolder" class="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white" title="Folder to save into"><option value="root">Root folder</option></select>
-                            <button type="button" class="collapse-card-btn" onclick="toggleCollapsibleCard('documentStudio')" title="Collapse Document Studio" aria-label="Collapse Document Studio"><i class="fas fa-chevron-up"></i></button>
+                            <input id="studioFileName" value="my-document"
+                                class="px-3 py-2 border border-gray-200 rounded-lg text-sm w-36"
+                                placeholder="File name" />
+                            <select id="studioFolder"
+                                class="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white"
+                                title="Folder to save into">
+                                <option value="root">Root folder</option>
+                            </select>
+                            <button type="button" class="collapse-card-btn"
+                                onclick="toggleCollapsibleCard('documentStudio')" title="Collapse Document Studio"
+                                aria-label="Collapse Document Studio"><i class="fas fa-chevron-up"></i></button>
                         </div>
                     </div>
                     <div class="collapsible-card-content">
-                    <div id="studioTxtPanel">
-                        <textarea id="studioTxtContent" rows="12" class="w-full px-3 py-3 border border-gray-200 rounded-lg text-sm font-mono" placeholder="Write your text file here..."></textarea>
-                    </div>
-                    <div id="studioDocxPanel" class="hidden">
-                        <div class="flex flex-wrap gap-2 mb-3">
-                            <button type="button" onclick="studioFormat('bold')" class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i class="fas fa-bold"></i></button>
-                            <button type="button" onclick="studioFormat('italic')" class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i class="fas fa-italic"></i></button>
-                            <button type="button" onclick="studioFormat('insertUnorderedList')" class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i class="fas fa-list-ul"></i></button>
-                            <button type="button" onclick="studioFormat('insertOrderedList')" class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i class="fas fa-list-ol"></i></button>
-                            <select onchange="studioFormat('formatBlock', this.value)" class="px-2 py-2 border border-gray-200 rounded-lg text-sm"><option value="p">Paragraph</option><option value="h1">Heading 1</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option></select>
+                        <div id="studioTxtPanel">
+                            <textarea id="studioTxtContent" rows="12"
+                                class="w-full px-3 py-3 border border-gray-200 rounded-lg text-sm font-mono"
+                                placeholder="Write your text file here..."></textarea>
                         </div>
-                        <div id="studioDocxContent" contenteditable="true" class="studio-editor border border-gray-200 rounded-lg p-4" style="min-height:280px;" data-placeholder="Write your Word document here..."></div>
-                    </div>
-                    <div id="studioPptxPanel" class="hidden">
-                        <div id="studioSlides" class="space-y-3"></div>
-                        <button type="button" onclick="addStudioSlide()" class="mt-3 px-3 py-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-lg text-sm"><i class="fas fa-plus mr-1"></i>Add slide</button>
-                    </div>
-                    <div class="flex items-center justify-between gap-3 mt-4 flex-wrap">
-                        <span id="studioStatus" class="text-xs text-gray-400">Ready</span>
-                        <div class="flex gap-2"><button type="button" onclick="saveStudioDraft()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm"><i class="fas fa-save mr-1"></i>Save draft</button><button type="button" onclick="downloadStudioFile()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm"><i class="fas fa-download mr-1"></i>Download file</button></div>
-                    </div>
+                        <div id="studioDocxPanel" class="hidden">
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <button type="button" onclick="studioFormat('bold')"
+                                    class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i
+                                        class="fas fa-bold"></i></button>
+                                <button type="button" onclick="studioFormat('italic')"
+                                    class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i
+                                        class="fas fa-italic"></i></button>
+                                <button type="button" onclick="studioFormat('insertUnorderedList')"
+                                    class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i
+                                        class="fas fa-list-ul"></i></button>
+                                <button type="button" onclick="studioFormat('insertOrderedList')"
+                                    class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i
+                                        class="fas fa-list-ol"></i></button>
+                                <select onchange="studioFormat('formatBlock', this.value)"
+                                    class="px-2 py-2 border border-gray-200 rounded-lg text-sm">
+                                    <option value="p">Paragraph</option>
+                                    <option value="h1">Heading 1</option>
+                                    <option value="h2">Heading 2</option>
+                                    <option value="h3">Heading 3</option>
+                                </select>
+                            </div>
+                            <div id="studioDocxContent" contenteditable="true"
+                                class="studio-editor border border-gray-200 rounded-lg p-4" style="min-height:280px;"
+                                data-placeholder="Write your Word document here..."></div>
+                        </div>
+                        <div id="studioPptxPanel" class="hidden">
+                            <div id="studioSlides" class="space-y-3"></div>
+                            <button type="button" onclick="addStudioSlide()"
+                                class="mt-3 px-3 py-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-lg text-sm"><i
+                                    class="fas fa-plus mr-1"></i>Add slide</button>
+                        </div>
+                        <div class="flex items-center justify-between gap-3 mt-4 flex-wrap">
+                            <span id="studioStatus" class="text-xs text-gray-400">Ready</span>
+                            <div class="flex gap-2"><button type="button" onclick="saveStudioDraft()"
+                                    class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm"><i
+                                        class="fas fa-save mr-1"></i>Save draft</button><button type="button"
+                                    onclick="downloadStudioFile()"
+                                    class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm"><i
+                                        class="fas fa-download mr-1"></i>Download file</button></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1191,86 +1343,156 @@
             </div>
 
             <!-- SETTINGS -->
+            <!-- SETTINGS -->
             <div id="page-settings" class="p-6 hidden">
                 <h2 class="text-lg font-semibold text-gray-800 mb-5">⚙️ Profile & Settings</h2>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+                    <!-- ========== LEFT CARD (Profile overview + extra fields) ========== -->
                     <div class="lg:col-span-1 bg-white rounded-xl p-5 shadow-sm border border-gray-100 text-center">
+                        <!-- Avatar -->
                         <div class="w-24 h-24 rounded-full bg-indigo-100 mx-auto flex items-center justify-center overflow-hidden text-3xl font-semibold text-indigo-700 border-4 border-indigo-50"
                             id="settingsAvatarPreviewWrap">
-                            <img id="settingsAvatarPreview" src="" class="w-full h-full object-cover hidden" /><span
-                                id="settingsAvatarInitial">D</span>
+                            <img id="settingsAvatarPreview" src="" class="w-full h-full object-cover hidden" />
+                            <span id="settingsAvatarInitial">D</span>
                         </div>
                         <p class="text-sm font-semibold text-gray-800 mt-3" id="settingsEmailLabel">dev@example.com</p>
-                        <p class="text-xs text-gray-400 mt-1">Paste an image URL below to update your picture</p>
-                    </div>
-                    <div class="lg:col-span-2 bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                        <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2"><i
-                                class="fas fa-user text-indigo-500"></i> Profile</h3>
-                        <div class="space-y-3">
-                            <div><label class="text-xs text-gray-400 block mb-1">Display Name</label><input
-                                    id="settingsDisplayName"
+
+                        <!-- Quick avatar update -->
+                        <div class="mt-3 flex items-center gap-2">
+                            <input type="text" id="settingsAvatarUrl" placeholder="https://example.com/avatar.jpg"
+                                class="flex-1 text-xs border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition" />
+                            <button onclick="updateAvatarPreview()"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-2 rounded-lg transition whitespace-nowrap">
+                                Apply
+                            </button>
+                        </div>
+                        <p class="text-[10px] text-gray-400 mt-1 text-left px-1">Supports JPG, PNG, WEBP</p>
+
+                        <!-- ===== EXTRA PROFILE FIELDS (fill the card) ===== -->
+                        <div class="mt-6 pt-5 border-t border-gray-100 text-left space-y-4">
+                            <!-- Display Name -->
+                            <div>
+                                <label class="text-xs font-medium text-gray-700 block mb-1">Display Name</label>
+                                <input id="settingsDisplayName"
                                     class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none transition"
-                                    placeholder="Your name" /></div>
-                            <div><label class="text-xs text-gray-400 block mb-1">Profile Picture URL</label><input
-                                    id="settingsAvatarUrl"
+                                    placeholder="Your name" value="Dev User" />
+                            </div>
+
+                            <!-- Bio -->
+                            <div>
+                                <label class="text-xs font-medium text-gray-700 block mb-1">Bio</label>
+                                <textarea id="settingsBio" rows="2"
+                                    class="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition resize-none">Full-stack developer &amp; UI/UX enthusiast</textarea>
+                            </div>
+
+                            <!-- Role (read-only) -->
+                            <div>
+                                <label class="text-xs font-medium text-gray-700 block mb-1">Role</label>
+                                <div
+                                    class="text-sm text-gray-600 bg-gray-50 border border-gray-100 rounded-lg px-3 py-2">
+                                    Administrator
+                                </div>
+                            </div>
+
+                            <!-- Member Since (read-only) -->
+                            <div>
+                                <label class="text-xs font-medium text-gray-700 block mb-1">Member Since</label>
+                                <input id="memberSince" disabled
                                     class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none transition"
-                                    placeholder="https://example.com/avatar.jpg" /></div>
+                                    placeholder="Your name" value="Member Since 2026-09-01" />
+                            </div>
+
+                            <!-- Save button for profile fields -->
                             <button onclick="saveProfileSettings()"
-                                class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition"><i
-                                    class="fas fa-save mr-1"></i> Save Profile</button>
-                        </div>
-                        <hr class="my-5 border-gray-100" />
-                        <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2"><i
-                                class="fas fa-palette text-purple-500"></i> Appearance</h3>
-                        <div class="space-y-3">
-                            <label class="flex items-center gap-3 text-sm text-gray-600"><input type="checkbox"
-                                    id="settingsDarkMode"
-                                    class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-400"
-                                    onchange="toggleDarkMode()" /> Enable Dark Mode</label>
-                        </div>
-                        <hr class="my-5 border-gray-100" />
-                        <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2"><i
-                                class="fas fa-bell text-amber-500"></i> Meeting Reminders</h3>
-                        <div class="space-y-3">
-                            <label class="flex items-center gap-3 text-sm text-gray-600"><input type="checkbox"
-                                    id="settingsRemindersEnabled"
-                                    class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-400" />
-                                Remind me before upcoming meetings</label>
-                            <div><label class="text-xs text-gray-400 block mb-1">Remind me this many minutes
-                                    before</label><select id="settingsReminderMinutes"
-                                    class="w-full sm:w-56 px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none transition bg-white">
-                                    <option value="5">5 minutes</option>
-                                    <option value="10">10 minutes</option>
-                                    <option value="15" selected>15 minutes</option>
-                                    <option value="30">30 minutes</option>
-                                    <option value="60">1 hour</option>
-                                </select></div>
-                            <label class="flex items-center gap-3 text-sm text-gray-600"><input type="checkbox"
-                                    id="settingsBrowserNotif"
-                                    class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-400" />
-                                Also show a browser/desktop notification</label>
-                            <button onclick="saveReminderSettings()"
-                                class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition"><i
-                                    class="fas fa-save mr-1"></i> Save Reminder Settings</button>
-                        </div>
-                        <hr class="my-5 border-gray-100" />
-                        <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2"><i
-                                class="fas fa-database text-cyan-500"></i> Data Management</h3>
-                        <div class="space-y-3">
-                            <button onclick="exportAllData()"
-                                class="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition"><i
-                                    class="fas fa-download mr-1"></i> Export All Data (Backup)</button>
-                            <button onclick="importAllData()"
-                                class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition"><i
-                                    class="fas fa-upload mr-1"></i> Import Data (Restore)</button>
-                            <input type="file" id="importFileInput" class="hidden" accept=".json"
-                                onchange="handleImport(event)" />
-                            <button onclick="clearAllData()"
-                                class="px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-lg transition"><i
-                                    class="fas fa-trash mr-1"></i> Clear All Data</button>
+                                class="w-full px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition mt-2">
+                                <i class="fas fa-save mr-1"></i> Save Profile
+                            </button>
                         </div>
                     </div>
+
+                    <!-- ========== RIGHT COLUMN (other settings) ========== -->
+                    <div class="lg:col-span-2 bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-6">
+
+                        <!-- Appearance -->
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                                <i class="fas fa-palette text-purple-500"></i> Appearance
+                            </h3>
+                            <label class="flex items-center gap-3 text-sm text-gray-600">
+                                <input type="checkbox" id="settingsDarkMode"
+                                    class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-400"
+                                    onchange="toggleDarkMode()" /> Enable Dark Mode
+                            </label>
+                        </div>
+
+                        <hr class="border-gray-100" />
+
+                        <!-- Meeting Reminders -->
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                                <i class="fas fa-bell text-amber-500"></i> Meeting Reminders
+                            </h3>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 text-sm text-gray-600">
+                                    <input type="checkbox" id="settingsRemindersEnabled"
+                                        class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-400" />
+                                    Remind me before upcoming meetings
+                                </label>
+                                <div>
+                                    <label class="text-xs text-gray-400 block mb-1">Remind me this many minutes
+                                        before</label>
+                                    <select id="settingsReminderMinutes"
+                                        class="w-full sm:w-56 px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none transition bg-white">
+                                        <option value="5">5 minutes</option>
+                                        <option value="10">10 minutes</option>
+                                        <option value="15" selected>15 minutes</option>
+                                        <option value="30">30 minutes</option>
+                                        <option value="60">1 hour</option>
+                                    </select>
+                                </div>
+                                <label class="flex items-center gap-3 text-sm text-gray-600">
+                                    <input type="checkbox" id="settingsBrowserNotif"
+                                        class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-400" />
+                                    Also show a browser/desktop notification
+                                </label>
+                                <button onclick="saveReminderSettings()"
+                                    class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition">
+                                    <i class="fas fa-save mr-1"></i> Save Reminder Settings
+                                </button>
+                            </div>
+                        </div>
+
+                        <hr class="border-gray-100" />
+
+                        <!-- Data Management -->
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                                <i class="fas fa-database text-cyan-500"></i> Data Management
+                            </h3>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="exportAllData()"
+                                    class="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition">
+                                    <i class="fas fa-download mr-1"></i> Export All Data (Backup)
+                                </button>
+                                <button onclick="importAllData()"
+                                    class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition">
+                                    <i class="fas fa-upload mr-1"></i> Import Data (Restore)
+                                </button>
+                                <input type="file" id="importFileInput" class="hidden" accept=".json"
+                                    onchange="handleImport(event)" />
+                                <button onclick="clearAllData()"
+                                    class="px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-lg transition">
+                                    <i class="fas fa-trash mr-1"></i> Clear All Data
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /right column -->
+
                 </div>
+                <!-- /grid -->
             </div>
 
         </main>
@@ -1422,9 +1644,9 @@
                         class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-400 outline-none transition" />
                 </div>
                 <div><label class="text-xs text-gray-400 block mb-1">Repeat</label><select id="meetingRecurrence"
-                    class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-400 outline-none transition bg-white">
-                    <option value="none">Does not repeat</option>
-                    <option value="weekly">Every week</option>
+                        class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-400 outline-none transition bg-white">
+                        <option value="none">Does not repeat</option>
+                        <option value="weekly">Every week</option>
                     </select>
                 </div>
             </div>
@@ -1595,7 +1817,8 @@
             reminders_enabled: true,
             reminder_minutes: 15,
             browser_notifications: false,
-            dark_mode: false
+            dark_mode: false,
+            memberSince: '',
         };
 
         let workTimerRunning = false;
@@ -1622,7 +1845,7 @@
 
         function playReminderSound() {
             try {
-                const ctx = new(window.AudioContext || window.webkitAudioContext)();
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
                 const o = ctx.createOscillator();
                 const g = ctx.createGain();
                 o.type = 'sine';
@@ -1631,8 +1854,8 @@
                 o.connect(g);
                 g.connect(ctx.destination);
                 o.start();
-                setTimeout(() => { o.stop(); try { ctx.close(); } catch (_) {} }, 300);
-            } catch (_) {}
+                setTimeout(() => { o.stop(); try { ctx.close(); } catch (_) { } }, 300);
+            } catch (_) { }
         }
 
         function NavigateToHome() {
@@ -1658,12 +1881,16 @@
                 };
             }
             if (lower.includes('user not found')) {
-                return { title: 'No Account Found',
-                text: 'We couldn\'t find an account with that email. Use "Sign up" below to create one.' };
+                return {
+                    title: 'No Account Found',
+                    text: 'We couldn\'t find an account with that email. Use "Sign up" below to create one.'
+                };
             }
             if (error && error.status === 400) {
-                return { title: 'Login Failed',
-                text: msg || 'The server rejected this request (400). This almost always means the email or password is wrong, or the account has not confirmed its email yet.' };
+                return {
+                    title: 'Login Failed',
+                    text: msg || 'The server rejected this request (400). This almost always means the email or password is wrong, or the account has not confirmed its email yet.'
+                };
             }
             return { title: 'Login Failed', text: msg || 'Invalid email or password. Please check your credentials.' };
         }
@@ -1674,8 +1901,10 @@
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
                 if (error) {
                     const info = describeAuthError(error);
-                    await Swal.fire({ icon: 'error', title: info.title, text: info.text,
-                        footer: 'If you don\'t have an account, please sign up first.' });
+                    await Swal.fire({
+                        icon: 'error', title: info.title, text: info.text,
+                        footer: 'If you don\'t have an account, please sign up first.'
+                    });
                     return false;
                 }
                 currentUser = data.user;
@@ -1683,13 +1912,16 @@
                 await afterAuth();
                 return true;
             } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Network Error', text: err.message ||
-                        'Could not reach authentication server.' });
+                await Swal.fire({
+                    icon: 'error', title: 'Network Error', text: err.message ||
+                        'Could not reach authentication server.'
+                });
                 return false;
             } finally {
                 hideAppLoader();
             }
         }
+        console.log('here is the current user', currentUser);
 
         async function register(email, password) {
             showAppLoader();
@@ -1697,25 +1929,33 @@
                 const { data, error } = await supabaseClient.auth.signUp({ email, password });
                 if (error) {
                     hideAppLoader();
-                    await Swal.fire({ icon: 'error', title: 'Registration Failed', text: error.message ||
-                            'Unable to create account. This email may already be in use.' });
+                    await Swal.fire({
+                        icon: 'error', title: 'Registration Failed', text: error.message ||
+                            'Unable to create account. This email may already be in use.'
+                    });
                     return false;
                 }
                 hideAppLoader();
                 if (data?.user && !data.session) {
-                    await Swal.fire({ icon: 'success', title: 'Check Your Email', text: 'We sent a confirmation link to ' +
-                            email + '. Please verify your email before signing in.' });
+                    await Swal.fire({
+                        icon: 'success', title: 'Check Your Email', text: 'We sent a confirmation link to ' +
+                            email + '. Please verify your email before signing in.'
+                    });
                 } else {
-                    await Swal.fire({ icon: 'success', title: 'Account Created!',
+                    await Swal.fire({
+                        icon: 'success', title: 'Account Created!',
                         text: 'Please sign in with your new credentials.', timer: 2000,
-                        showConfirmButton: false });
+                        showConfirmButton: false
+                    });
                 }
                 showToast('Account created! Please sign in.', 'success');
                 return true;
             } catch (err) {
                 hideAppLoader();
-                await Swal.fire({ icon: 'error', title: 'Network Error', text: err.message ||
-                        'Could not reach registration server.' });
+                await Swal.fire({
+                    icon: 'error', title: 'Network Error', text: err.message ||
+                        'Could not reach registration server.'
+                });
                 return false;
             } finally {
                 hideAppLoader();
@@ -1753,7 +1993,7 @@
         window.showRegister = showRegister;
         window.showLogin = showLogin;
 
-        window.handleLogin = async function() {
+        window.handleLogin = async function () {
             const email = document.getElementById('loginEmail').value.trim();
             const pass = document.getElementById('loginPassword').value;
             if (!email || !pass) {
@@ -1763,7 +2003,7 @@
             await login(email, pass);
         };
 
-        window.handleRegister = async function() {
+        window.handleRegister = async function () {
             try {
                 const email = document.getElementById('regEmail').value.trim();
                 const pass = document.getElementById('regPassword').value;
@@ -1787,6 +2027,7 @@
         // ──────────────────────────────────────────────────────────────
         supabaseClient.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
+                console.log('SIGNED_IN', session.user);
                 currentUser = session.user;
                 afterAuth().finally(hideAppLoader);
             } else if (event === 'SIGNED_OUT') {
@@ -1857,7 +2098,7 @@
             startReminderChecks();
             if (profileSettings.browser_notifications && 'Notification' in window && Notification.permission ===
                 'default') {
-                try { await Notification.requestPermission(); } catch (_) {}
+                try { await Notification.requestPermission(); } catch (_) { }
             }
 
             setupKeyboardShortcuts();
@@ -1875,7 +2116,7 @@
         }
 
 
-        window.openInlineEditor = function(id) {
+        window.openInlineEditor = function (id) {
             const editor = document.getElementById('noteEditor');
             if (!editor) return;
 
@@ -1906,14 +2147,14 @@
             showToast(id ? 'Editing note...' : 'New note', 'info');
         };
 
-        window.toggleInlineFocusMode = function() {
+        window.toggleInlineFocusMode = function () {
             document.body.classList.toggle('notes-focus-mode');
             const isFocus = document.body.classList.contains('notes-focus-mode');
             document.getElementById('focusBtn').textContent = isFocus ? 'Exit Focus' : 'Toggle Focus';
             showToast(isFocus ? 'Focus mode on' : 'Focus mode off', 'info');
         };
 
-        window.saveInlineNote = async function() {
+        window.saveInlineNote = async function () {
             const title = document.getElementById('noteTitle').value.trim();
             const content = document.getElementById('notePaper').innerHTML;
 
@@ -1958,7 +2199,7 @@
             }
         };
 
-        window.exportInlineNotePDF = function() {
+        window.exportInlineNotePDF = function () {
             const title = document.getElementById('noteTitle').value.trim() || 'Note';
             const content = document.getElementById('notePaper').innerHTML;
 
@@ -1998,13 +2239,13 @@
                 });
         };
 
-        window.closeEditor = function() {
+        window.closeEditor = function () {
             document.getElementById('noteEditor').classList.add('hidden');
             document.body.classList.remove('notes-focus-mode');
             document.getElementById('focusBtn').textContent = 'Toggle Focus';
         };
 
-        window.clearNote = function() {
+        window.clearNote = function () {
             Swal.fire({
                 title: 'Clear note content?',
                 text: 'This will remove all text from the editor.',
@@ -2032,7 +2273,7 @@
         }
 
         // Auto‑update stats on input
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const paper = document.getElementById('notePaper');
             if (paper) {
                 paper.addEventListener('input', updateNoteStats);
@@ -2156,7 +2397,7 @@
             try {
                 localStorage.setItem('adv_sidebar_collapsed', sidebar.classList.contains('sidebar-collapsed') ? '1' :
                     '0');
-            } catch (_) {}
+            } catch (_) { }
         }
         window.toggleSidebarDesktop = toggleSidebarDesktop;
 
@@ -2221,16 +2462,16 @@
             });
         }
 
-        window.toggleShortcutsHelp = function() {
+        window.toggleShortcutsHelp = function () {
             document.getElementById('shortcutsModal').classList.toggle('hidden');
         };
 
-        window.openSearch = function() {
+        window.openSearch = function () {
             document.getElementById('searchModal').classList.remove('hidden');
             setTimeout(() => document.getElementById('globalSearchInput').focus(), 100);
         };
 
-        window.performGlobalSearch = function() {
+        window.performGlobalSearch = function () {
             const query = document.getElementById('globalSearchInput').value.toLowerCase().trim();
             const results = document.getElementById('globalSearchResults');
             if (!query) {
@@ -2242,7 +2483,7 @@
             let count = 0;
             tasks.forEach(t => {
                 if (t.title.toLowerCase().includes(query) || (t.description || '').toLowerCase().includes(query) || (t
-                        .assignee || '').toLowerCase().includes(query)) {
+                    .assignee || '').toLowerCase().includes(query)) {
                     html +=
                         `<div class="flex items-center gap-2 p-2 bg-indigo-50 rounded-lg text-sm hover:bg-indigo-100 transition cursor-pointer" onclick="navigateTo('tasks'); document.getElementById('searchModal').classList.add('hidden');">
                                 <i class="fas fa-tasks text-indigo-500 w-6"></i>
@@ -2298,12 +2539,12 @@
         // ──────────────────────────────────────────────────────────────
         // 7f. DARK MODE
         // ──────────────────────────────────────────────────────────────
-        window.toggleDarkMode = function() {
+        window.toggleDarkMode = function () {
             profileSettings.dark_mode = !profileSettings.dark_mode;
             document.getElementById('settingsDarkMode').checked = profileSettings.dark_mode;
             applyDarkMode();
             if (currentUser) {
-                supabaseClient.auth.updateUser({ data: { dark_mode: profileSettings.dark_mode } }).catch(() => {});
+                supabaseClient.auth.updateUser({ data: { dark_mode: profileSettings.dark_mode } }).catch(() => { });
             }
             localStorage.setItem('devhub_dark_mode', JSON.stringify(profileSettings.dark_mode));
         };
@@ -2335,26 +2576,42 @@
         // ──────────────────────────────────────────────────────────────
         function loadProfileSettingsFromUser() {
             const meta = currentUser?.user_metadata || {};
+            console.log('loadProfileSettingsFromUser', currentUser);
+
+            const longDate = currentUser?.created_at
+                ? new Intl.DateTimeFormat('en-US', {
+                    dateStyle: 'full'
+                }).format(new Date(currentUser.created_at))
+                : '';
+
+            console.log('longDate', longDate);
             profileSettings = {
                 display_name: meta.display_name || '',
                 avatar_url: meta.avatar_url || '',
-                reminders_enabled: meta.reminders_enabled !== undefined ? meta.reminders_enabled : true,
+                reminders_enabled: meta.reminders_enabled !== undefined
+                    ? meta.reminders_enabled
+                    : true,
                 reminder_minutes: meta.reminder_minutes || 15,
                 browser_notifications: meta.browser_notifications || false,
-                dark_mode: meta.dark_mode || false
+                dark_mode: meta.dark_mode || false,
+                memberSince: longDate
             };
+
             loadDarkModePreference();
         }
 
         function applyProfileToUI() {
             const name = profileSettings.display_name || currentUser.email?.split('@')[0] || 'Developer';
             const initial = (name[0] || 'D').toUpperCase();
+            const date = new Date(profileSettings.memberSince || '');
+
             document.getElementById('userName').textContent = name;
             document.getElementById('userEmail').textContent = currentUser.email || '';
             document.getElementById('userAvatar').textContent = initial;
             document.getElementById('settingsAvatarInitial').textContent = initial;
             document.getElementById('settingsEmailLabel').textContent = currentUser.email || '';
             document.getElementById('settingsDisplayName').value = profileSettings.display_name || '';
+            document.getElementById('memberSince').value = profileSettings.memberSince || '';
             document.getElementById('settingsAvatarUrl').value = profileSettings.avatar_url || '';
             document.getElementById('settingsRemindersEnabled').checked = !!profileSettings.reminders_enabled;
             document.getElementById('settingsReminderMinutes').value = String(profileSettings.reminder_minutes || 15);
@@ -2391,7 +2648,7 @@
             buildNavItems();
         }
 
-        window.saveProfileSettings = async function() {
+        window.saveProfileSettings = async function () {
             const displayName = document.getElementById('settingsDisplayName').value.trim();
             const avatarUrl = document.getElementById('settingsAvatarUrl').value.trim();
             try {
@@ -2413,12 +2670,12 @@
             }
         };
 
-        window.saveReminderSettings = async function() {
+        window.saveReminderSettings = async function () {
             const remindersEnabled = document.getElementById('settingsRemindersEnabled').checked;
             const reminderMinutes = parseInt(document.getElementById('settingsReminderMinutes').value, 10) || 15;
             const browserNotif = document.getElementById('settingsBrowserNotif').checked;
             if (browserNotif && 'Notification' in window && Notification.permission === 'default') {
-                try { await Notification.requestPermission(); } catch (_) {}
+                try { await Notification.requestPermission(); } catch (_) { }
             }
             try {
                 const { data, error } = await supabaseClient.auth.updateUser({
@@ -2434,8 +2691,10 @@
                 notifiedMeetingIds.clear();
                 showToast('Reminder settings saved!', 'success');
             } catch (err) {
-                await Swal.fire({ icon: 'error', title: 'Save Failed', text: err.message ||
-                        'Could not update reminder settings.' });
+                await Swal.fire({
+                    icon: 'error', title: 'Save Failed', text: err.message ||
+                        'Could not update reminder settings.'
+                });
             }
         };
 
@@ -2473,7 +2732,7 @@
                 notifiedMeetingIds.add(m.id);
                 const minsAway = Math.max(1, Math.round((new Date(m.meeting_date).getTime() - now) / 60000));
                 showToast(`📅 "${m.title}" starts in ${minsAway} min`, 'info');
-                try { playReminderSound(); } catch (_) {}
+                try { playReminderSound(); } catch (_) { }
                 Swal.fire({
                     icon: 'info',
                     title: 'Upcoming Meeting',
@@ -2493,9 +2752,9 @@
                             if (m.link) window.open(m.link, '_blank');
                             window.focus();
                         };
-                    } catch (_) {}
+                    } catch (_) { }
                 }
-                try { sendReminderEmail(m, minsAway); } catch (_) {}
+                try { sendReminderEmail(m, minsAway); } catch (_) { }
             });
         }
 
@@ -2523,7 +2782,7 @@
                         console
                             .warn('Supabase email insert error', error);
                     }
-                } catch (_) {}
+                } catch (_) { }
             }
             try {
                 const emailObj = {
@@ -2540,7 +2799,7 @@
                 };
                 emails.unshift(emailObj);
                 saveEmailsToStorage();
-            } catch (_) {}
+            } catch (_) { }
         }
 
         function openReminders(e) {
@@ -2572,7 +2831,7 @@
                                 </div>`;
                     const openBtn = item.querySelector('button[title="Open"]');
                     if (openBtn) {
-                        openBtn.onclick = function(ev) {
+                        openBtn.onclick = function (ev) {
                             ev.stopPropagation();
                             openMeetingModal(m);
                             closeReminders();
@@ -2605,7 +2864,7 @@
                 try {
                     notifiedMeetingIds.delete(id);
                     checkUpcomingMeetings();
-                } catch (_) {}
+                } catch (_) { }
             }, (minutes || 5) * 60000);
         }
 
@@ -2615,14 +2874,14 @@
             const now = Date.now();
             const windowMs = (profileSettings.reminder_minutes || 15) * 60 * 1000;
             const upcoming = meetings.filter(m => m.meeting_date && new Date(m.meeting_date).getTime() > now && new Date(m
-                    .meeting_date).getTime() <= now + windowMs && !notifiedMeetingIds.has(m.id));
+                .meeting_date).getTime() <= now + windowMs && !notifiedMeetingIds.has(m.id));
             if (upcoming.length > 0) {
                 badge.textContent = upcoming.length;
                 badge.classList.remove('hidden');
             } else { badge.classList.add('hidden'); }
         }
 
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const pop = document.getElementById('reminderPopover');
             if (!pop || pop.classList.contains('hidden')) return;
             const bell = document.querySelector('.fa-bell')?.parentElement;
@@ -2691,7 +2950,7 @@
         async function loadTimeEntries() {
             try {
                 const { data, error } = await supabaseClient.from('time_entries').select('*, tasks(title)').eq('user_id',
-                        currentUser.id)
+                    currentUser.id)
                     .order('created_at', { ascending: false });
                 if (error) { if (error.code === '42P01') { timeEntries = []; return; } throw error; }
                 timeEntries = data || [];
@@ -2751,9 +3010,9 @@
             select.disabled = !teamId || members.length === 0;
             select.innerHTML = !teamId ? '<option value="">Select a team first</option>' :
                 !members.length ? '<option value="">This team has no members</option>' :
-                '<option value="">Select an assignee...</option>' + members.map(member =>
-                    `<option value="${escHtml(member.name)}">${escHtml(member.name)}${member.role ? ` — ${escHtml(member.role)}` : ''}</option>`
-                ).join('');
+                    '<option value="">Select an assignee...</option>' + members.map(member =>
+                        `<option value="${escHtml(member.name)}">${escHtml(member.name)}${member.role ? ` — ${escHtml(member.role)}` : ''}</option>`
+                    ).join('');
             select.value = selectedName || '';
         }
 
@@ -2762,9 +3021,9 @@
             const teamId = document.getElementById('taskTeamId')?.value;
             if (!select) return;
             select.innerHTML = '<option value="">No sprint</option>' + workspaceData.sprints.filter(sprint => sprint
-                    .team_id === teamId && sprint.status !== 'completed').map(sprint =>
+                .team_id === teamId && sprint.status !== 'completed').map(sprint =>
                     `<option value="${sprint.id}">${escHtml(sprint.name)} (${escHtml(sprint.status)})</option>`).join(
-                    '');
+                        '');
             select.value = selectedId || '';
         }
 
@@ -2781,7 +3040,7 @@
             ).join('');
         }
 
-        window.openTeamEditor = async function(id) {
+        window.openTeamEditor = async function (id) {
             const team = teams.find(item => item.id === id);
             const { value, isConfirmed } = await Swal.fire({
                 title: team ? 'Edit team' : 'Add team',
@@ -2807,7 +3066,7 @@
             showToast('Team saved', 'success');
         };
 
-        window.openDepartmentEditor = async function(teamId, id) {
+        window.openDepartmentEditor = async function (teamId, id) {
             const department = teams.flatMap(team => team.departments || []).find(item => item.id === id);
             const { value, isConfirmed } = await Swal.fire({
                 title: department ? 'Edit department' : 'Add department',
@@ -2834,7 +3093,7 @@
             await loadTeams();
             showToast('Department saved', 'success');
         };
-        window.openMemberEditor = async function(teamId, id) {
+        window.openMemberEditor = async function (teamId, id) {
             const member = teams.flatMap(team => team.team_members || []).find(item => item.id === id);
             const { value, isConfirmed } = await Swal.fire({
                 title: member ? 'Edit member' : 'Add member',
@@ -2865,11 +3124,11 @@
         };
         window.deleteTeam = async id => {
             if (!(await Swal.fire({
-                    title: 'Delete team?',
-                    text: 'Its departments will also be deleted.',
-                    icon: 'warning',
-                    showCancelButton: true
-                })).isConfirmed) return;
+                title: 'Delete team?',
+                text: 'Its departments will also be deleted.',
+                icon: 'warning',
+                showCancelButton: true
+            })).isConfirmed) return;
             const { error } = await supabaseClient.from('teams').delete().eq('id', id).eq('owner_id', currentUser.id);
             if (error) return showToast(error.message, 'error');
             await loadTeams();
@@ -2899,7 +3158,7 @@
                 }
             };
             await Promise.all([load('sprints', 'sprints'), load('approvals', 'time_approvals'), load('availability',
-                    'team_availability', 'starts_at'), load('templates', 'task_templates'), load('notifications',
+                'team_availability', 'starts_at'), load('templates', 'task_templates'), load('notifications',
                     'notifications'), load('activity', 'activity_log')]);
             refreshWorkspace();
         }
@@ -2914,7 +3173,7 @@
                 `<option value="${t.id}">${escHtml(t.name)}</option>`).join('');
             select.value = value;
         }
-        window.refreshWorkspace = function() {
+        window.refreshWorkspace = function () {
             populateWorkspaceTeams();
             const teamId = selectedWorkspaceTeam();
             const content = document.getElementById('workspaceContent');
@@ -2937,7 +3196,7 @@
             const members = team?.team_members || [];
             const capacity = Math.max(0, members.length * 40 - hours);
             const cycleDays = done.length ? done.reduce((sum, task) => sum + Math.max(0, (new Date(task.updated_at ||
-                    Date.now()) - new Date(task.created_at || Date.now())) / 86400000), 0) / done.length : 0;
+                Date.now()) - new Date(task.created_at || Date.now())) / 86400000), 0) / done.length : 0;
             document.getElementById('wsTaskCount').textContent = teamTasks.length;
             document.getElementById('wsOverdueCount').textContent = overdue.length;
             document.getElementById('wsHours').textContent = `${hours.toFixed(1)}h`;
@@ -3003,10 +3262,12 @@
                 })
             });
             if (!isConfirmed || !value.name || !value.start_date || !value.end_date) return;
-            workspaceInsert('sprints', { ...value,
+            workspaceInsert('sprints', {
+                ...value,
                 team_id: teamId,
                 owner_id: currentUser.id,
-                status: 'planned' },
+                status: 'planned'
+            },
                 'Sprint created');
         };
         window.openTemplateEditor = async () => {
@@ -3025,9 +3286,11 @@
                 })
             });
             if (!isConfirmed || !value.name) return;
-            workspaceInsert('task_templates', { ...value,
+            workspaceInsert('task_templates', {
+                ...value,
                 team_id: teamId,
-                owner_id: currentUser.id },
+                owner_id: currentUser.id
+            },
                 'Template saved');
         };
         window.createTaskFromTemplate = id => {
@@ -3054,9 +3317,11 @@
                 })
             });
             if (!isConfirmed || !value.title || !value.starts_at || !value.ends_at) return;
-            workspaceInsert('team_availability', { ...value,
+            workspaceInsert('team_availability', {
+                ...value,
                 team_id: teamId,
-                owner_id: currentUser.id },
+                owner_id: currentUser.id
+            },
                 'Calendar event saved');
         };
         window.submitMyTimeForApproval = async () => {
@@ -3330,7 +3595,7 @@
                     group: 'tasks',
                     animation: 150,
                     ghostClass: 'dragging',
-                    onEnd: async function(evt) {
+                    onEnd: async function (evt) {
                         const taskId = evt.item.dataset.id;
                         const newStatus = evt.to.dataset.status;
                         if (!taskId || !newStatus) return;
@@ -3410,7 +3675,7 @@
         }
         window.editTask = editTask;
 
-        window.assignToMe = function() {
+        window.assignToMe = function () {
             const name = profileSettings.display_name || currentUser.email?.split('@')[0] || 'Me';
             document.getElementById('taskAssignee').value = name;
             showToast(`Assigned to ${name}`, 'info');
@@ -3429,7 +3694,7 @@
                 `<div class="bg-gray-50 rounded p-2"><span class="font-medium">${escHtml(comment.author_name || 'Member')}</span> · ${escHtml(comment.body)}<span class="text-gray-400 ml-1">${new Date(comment.created_at).toLocaleString()}</span></div>`
             ).join('') || '<div class="text-gray-400">No comments yet.</div>';
         }
-        window.addTaskComment = async function() {
+        window.addTaskComment = async function () {
             const taskId = document.getElementById('taskEditId').value;
             const body = document.getElementById('taskCommentBody').value.trim();
             if (!taskId || !body) return;
@@ -3470,12 +3735,12 @@
             select.innerHTML = '<option value="">Attach an uploaded file...</option>' + files.filter(file => file
                 .type !== 'folder').map(file => `<option value="${file.id}">${escHtml(file.name)}</option>`).join('');
         }
-        window.attachFileToTask = async function() {
+        window.attachFileToTask = async function () {
             const taskId = document.getElementById('taskEditId').value;
             const fileId = document.getElementById('taskFileLink').value;
             if (!taskId || !fileId) return;
             const { data, error } = await supabaseClient.from('file_links').select('version_number').eq('file_id',
-                    fileId).eq('entity_type', 'task').eq('entity_id', taskId).order('version_number', { ascending: false })
+                fileId).eq('entity_type', 'task').eq('entity_id', taskId).order('version_number', { ascending: false })
                 .limit(1);
             if (error) return showToast(error.message, 'error');
             const version_number = (data?.[0]?.version_number || 0) + 1;
@@ -3933,7 +4198,7 @@
             container.innerHTML = html;
         }
 
-        window.changeCalendarMonth = function(delta) {
+        window.changeCalendarMonth = function (delta) {
             if (delta === 0) {
                 const now = new Date();
                 calendarMonth = now.getMonth();
@@ -4003,7 +4268,7 @@
             container.innerHTML = html;
         }
 
-        window.addTaskAtTime = function(time) {
+        window.addTaskAtTime = function (time) {
             const today = new Date().toISOString().split('T')[0];
             navigateTo('tasks');
             setTimeout(() => {
@@ -4014,7 +4279,7 @@
             }, 100);
         };
 
-        window.changePlannerDay = function(delta) {
+        window.changePlannerDay = function (delta) {
             if (delta === 0) { plannerDate = new Date(); } else { plannerDate.setDate(plannerDate.getDate() + delta); }
             renderPlanner();
         };
@@ -4097,10 +4362,10 @@
                     updateDashboardTimerWidget();
                     showToast('⏱️ Paused timer restored', 'info');
                 }
-            } catch (_) {}
+            } catch (_) { }
         }
 
-        window.startTimer = function() {
+        window.startTimer = function () {
             const taskId = document.getElementById('timerTaskSelect').value;
             if (!taskId) {
                 Swal.fire({ icon: 'warning', title: 'No Task', text: 'Please select a task first.' });
@@ -4134,7 +4399,7 @@
             showToast('Timer started!', 'success');
         };
 
-        window.stopTimer = function() {
+        window.stopTimer = function () {
             if (!timerRunning && !timerPaused) { showToast('Timer is not running', 'info'); return; }
             timerRunning = false;
             timerPaused = false;
@@ -4154,7 +4419,7 @@
             showToast('Timer stopped', 'info');
         };
 
-        window.logTime = async function() {
+        window.logTime = async function () {
             if (!selectedTaskId) {
                 await Swal.fire({ icon: 'warning', title: 'No Task', text: 'Select a task and start the timer.' });
                 return;
@@ -4234,7 +4499,7 @@
         // ──────────────────────────────────────────────────────────────
 
         // NEW: Edit the work timer start time while running or paused
-        window.editWorkTimerStart = function() {
+        window.editWorkTimerStart = function () {
             // Only allow editing when running or paused
             if (!workTimerRunning && !workTimerPaused) {
                 showToast('Timer is not running or paused. Start the timer first.', 'info');
@@ -4493,10 +4758,10 @@
                     updateWorkTimerDisplays();
                     console.log('⏱️ Paused work timer restored', 'info');
                 }
-            } catch (_) {}
+            } catch (_) { }
         }
 
-        window.startWorkTimer = function() {
+        window.startWorkTimer = function () {
             if (workTimerRunning) { showToast('Work timer already running', 'info'); return; }
             if (workTimerPaused) { return resumeWorkTimer(); }
             workTimerRunning = true;
@@ -4521,7 +4786,7 @@
             showToast('Work Timer started!', 'success');
         };
 
-        window.pauseWorkTimer = function() {
+        window.pauseWorkTimer = function () {
             if (!workTimerRunning) { showToast('Work timer is not running', 'info'); return; }
             workPausedElapsed = Date.now() - workTimerStartTime;
             workTimerPaused = true;
@@ -4545,7 +4810,7 @@
             showToast('Work timer paused', 'info');
         };
 
-        window.resumeWorkTimer = function() {
+        window.resumeWorkTimer = function () {
             if (!workTimerPaused) { showToast('Work timer is not paused', 'info'); return; }
             workTimerStartTime = Date.now() - (workPausedElapsed || 0);
             workTimerRunning = true;
@@ -4567,12 +4832,12 @@
             showToast('Work timer resumed', 'success');
         };
 
-        window.stopWorkTimer = async function() {
+        window.stopWorkTimer = async function () {
             if (!workTimerRunning && !workTimerPaused) { showToast('Work timer is not running', 'info'); return; }
             await logWorkDay(false);
         };
 
-        window.pauseTimer = function() {
+        window.pauseTimer = function () {
             if (!timerRunning) { showToast('Timer is not running', 'info'); return; }
             pausedElapsed = Date.now() - timerStartTime;
             timerPaused = true;
@@ -4590,7 +4855,7 @@
             showToast('Timer paused', 'info');
         };
 
-        window.resumeTimer = function() {
+        window.resumeTimer = function () {
             if (!timerPaused) { showToast('Timer is not paused', 'info'); return; }
             timerStartTime = Date.now() - (pausedElapsed || 0);
             timerRunning = true;
@@ -4608,7 +4873,7 @@
             showToast('Timer resumed', 'success');
         };
 
-        window.takeLunchBreak = function() {
+        window.takeLunchBreak = function () {
             if (!workTimerRunning) {
                 Swal.fire({ icon: 'warning', title: 'Timer Not Running', text: 'Start the work timer first.' });
                 return;
@@ -4628,7 +4893,7 @@
             showToast('🍽️ Lunch break added (30 min deducted)', 'success');
         };
 
-        window.logWorkDay = async function(automatic = false) {
+        window.logWorkDay = async function (automatic = false) {
             if (!workTimerRunning && !workTimerPaused && workTimerLunchMinutes === 0) {
                 await Swal.fire({
                     icon: 'warning',
@@ -4832,21 +5097,21 @@
             document.getElementById('knowledgeBase').innerHTML = data.knowledge.slice().reverse().map(item => `<a href="${escHtml(item.url)}" target="_blank" class="flex items-center gap-2 p-2 rounded hover:bg-sky-50"><i class="fas fa-link text-sky-500"></i><span class="text-sm truncate">${escHtml(item.title)}</span></a>`).join('') || '<div class="text-sm text-gray-400">Save useful documentation, tools, and references here.</div>';
         }
 
-        window.openQuickCapture = function() { document.getElementById('captureText')?.focus(); };
-        window.saveQuickCapture = function() {
+        window.openQuickCapture = function () { document.getElementById('captureText')?.focus(); };
+        window.saveQuickCapture = function () {
             const input = document.getElementById('captureText');
             if (!input?.value.trim()) return;
             const data = loadPersonalData(); data.captures.push({ type: document.getElementById('captureType').value, text: input.value.trim(), createdAt: new Date().toISOString() }); savePersonalData(); input.value = ''; renderMyWork(); showToast('Captured', 'success');
         };
-        window.addContentPlan = function() { const title = prompt('Title or idea'); if (!title?.trim()) return; const type = prompt('Type: article, tutorial, talk, video, or social', 'article') || 'article'; const date = prompt('Target date (optional)', ''); const data = loadPersonalData(); data.content.push({ title: title.trim(), type: type.trim(), date, status: 'idea' }); savePersonalData(); renderMyWork(); };
-        window.addFollowUp = function() { const person = prompt('Person or company'); if (!person?.trim()) return; const topic = prompt('Follow-up topic'); if (!topic?.trim()) return; const due = prompt('Due date (optional)', ''); const data = loadPersonalData(); data.followUps.push({ person: person.trim(), topic: topic.trim(), due, done: false }); savePersonalData(); renderMyWork(); };
-        window.completeFollowUp = function(index) { const data = loadPersonalData(); if (data.followUps[index]) data.followUps[index].done = !data.followUps[index].done; savePersonalData(); renderMyWork(); };
-        window.saveJournalEntry = function() { const input = document.getElementById('journalEntry'); if (!input?.value.trim()) return; const data = loadPersonalData(); data.journal.push({ date: todayDate(), text: input.value.trim() }); savePersonalData(); input.value = ''; renderMyWork(); showToast('Journal entry saved', 'success'); };
-        window.addPersonalTemplate = function() { const name = prompt('Template name'); if (!name?.trim()) return; const body = prompt('Template prompts or structure', 'Context:\nNext action:') || ''; const data = loadPersonalData(); data.templates.push({ name: name.trim(), body }); savePersonalData(); renderMyWork(); };
-        window.usePersonalTemplate = function(index) { const item = loadPersonalData().templates[index]; if (!item) return; document.getElementById('captureText').value = item.body; document.getElementById('captureType').value = 'thought'; document.getElementById('captureText').focus(); };
-        window.addKnowledgeItem = function() { const title = prompt('Reference title'); if (!title?.trim()) return; const url = prompt('URL'); if (!url?.trim()) return; const data = loadPersonalData(); data.knowledge.push({ title: title.trim(), url: url.trim() }); savePersonalData(); renderMyWork(); };
-        window.prepareMeeting = function(id) { const meeting = meetings.find(item => item.id === id); if (!meeting) return; navigateTo('notes'); window.openInlineEditor(); document.getElementById('noteTitle').value = `${meeting.title} - preparation`; document.getElementById('notePaper').innerHTML = `<h3>Agenda</h3><ul><li>Objective</li><li>Questions</li><li>Decisions</li><li>Follow-up actions</li></ul>`; };
-        window.toggleMyWorkFocus = function() { document.body.classList.toggle('mywork-focus'); };
+        window.addContentPlan = function () { const title = prompt('Title or idea'); if (!title?.trim()) return; const type = prompt('Type: article, tutorial, talk, video, or social', 'article') || 'article'; const date = prompt('Target date (optional)', ''); const data = loadPersonalData(); data.content.push({ title: title.trim(), type: type.trim(), date, status: 'idea' }); savePersonalData(); renderMyWork(); };
+        window.addFollowUp = function () { const person = prompt('Person or company'); if (!person?.trim()) return; const topic = prompt('Follow-up topic'); if (!topic?.trim()) return; const due = prompt('Due date (optional)', ''); const data = loadPersonalData(); data.followUps.push({ person: person.trim(), topic: topic.trim(), due, done: false }); savePersonalData(); renderMyWork(); };
+        window.completeFollowUp = function (index) { const data = loadPersonalData(); if (data.followUps[index]) data.followUps[index].done = !data.followUps[index].done; savePersonalData(); renderMyWork(); };
+        window.saveJournalEntry = function () { const input = document.getElementById('journalEntry'); if (!input?.value.trim()) return; const data = loadPersonalData(); data.journal.push({ date: todayDate(), text: input.value.trim() }); savePersonalData(); input.value = ''; renderMyWork(); showToast('Journal entry saved', 'success'); };
+        window.addPersonalTemplate = function () { const name = prompt('Template name'); if (!name?.trim()) return; const body = prompt('Template prompts or structure', 'Context:\nNext action:') || ''; const data = loadPersonalData(); data.templates.push({ name: name.trim(), body }); savePersonalData(); renderMyWork(); };
+        window.usePersonalTemplate = function (index) { const item = loadPersonalData().templates[index]; if (!item) return; document.getElementById('captureText').value = item.body; document.getElementById('captureType').value = 'thought'; document.getElementById('captureText').focus(); };
+        window.addKnowledgeItem = function () { const title = prompt('Reference title'); if (!title?.trim()) return; const url = prompt('URL'); if (!url?.trim()) return; const data = loadPersonalData(); data.knowledge.push({ title: title.trim(), url: url.trim() }); savePersonalData(); renderMyWork(); };
+        window.prepareMeeting = function (id) { const meeting = meetings.find(item => item.id === id); if (!meeting) return; navigateTo('notes'); window.openInlineEditor(); document.getElementById('noteTitle').value = `${meeting.title} - preparation`; document.getElementById('notePaper').innerHTML = `<h3>Agenda</h3><ul><li>Objective</li><li>Questions</li><li>Decisions</li><li>Follow-up actions</li></ul>`; };
+        window.toggleMyWorkFocus = function () { document.body.classList.toggle('mywork-focus'); };
 
         // ──────────────────────────────────────────────────────────────
         // 21. INSIGHTS
@@ -5059,8 +5324,8 @@
                         0) { varianceDisplay = '+∞'; } else { varianceDisplay = '—'; }
                     const varColor = est > 0 && spent > est ? 'text-red-500' :
                         est > 0 && spent < est ? 'text-emerald-500' :
-                        est === 0 && spent > 0 ? 'text-amber-500' :
-                        'text-gray-400';
+                            est === 0 && spent > 0 ? 'text-amber-500' :
+                                'text-gray-400';
                     const statusMap = {
                         'todo': 'To Do',
                         'in-progress': 'In Progress',
@@ -5118,13 +5383,13 @@
                         cutout: '70%'
                     }
                 });
-            } catch (_) {}
+            } catch (_) { }
         }
 
         // ──────────────────────────────────────────────────────────────
         // 22. REPORT EXPORT
         // ──────────────────────────────────────────────────────────────
-        window.generateReport = async function(format) {
+        window.generateReport = async function (format) {
             const from = document.getElementById('reportFrom').value;
             const to = document.getElementById('reportTo').value;
             if (!from || !to) {
@@ -5215,7 +5480,7 @@
             }
         }
 
-        window.uploadFiles = async function(event) {
+        window.uploadFiles = async function (event) {
             const fileList = event.target.files;
             if (!fileList || fileList.length === 0) return;
 
@@ -5237,7 +5502,7 @@
                             const { data: signed } = await supabaseClient.storage.from('files').createSignedUrl(path,
                                 86400);
                             publicUrl = signed?.signedUrl || null;
-                        } catch (_) {}
+                        } catch (_) { }
                         try {
                             const meta = {
                                 name: file.name,
@@ -5282,7 +5547,7 @@
                     try {
                         const reader = new FileReader();
                         await new Promise((res, rej) => {
-                            reader.onload = function(e) {
+                            reader.onload = function (e) {
                                 const fileData = {
                                     id: Date.now() + '_' + i + '_' + Math.random().toString(36).substr(2,
                                         6),
@@ -5311,7 +5576,7 @@
             event.target.value = '';
         };
 
-        window.showNewFolderDialog = function() {
+        window.showNewFolderDialog = function () {
             Swal.fire({
                 title: 'New Folder',
                 input: 'text',
@@ -5349,7 +5614,7 @@
                                 showToast(`Folder "${name}" created`, 'success');
                                 return;
                             }
-                        } catch (_) {}
+                        } catch (_) { }
                     }
                     const folderData = {
                         id: 'folder_' + Date.now(),
@@ -5384,13 +5649,13 @@
                         `).join('');
         }
 
-        window.selectFolder = function(folderId) {
+        window.selectFolder = function (folderId) {
             currentFolder = folderId;
             renderFolderTree();
             renderFiles();
         };
 
-        window.setFileFilter = function(filter) {
+        window.setFileFilter = function (filter) {
             currentFileFilter = filter;
             currentFolder = null;
             renderFolderTree();
@@ -5470,7 +5735,7 @@
                         `).join('');
         }
 
-        window.moveFile = function(id) {
+        window.moveFile = function (id) {
             const file = files.find(f => f.id === id);
             if (!file) return;
             const folders = files.filter(f => f.type === 'folder');
@@ -5498,7 +5763,7 @@
             });
         };
 
-        window.previewFile = function(id) {
+        window.previewFile = function (id) {
             const file = files.find(f => f.id === id);
             console.log(file);
             if (!file) { showToast('File not found', 'error'); return; }
@@ -5550,7 +5815,7 @@
             document.getElementById('filePreviewModal').classList.remove('hidden');
         };
 
-        window.viewOfficeOnline = function(id) {
+        window.viewOfficeOnline = function (id) {
             const file = files.find(f => f.id === id);
             if (!file) return;
             try {
@@ -5574,7 +5839,7 @@
             return new Blob([ab], { type: mime });
         }
 
-        window.downloadFile = function(id) {
+        window.downloadFile = function (id) {
             const file = files.find(f => f.id === id);
             if (!file) { showToast('File not found', 'error'); return; }
             const link = document.createElement('a');
@@ -5586,7 +5851,7 @@
                             const { data: signed } = await supabaseClient.storage.from('files').createSignedUrl(
                                 file.path, 86400);
                             href = signed?.signedUrl || null;
-                        } catch (_) {}
+                        } catch (_) { }
                     }
                     if (!href && file.data && file.data.startsWith('data:')) href = file.data;
                     if (!href) { showToast('Unable to download file', 'error'); return; }
@@ -5600,9 +5865,9 @@
             })();
         };
 
-        window.downloadCurrentFile = function() { if (currentFilePreview) { downloadFile(currentFilePreview.id); } };
+        window.downloadCurrentFile = function () { if (currentFilePreview) { downloadFile(currentFilePreview.id); } };
 
-        window.deleteFile = function(id) {
+        window.deleteFile = function (id) {
             Swal.fire({
                 title: 'Delete File?',
                 text: 'This action cannot be undone.',
@@ -5625,7 +5890,7 @@
                             const { error } = await supabaseClient.from('files').delete().eq('id', id).eq('user_id',
                                 currentUser.id);
                             if (error) throw error;
-                        } catch (_) {}
+                        } catch (_) { }
                     }
                     files = files.filter(f => f.id !== id);
                     saveFilesToStorage();
@@ -5672,7 +5937,7 @@
             }
         }
 
-        window.openComposeEmail = function(data) {
+        window.openComposeEmail = function (data) {
             document.getElementById('emailEditId').value = data?.id || '';
             document.getElementById('emailFrom').value = data?.from_email || currentUser?.email || '';
             document.getElementById('emailTo').value = data?.to_email || '';
@@ -5684,7 +5949,7 @@
         };
         window.openComposeEmail = openComposeEmail;
 
-        window.saveEmail = async function() {
+        window.saveEmail = async function () {
             const id = document.getElementById('emailEditId').value;
             const from_email = document.getElementById('emailFrom').value.trim() || currentUser?.email ||
                 'me@example.com';
@@ -5783,7 +6048,7 @@
             }
         }
 
-        window.viewEmail = function(id) {
+        window.viewEmail = function (id) {
             const email = emails.find(e => e.id === id);
             if (!email) return;
             currentEmailDetailId = id;
@@ -5821,7 +6086,7 @@
                         `;
         };
 
-        window.replyToEmail = function() {
+        window.replyToEmail = function () {
             const email = emails.find(e => e.id === currentEmailDetailId);
             if (!email) return;
             const replySubject = email.subject.startsWith('Re:') ? email.subject : `Re: ${email.subject}`;
@@ -5836,7 +6101,7 @@
             document.getElementById('composeEmailModal').classList.remove('hidden');
         };
 
-        window.toggleReadEmail = function(id) {
+        window.toggleReadEmail = function (id) {
             const email = emails.find(e => e.id === id);
             if (!email) return;
             email.is_read = !email.is_read;
@@ -5847,7 +6112,7 @@
             if (currentEmailDetailId === id) { viewEmail(id); }
         };
 
-        window.deleteEmail = function(id) {
+        window.deleteEmail = function (id) {
             Swal.fire({
                 title: 'Delete Email?',
                 text: 'This action cannot be undone.',
@@ -5880,7 +6145,7 @@
         // ──────────────────────────────────────────────────────────────
         // 25. TOOL INTEGRATIONS
         // ──────────────────────────────────────────────────────────────
-        window.connectTool = async function(name) {
+        window.connectTool = async function (name) {
             const providers = {
                 Slack: 'slack',
                 Teams: 'teams',
@@ -5909,7 +6174,7 @@
             showToast(`${name} connection saved`, 'success');
         };
 
-        window.addCustomTool = function() {
+        window.addCustomTool = function () {
             const name = document.getElementById('customToolName').value.trim();
             const key = document.getElementById('customToolKey').value.trim();
             if (!name || !key) {
@@ -5924,7 +6189,7 @@
         // ──────────────────────────────────────────────────────────────
         // 26. DATA EXPORT / IMPORT
         // ──────────────────────────────────────────────────────────────
-        window.exportAllData = function() {
+        window.exportAllData = function () {
             const data = {
                 tasks: tasks,
                 notes: notes,
@@ -5948,13 +6213,13 @@
             showToast('Data exported successfully!', 'success');
         };
 
-        window.importAllData = function() { document.getElementById('importFileInput').click(); };
+        window.importAllData = function () { document.getElementById('importFileInput').click(); };
 
-        window.handleImport = function(event) {
+        window.handleImport = function (event) {
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 try {
                     const data = JSON.parse(e.target.result);
                     if (data.tasks) tasks = data.tasks;
@@ -6015,7 +6280,7 @@
             event.target.value = '';
         };
 
-        window.clearAllData = function() {
+        window.clearAllData = function () {
             Swal.fire({
                 title: 'Clear All Data?',
                 text: 'This will permanently delete all your local data. Your Supabase data will remain.',
@@ -6095,7 +6360,7 @@
             });
         }
 
-        window.navigateTo = function(page) {
+        window.navigateTo = function (page) {
             showAppLoader();
             showPageSkeleton(page);
             document.querySelectorAll('#sidebarNav .nav-item').forEach(el => el.classList.remove('active'));
@@ -6162,7 +6427,7 @@
             }
             if (page === 'settings') applyProfileToUI();
 
-            try { localStorage.setItem('adv_last_page', page); } catch (_) {}
+            try { localStorage.setItem('adv_last_page', page); } catch (_) { }
             closeMobileMenu();
             window.setTimeout(hideAppLoader, 220);
         };
@@ -6187,7 +6452,7 @@
             return div.innerHTML;
         }
 
-        window.refreshData = function() {
+        window.refreshData = function () {
             if (!currentUser) return;
             loadAllData();
             loadFiles();
@@ -6285,7 +6550,7 @@
                 if (wb.ctx && canvas.width > 0 && canvas.height > 0) {
                     currentData = wb.ctx.getImageData(0, 0, canvas.width, canvas.height);
                 }
-            } catch (_) {}
+            } catch (_) { }
 
             canvas.width = w * dpr;
             canvas.height = h * dpr;
@@ -6304,7 +6569,7 @@
                     const tempCtx = tempCanvas.getContext('2d');
                     tempCtx.putImageData(currentData, 0, 0);
                     ctx.drawImage(tempCanvas, 0, 0, w, h);
-                } catch (_) {}
+                } catch (_) { }
             }
 
             wb.ctx = ctx;
@@ -6341,7 +6606,7 @@
                 try {
                     const ctx = wb.ctx;
                     wb.shapePreview = ctx.getImageData(0, 0, wb.canvas.width, wb.canvas.height);
-                } catch (_) {}
+                } catch (_) { }
             } else {
                 // For pen/eraser, draw a dot
                 drawDot(x, y);
@@ -6462,7 +6727,7 @@
             if (wb.shapePreview) {
                 try {
                     ctx.putImageData(wb.shapePreview, 0, 0);
-                } catch (_) {}
+                } catch (_) { }
             }
 
             const sx = wb.shapeStartX;
@@ -6566,7 +6831,7 @@
                 }
 
                 wb.historyIndex = wb.history.length - 1;
-            } catch (_) {}
+            } catch (_) { }
         }
 
         function restoreWhiteboardHistory(index) {
@@ -6579,10 +6844,10 @@
                 wb.hasUnsavedChanges = true;
                 autoSaveWhiteboard();
                 updateWhiteboardStatus(`Restored state ${index + 1}/${wb.history.length}`);
-            } catch (_) {}
+            } catch (_) { }
         }
 
-        window.undoWhiteboard = function() {
+        window.undoWhiteboard = function () {
             if (wb.historyIndex <= 0) {
                 showToast('Nothing to undo', 'info');
                 return;
@@ -6591,7 +6856,7 @@
             showToast('Undo', 'info');
         };
 
-        window.redoWhiteboard = function() {
+        window.redoWhiteboard = function () {
             if (wb.historyIndex >= wb.history.length - 1) {
                 showToast('Nothing to redo', 'info');
                 return;
@@ -6600,7 +6865,7 @@
             showToast('Redo', 'info');
         };
 
-        window.clearWhiteboard = function() {
+        window.clearWhiteboard = function () {
             Swal.fire({
                 title: 'Clear Whiteboard?',
                 text: 'This action cannot be undone.',
@@ -6626,7 +6891,7 @@
             });
         };
 
-        window.setWhiteboardTool = function(tool) {
+        window.setWhiteboardTool = function (tool) {
             wb.tool = tool;
             wb.isDrawingShape = false;
             updateToolButtons(tool);
@@ -6638,13 +6903,13 @@
             updateWhiteboardStatus(`Tool: ${tool}`);
         };
 
-        window.setWhiteboardColor = function(color) {
+        window.setWhiteboardColor = function (color) {
             wb.color = color;
             const input = document.getElementById('whiteboardColor');
             if (input) input.value = color;
         };
 
-        window.setWhiteboardSize = function(size) {
+        window.setWhiteboardSize = function (size) {
             wb.size = parseInt(size, 10) || 4;
             const label = document.getElementById('whiteboardSizeLabel');
             if (label) label.textContent = wb.size;
@@ -6681,7 +6946,7 @@
                 const key = `wb_drawing_${wb.userId}`;
                 localStorage.setItem(key, dataUrl);
                 wb.savedData = dataUrl;
-            } catch (_) {}
+            } catch (_) { }
         }
 
         function loadWhiteboardDrawing() {
@@ -6722,13 +6987,13 @@
             }
         }
 
-        window.saveWhiteboard = function() {
+        window.saveWhiteboard = function () {
             autoSaveWhiteboard();
             showToast('Whiteboard saved!', 'success');
             updateWhiteboardStatus('Saved');
         };
 
-        window.downloadWhiteboard = function() {
+        window.downloadWhiteboard = function () {
             const canvas = wb.canvas;
             if (!canvas) return;
             try {
@@ -6751,7 +7016,7 @@
             }
         };
 
-        window.toggleWhiteboardFullscreen = function() {
+        window.toggleWhiteboardFullscreen = function () {
             const shell = document.getElementById('whiteboardShell');
             if (!shell) return;
             wb.isFullscreen = !wb.isFullscreen;
@@ -6778,7 +7043,7 @@
                             ctx.drawImage(img, 0, 0, wb.canvas.width, wb.canvas.height);
                         };
                         img.src = wb.savedData;
-                    } catch (_) {}
+                    } catch (_) { }
                 }
             }, 100);
 
@@ -6810,7 +7075,7 @@
             return file && file.type !== 'folder';
         }
 
-        window.loadStudioFiles = function() {
+        window.loadStudioFiles = function () {
             const list = document.getElementById('studioFilesList');
             if (!list) return;
             populateStudioFolders();
@@ -6819,7 +7084,7 @@
             list.innerHTML = studioFiles.map(file => `<div class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 bg-gray-50"><i class="fas fa-file-${file.type?.includes('word') ? 'word' : file.type?.includes('presentation') ? 'powerpoint' : 'lines'} text-cyan-500 text-xl"></i><div class="flex-1 min-w-0"><div class="text-sm font-medium text-gray-800 truncate" title="${escHtml(file.name)}">${escHtml(file.name.replace(/^studio_/, ''))}</div><div class="text-xs text-gray-400">${escHtml(file.folder || 'root')} · ${file.uploaded_at ? new Date(file.uploaded_at).toLocaleDateString() : ''}</div></div><div class="flex gap-1"><button type="button" onclick="updateStudioFile('${file.id}')" class="px-2 py-1 text-xs text-indigo-600 hover:bg-indigo-50 rounded" title="Update this file"><i class="fas fa-pen"></i></button><button type="button" onclick="deleteStudioFile('${file.id}')" class="px-2 py-1 text-xs text-red-500 hover:bg-red-50 rounded" title="Delete this file"><i class="fas fa-trash"></i></button></div></div>`).join('');
         };
 
-        window.updateStudioFile = async function(id) {
+        window.updateStudioFile = async function (id) {
             const file = files.find(item => String(item.id) === String(id));
             if (!file) return;
             studioEditingFile = file;
@@ -6836,7 +7101,7 @@
             showToast('File loaded for update', 'info');
         };
 
-        window.deleteStudioFile = async function(id) {
+        window.deleteStudioFile = async function (id) {
             const file = files.find(item => String(item.id) === String(id));
             if (!file) return;
             const result = await Swal.fire({ title: 'Delete studio file?', text: file.name, icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', confirmButtonText: 'Delete' });
@@ -6865,7 +7130,7 @@
             loadStudioFiles();
         }
 
-        window.toggleCollapsibleCard = function(id) {
+        window.toggleCollapsibleCard = function (id) {
             const card = document.getElementById(id);
             if (!card) return;
             const collapsed = card.classList.toggle('card-collapsed');
@@ -6892,7 +7157,7 @@
             return `${name.replace(/\.[a-z0-9]+$/i, '').replace(/[^a-z0-9_-]+/gi, '_') || 'my-document'}.${extension}`;
         }
 
-        window.switchStudioType = function(type) {
+        window.switchStudioType = function (type) {
             document.getElementById('studioTxtPanel').classList.toggle('hidden', type !== 'txt');
             document.getElementById('studioDocxPanel').classList.toggle('hidden', type !== 'docx');
             document.getElementById('studioPptxPanel').classList.toggle('hidden', type !== 'pptx');
@@ -6900,13 +7165,13 @@
             document.getElementById('studioFileName').placeholder = `File name (${ext})`;
         };
 
-        window.studioFormat = function(command, value) {
+        window.studioFormat = function (command, value) {
             const editor = document.getElementById('studioDocxContent');
             editor.focus();
             document.execCommand(command, false, value || null);
         };
 
-        window.addStudioSlide = function(slide = {}) {
+        window.addStudioSlide = function (slide = {}) {
             const container = document.getElementById('studioSlides');
             const card = document.createElement('div');
             card.className = 'studio-slide border border-gray-200 rounded-lg p-4 bg-gray-50';
@@ -6919,7 +7184,7 @@
             document.querySelectorAll('#studioSlides .studio-slide-number').forEach((el, index) => { el.textContent = `Slide ${index + 1}`; });
         }
 
-        window.saveStudioDraft = async function() {
+        window.saveStudioDraft = async function () {
             const type = document.getElementById('studioType').value;
             const data = { type, name: document.getElementById('studioFileName').value, text: document.getElementById('studioTxtContent').value, docx: document.getElementById('studioDocxContent').innerHTML, slides: [...document.querySelectorAll('#studioSlides .studio-slide')].map(slide => ({ title: slide.querySelector('.studio-slide-title').value, body: slide.querySelector('.studio-slide-body').value })) };
             localStorage.setItem(studioKey(), JSON.stringify(data));
@@ -6990,7 +7255,7 @@
             return pptx.write({ outputType: 'blob' });
         }
 
-        window.downloadStudioFile = async function() {
+        window.downloadStudioFile = async function () {
             const type = document.getElementById('studioType').value;
             try {
                 if (type === 'txt') {
