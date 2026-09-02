@@ -28,6 +28,8 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js">
+    </script>
    
 </head>
 
@@ -56,7 +58,8 @@
             <div class="text-center mb-6">
                 <div
                     class="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl mx-auto shadow-md shadow-indigo-200">
-                    ⚡</div>
+                    ⚡
+                </div>
                 <h2 class="text-2xl font-bold text-gray-800 mt-3">DevAdvocate Hub</h2>
                 <p class="text-sm text-gray-400" id="loginSubtitle">Sign in to continue</p>
             </div>
@@ -875,6 +878,12 @@
                     </div>
                 </div>
                 <div id="whiteboardShell" class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <button id="whiteboardCloseFullscreen" type="button" onclick="toggleWhiteboardFullscreen()" class="whiteboard-close-fullscreen" title="Exit fullscreen" aria-label="Exit fullscreen"><i class="fas fa-times"></i></button>
+                    <div class="collapsible-card-header">
+                        <div><h3 class="text-sm font-semibold text-gray-800"><i class="fas fa-paintbrush text-indigo-500 mr-2"></i>Paint board</h3><span class="text-xs text-gray-400">Sketch and annotate</span></div>
+                        <button type="button" class="collapse-card-btn" onclick="toggleCollapsibleCard('whiteboardShell')" title="Collapse paint board" aria-label="Collapse paint board"><i class="fas fa-chevron-up"></i></button>
+                    </div>
+                    <div class="collapsible-card-content">
                     <div class="whiteboard-toolbar flex flex-wrap gap-2 items-center mb-3">
                         <button class="whiteboard-tool px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm active"
                             data-tool="pen" onclick="setWhiteboardTool('pen')"><i class="fas fa-pen"></i> Pen</button>
@@ -919,6 +928,53 @@
                     <div class="flex justify-between text-xs text-gray-400 mt-2">
                         <span id="wbStatus">Ready</span>
                         <span id="wbZoom">100%</span>
+                    </div>
+                    </div>
+                </div>
+                <div id="studioFilesCard" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mt-5">
+                    <div class="collapsible-card-header">
+                        <div><h3 class="text-base font-semibold text-gray-800"><i class="fas fa-folder-open text-cyan-500 mr-2"></i>Files</h3><p class="text-sm text-gray-400 mt-1">View, update, and delete your saved files.</p></div>
+                        <div class="flex items-center gap-2"><button type="button" onclick="loadStudioFiles()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm"><i class="fas fa-sync-alt mr-1"></i>Refresh</button><button type="button" class="collapse-card-btn" onclick="toggleCollapsibleCard('studioFilesCard')" title="Collapse Files" aria-label="Collapse Files"><i class="fas fa-chevron-up"></i></button></div>
+                    </div>
+                    <div class="collapsible-card-content"><div id="studioFilesList" class="grid grid-cols-1 md:grid-cols-2 gap-3"><div class="text-sm text-gray-400">No studio files yet.</div></div></div>
+                </div>
+                <div id="documentStudio" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mt-5">
+                    <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
+                        <div>
+                            <h3 class="text-base font-semibold text-gray-800"><i class="fas fa-file-pen text-indigo-500 mr-2"></i>Document Studio</h3>
+                            <p class="text-sm text-gray-400 mt-1">Create and edit text documents, Word files, and presentations.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <select id="studioType" onchange="switchStudioType(this.value)" class="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white">
+                                <option value="txt">Text file</option><option value="docx">Word document</option><option value="pptx">Presentation</option>
+                            </select>
+                            <input id="studioFileName" value="my-document" class="px-3 py-2 border border-gray-200 rounded-lg text-sm w-36" placeholder="File name" />
+                            <select id="studioFolder" class="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white" title="Folder to save into"><option value="root">Root folder</option></select>
+                            <button type="button" class="collapse-card-btn" onclick="toggleCollapsibleCard('documentStudio')" title="Collapse Document Studio" aria-label="Collapse Document Studio"><i class="fas fa-chevron-up"></i></button>
+                        </div>
+                    </div>
+                    <div class="collapsible-card-content">
+                    <div id="studioTxtPanel">
+                        <textarea id="studioTxtContent" rows="12" class="w-full px-3 py-3 border border-gray-200 rounded-lg text-sm font-mono" placeholder="Write your text file here..."></textarea>
+                    </div>
+                    <div id="studioDocxPanel" class="hidden">
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <button type="button" onclick="studioFormat('bold')" class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i class="fas fa-bold"></i></button>
+                            <button type="button" onclick="studioFormat('italic')" class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i class="fas fa-italic"></i></button>
+                            <button type="button" onclick="studioFormat('insertUnorderedList')" class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i class="fas fa-list-ul"></i></button>
+                            <button type="button" onclick="studioFormat('insertOrderedList')" class="px-3 py-2 border border-gray-200 rounded-lg text-sm"><i class="fas fa-list-ol"></i></button>
+                            <select onchange="studioFormat('formatBlock', this.value)" class="px-2 py-2 border border-gray-200 rounded-lg text-sm"><option value="p">Paragraph</option><option value="h1">Heading 1</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option></select>
+                        </div>
+                        <div id="studioDocxContent" contenteditable="true" class="studio-editor border border-gray-200 rounded-lg p-4" style="min-height:280px;" data-placeholder="Write your Word document here..."></div>
+                    </div>
+                    <div id="studioPptxPanel" class="hidden">
+                        <div id="studioSlides" class="space-y-3"></div>
+                        <button type="button" onclick="addStudioSlide()" class="mt-3 px-3 py-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-lg text-sm"><i class="fas fa-plus mr-1"></i>Add slide</button>
+                    </div>
+                    <div class="flex items-center justify-between gap-3 mt-4 flex-wrap">
+                        <span id="studioStatus" class="text-xs text-gray-400">Ready</span>
+                        <div class="flex gap-2"><button type="button" onclick="saveStudioDraft()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm"><i class="fas fa-save mr-1"></i>Save draft</button><button type="button" onclick="downloadStudioFile()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm"><i class="fas fa-download mr-1"></i>Download file</button></div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -1530,6 +1586,7 @@
         let plannerDate = new Date();
         let currentFileFilter = 'all';
         let currentFolder = null;
+        let studioEditingFile = null;
         let personalData = null;
 
         let profileSettings = {
@@ -1639,10 +1696,12 @@
             try {
                 const { data, error } = await supabaseClient.auth.signUp({ email, password });
                 if (error) {
+                    hideAppLoader();
                     await Swal.fire({ icon: 'error', title: 'Registration Failed', text: error.message ||
                             'Unable to create account. This email may already be in use.' });
                     return false;
                 }
+                hideAppLoader();
                 if (data?.user && !data.session) {
                     await Swal.fire({ icon: 'success', title: 'Check Your Email', text: 'We sent a confirmation link to ' +
                             email + '. Please verify your email before signing in.' });
@@ -1654,6 +1713,7 @@
                 showToast('Account created! Please sign in.', 'success');
                 return true;
             } catch (err) {
+                hideAppLoader();
                 await Swal.fire({ icon: 'error', title: 'Network Error', text: err.message ||
                         'Could not reach registration server.' });
                 return false;
@@ -1673,6 +1733,7 @@
         }
 
         function showLogin() {
+            hideAppLoader();
             const container = document.querySelector('.login-card');
             container.innerHTML = `
                         <div class="text-center mb-6"><div class="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl mx-auto shadow-md shadow-indigo-200">⚡</div><h2 class="text-2xl font-bold text-gray-800 mt-3">DevAdvocate Hub</h2><p class="text-sm text-gray-400">Sign in to continue</p></div>
@@ -1681,6 +1742,7 @@
         }
 
         function showRegister() {
+            hideAppLoader();
             const container = document.querySelector('.login-card');
             container.innerHTML = `
                         <div class="text-center mb-6"><div class="w-14 h-14 rounded-2xl bg-rose-600 flex items-center justify-center text-white text-2xl mx-auto shadow-md shadow-rose-200">✏️</div><h2 class="text-2xl font-bold text-gray-800 mt-3">Create Account</h2><p class="text-sm text-gray-400">Start organizing your work</p></div>
@@ -1702,18 +1764,22 @@
         };
 
         window.handleRegister = async function() {
-            const email = document.getElementById('regEmail').value.trim();
-            const pass = document.getElementById('regPassword').value;
-            if (!email || !pass) {
-                await Swal.fire({ icon: 'warning', title: 'Missing Fields', text: 'Please fill in both email and password.' });
-                return;
+            try {
+                const email = document.getElementById('regEmail').value.trim();
+                const pass = document.getElementById('regPassword').value;
+                if (!email || !pass) {
+                    await Swal.fire({ icon: 'warning', title: 'Missing Fields', text: 'Please fill in both email and password.' });
+                    return;
+                }
+                if (pass.length < 6) {
+                    await Swal.fire({ icon: 'warning', title: 'Weak Password', text: 'Password must be at least 6 characters long.' });
+                    return;
+                }
+                await register(email, pass);
+                showLogin();
+            } finally {
+                hideAppLoader();
             }
-            if (pass.length < 6) {
-                await Swal.fire({ icon: 'warning', title: 'Weak Password', text: 'Password must be at least 6 characters long.' });
-                return;
-            }
-            await register(email, pass);
-            showLogin();
         };
 
         // ──────────────────────────────────────────────────────────────
@@ -1722,7 +1788,7 @@
         supabaseClient.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
                 currentUser = session.user;
-                afterAuth();
+                afterAuth().finally(hideAppLoader);
             } else if (event === 'SIGNED_OUT') {
                 currentUser = null;
                 stopReminderChecks();
@@ -1738,9 +1804,13 @@
         // 6. AFTER AUTH
         // ──────────────────────────────────────────────────────────────
         async function afterAuth() {
-            document.getElementById('loginOverlay').classList.add('hidden');
-            document.getElementById('app').style.display = 'flex';
-            await initApp();
+            try {
+                document.getElementById('loginOverlay').classList.add('hidden');
+                document.getElementById('app').style.display = 'flex';
+                await initApp();
+            } finally {
+                hideAppLoader();
+            }
         }
 
         // ──────────────────────────────────────────────────────────────
@@ -5120,6 +5190,8 @@
                     saveFilesToStorage();
                     renderFiles();
                     renderFolderTree();
+                    populateStudioFolders();
+                    loadStudioFiles();
                     return;
                 } catch (error) { console.warn('Could not load files from Supabase', error); }
             }
@@ -5133,6 +5205,8 @@
             } catch (_) { files = []; }
             renderFiles();
             renderFolderTree();
+            populateStudioFolders();
+            loadStudioFiles();
         }
 
         function saveFilesToStorage() {
@@ -5329,7 +5403,11 @@
             if (!container) return;
 
             let filtered = files.filter(f => f.type !== 'folder');
-            if (currentFolder) { filtered = filtered.filter(f => f.folder === currentFolder); }
+            if (currentFolder) {
+                const selectedFolder = files.find(file => file.type === 'folder' && String(file.id) === String(currentFolder));
+                const selectedFolderName = selectedFolder?.name || currentFolder;
+                filtered = filtered.filter(file => file.folder === selectedFolderName || file.folder === currentFolder);
+            }
             if (searchTerm) { filtered = filtered.filter(f => f.name.toLowerCase().includes(searchTerm)); }
 
             if (filtered.length === 0) {
@@ -5985,11 +6063,18 @@
         // 27. NAVIGATION
         // ──────────────────────────────────────────────────────────────
         function showAppLoader() {
-            document.getElementById('appLoader')?.classList.remove('hidden');
+            const loader = document.getElementById('appLoader');
+            if (!loader) return;
+            clearTimeout(loader._failsafe);
+            loader.classList.remove('hidden');
+            loader._failsafe = window.setTimeout(hideAppLoader, 15000);
         }
 
         function hideAppLoader() {
-            document.getElementById('appLoader')?.classList.add('hidden');
+            const loader = document.getElementById('appLoader');
+            if (!loader) return;
+            clearTimeout(loader._failsafe);
+            loader.classList.add('hidden');
         }
 
         function showPageSkeleton(page) {
@@ -6671,6 +6756,8 @@
             if (!shell) return;
             wb.isFullscreen = !wb.isFullscreen;
             shell.classList.toggle('fullscreen', wb.isFullscreen);
+            const closeButton = document.getElementById('whiteboardCloseFullscreen');
+            if (closeButton) closeButton.classList.toggle('visible', wb.isFullscreen);
 
             const btn = document.querySelector('[onclick="toggleWhiteboardFullscreen()"]');
             if (btn) {
@@ -6703,6 +6790,247 @@
 
             updateWhiteboardStatus(wb.isFullscreen ? 'Fullscreen' : 'Windowed');
         };
+
+        // ──────────────────────────────────────────────────────────────
+        // 30b. DOCUMENT STUDIO
+        // ──────────────────────────────────────────────────────────────
+        function studioKey() { return `adv_document_studio_${currentUser?.id || 'local'}`; }
+        function studioData() {
+            try { return JSON.parse(localStorage.getItem(studioKey()) || 'null'); } catch (_) { return null; }
+        }
+
+        function populateStudioFolders() {
+            const select = document.getElementById('studioFolder');
+            if (!select) return;
+            const folderNames = [...new Set(files.filter(file => file.type === 'folder').map(file => file.name).filter(Boolean))];
+            select.innerHTML = '<option value="root">Root folder</option>' + folderNames.map(name => `<option value="${escHtml(name)}">${escHtml(name)}</option>`).join('');
+        }
+
+        function isStudioFile(file) {
+            return file && file.type !== 'folder';
+        }
+
+        window.loadStudioFiles = function() {
+            const list = document.getElementById('studioFilesList');
+            if (!list) return;
+            populateStudioFolders();
+            const studioFiles = files.filter(isStudioFile);
+            if (!studioFiles.length) { list.innerHTML = '<div class="text-sm text-gray-400 md:col-span-2">No studio files yet. Save a draft to create one.</div>'; return; }
+            list.innerHTML = studioFiles.map(file => `<div class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 bg-gray-50"><i class="fas fa-file-${file.type?.includes('word') ? 'word' : file.type?.includes('presentation') ? 'powerpoint' : 'lines'} text-cyan-500 text-xl"></i><div class="flex-1 min-w-0"><div class="text-sm font-medium text-gray-800 truncate" title="${escHtml(file.name)}">${escHtml(file.name.replace(/^studio_/, ''))}</div><div class="text-xs text-gray-400">${escHtml(file.folder || 'root')} · ${file.uploaded_at ? new Date(file.uploaded_at).toLocaleDateString() : ''}</div></div><div class="flex gap-1"><button type="button" onclick="updateStudioFile('${file.id}')" class="px-2 py-1 text-xs text-indigo-600 hover:bg-indigo-50 rounded" title="Update this file"><i class="fas fa-pen"></i></button><button type="button" onclick="deleteStudioFile('${file.id}')" class="px-2 py-1 text-xs text-red-500 hover:bg-red-50 rounded" title="Delete this file"><i class="fas fa-trash"></i></button></div></div>`).join('');
+        };
+
+        window.updateStudioFile = async function(id) {
+            const file = files.find(item => String(item.id) === String(id));
+            if (!file) return;
+            studioEditingFile = file;
+            document.getElementById('studioFileName').value = file.name.replace(/^studio_/, '').replace(/\.[a-z0-9]+$/i, '');
+            document.getElementById('studioFolder').value = file.folder || 'root';
+            const extension = file.name.split('.').pop().toLowerCase();
+            const type = extension === 'docx' ? 'docx' : extension === 'pptx' ? 'pptx' : 'txt';
+            document.getElementById('studioType').value = type;
+            switchStudioType(type);
+            if (type === 'txt' && file.url) {
+                try { document.getElementById('studioTxtContent').value = await (await fetch(file.url)).text(); } catch (_) { showToast('Could not load file content', 'error'); }
+            }
+            document.getElementById('documentStudio').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            showToast('File loaded for update', 'info');
+        };
+
+        window.deleteStudioFile = async function(id) {
+            const file = files.find(item => String(item.id) === String(id));
+            if (!file) return;
+            const result = await Swal.fire({ title: 'Delete studio file?', text: file.name, icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', confirmButtonText: 'Delete' });
+            if (!result.isConfirmed) return;
+            try {
+                if (file.path) { const { error } = await supabaseClient.storage.from('files').remove([file.path]); if (error) throw error; }
+                const { error: metadataError } = await supabaseClient.from('files').delete().eq('id', file.id).eq('user_id', currentUser.id);
+                if (metadataError) throw metadataError;
+                files = files.filter(item => String(item.id) !== String(id)); saveFilesToStorage(); loadStudioFiles(); renderFiles(); showToast('Studio file deleted', 'success');
+            } catch (error) { showToast(error.message || 'Could not delete studio file', 'error'); }
+        };
+
+        function initDocumentStudio() {
+            const saved = studioData();
+            if (saved) {
+                document.getElementById('studioType').value = saved.type || 'txt';
+                document.getElementById('studioFileName').value = saved.name || 'my-document';
+                document.getElementById('studioTxtContent').value = saved.text || '';
+                document.getElementById('studioDocxContent').innerHTML = saved.docx || '';
+                document.getElementById('studioSlides').innerHTML = '';
+                (saved.slides || []).forEach(slide => addStudioSlide(slide));
+            }
+            if (!document.querySelector('#studioSlides .studio-slide')) addStudioSlide();
+            switchStudioType(document.getElementById('studioType').value);
+            populateStudioFolders();
+            loadStudioFiles();
+        }
+
+        window.toggleCollapsibleCard = function(id) {
+            const card = document.getElementById(id);
+            if (!card) return;
+            const collapsed = card.classList.toggle('card-collapsed');
+            const button = card.querySelector('.collapse-card-btn');
+            if (button) {
+                const cardLabel = id === 'whiteboardShell' ? 'paint board' : id === 'studioFilesCard' ? 'Files' : 'Document Studio';
+                button.title = collapsed ? 'Expand card' : `Collapse ${cardLabel}`;
+                button.setAttribute('aria-label', button.title);
+                button.innerHTML = `<i class="fas fa-chevron-${collapsed ? 'down' : 'up'}"></i>`;
+            }
+            localStorage.setItem(`adv_${id}_collapsed`, collapsed ? '1' : '0');
+        };
+
+        function restoreCollapsibleCards() {
+            ['whiteboardShell', 'studioFilesCard', 'documentStudio'].forEach(id => {
+                if (localStorage.getItem(`adv_${id}_collapsed`) !== '1') return;
+                const card = document.getElementById(id);
+                if (card && !card.classList.contains('card-collapsed')) window.toggleCollapsibleCard(id);
+            });
+        }
+
+        function studioFileName(extension) {
+            const name = document.getElementById('studioFileName').value.trim() || 'my-document';
+            return `${name.replace(/\.[a-z0-9]+$/i, '').replace(/[^a-z0-9_-]+/gi, '_') || 'my-document'}.${extension}`;
+        }
+
+        window.switchStudioType = function(type) {
+            document.getElementById('studioTxtPanel').classList.toggle('hidden', type !== 'txt');
+            document.getElementById('studioDocxPanel').classList.toggle('hidden', type !== 'docx');
+            document.getElementById('studioPptxPanel').classList.toggle('hidden', type !== 'pptx');
+            const ext = type === 'txt' ? 'txt' : type;
+            document.getElementById('studioFileName').placeholder = `File name (${ext})`;
+        };
+
+        window.studioFormat = function(command, value) {
+            const editor = document.getElementById('studioDocxContent');
+            editor.focus();
+            document.execCommand(command, false, value || null);
+        };
+
+        window.addStudioSlide = function(slide = {}) {
+            const container = document.getElementById('studioSlides');
+            const card = document.createElement('div');
+            card.className = 'studio-slide border border-gray-200 rounded-lg p-4 bg-gray-50';
+            card.innerHTML = `<div class="flex justify-between items-center mb-2"><strong class="text-sm text-gray-700 studio-slide-number"></strong><button type="button" onclick="this.closest('.studio-slide').remove(); renumberStudioSlides();" class="text-red-500 text-xs"><i class="fas fa-trash"></i></button></div><input class="studio-slide-title w-full px-3 py-2 mb-2 border border-gray-200 rounded-lg text-sm" placeholder="Slide title" value="${escHtml(slide.title || '')}"><textarea class="studio-slide-body w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" rows="4" placeholder="Slide content, one bullet per line">${escHtml(slide.body || '')}</textarea>`;
+            container.appendChild(card);
+            renumberStudioSlides();
+        };
+
+        function renumberStudioSlides() {
+            document.querySelectorAll('#studioSlides .studio-slide-number').forEach((el, index) => { el.textContent = `Slide ${index + 1}`; });
+        }
+
+        window.saveStudioDraft = async function() {
+            const type = document.getElementById('studioType').value;
+            const data = { type, name: document.getElementById('studioFileName').value, text: document.getElementById('studioTxtContent').value, docx: document.getElementById('studioDocxContent').innerHTML, slides: [...document.querySelectorAll('#studioSlides .studio-slide')].map(slide => ({ title: slide.querySelector('.studio-slide-title').value, body: slide.querySelector('.studio-slide-body').value })) };
+            localStorage.setItem(studioKey(), JSON.stringify(data));
+            const status = document.getElementById('studioStatus');
+            status.textContent = 'Saving to Supabase...';
+            try {
+                if (!currentUser) throw new Error('Sign in to save drafts to Supabase');
+                const blob = await createStudioBlob(type);
+                const fileName = studioFileName(type);
+                const folder = document.getElementById('studioFolder').value || 'root';
+                const storageFolder = folder === 'root' ? 'root' : folder.replace(/[^a-z0-9_-]/gi, '_');
+                const path = studioEditingFile?.path || `${currentUser.id}/${storageFolder}/${Date.now()}_studio_${fileName}`;
+                const { error: uploadError } = await supabaseClient.storage.from('files').upload(path, blob, { cacheControl: '3600', upsert: !!studioEditingFile, contentType: blob.type });
+                if (uploadError) throw uploadError;
+                const { data: signed } = await supabaseClient.storage.from('files').createSignedUrl(path, 86400);
+                const metadata = { name: studioEditingFile?.name || `studio_${fileName}`, path, url: signed?.signedUrl || null, type: blob.type, size: blob.size, folder, uploaded_at: new Date().toISOString(), user_id: currentUser.id };
+                let savedFile;
+                if (studioEditingFile) {
+                    const { data: updated, error: metadataError } = await supabaseClient.from('files').update(metadata).eq('id', studioEditingFile.id).eq('user_id', currentUser.id).select().maybeSingle();
+                    if (metadataError) throw metadataError;
+                    savedFile = { ...metadata, id: updated?.id || studioEditingFile.id, stored: 'supabase' };
+                    files = files.map(file => String(file.id) === String(studioEditingFile.id) ? savedFile : file);
+                } else {
+                    const { data: inserted, error: metadataError } = await supabaseClient.from('files').insert([metadata]).select().maybeSingle();
+                    if (metadataError) throw metadataError;
+                    savedFile = { ...metadata, id: inserted?.id || path, stored: 'supabase' };
+                    files.unshift(savedFile);
+                }
+                studioEditingFile = null;
+                saveFilesToStorage();
+                renderFiles();
+                renderFolderTree();
+                loadStudioFiles();
+                status.textContent = `Saved to Supabase ${new Date().toLocaleTimeString()}`;
+                showToast('Draft saved to Supabase', 'success');
+            } catch (error) {
+                status.textContent = `Saved locally ${new Date().toLocaleTimeString()}`;
+                showToast(`Saved locally. Supabase: ${error.message || 'upload failed'}`, 'info');
+            }
+        };
+
+        async function createStudioBlob(type) {
+            if (type === 'txt') return new Blob([document.getElementById('studioTxtContent').value], { type: 'text/plain;charset=utf-8' });
+            if (type === 'docx') {
+                if (!window.docx) throw new Error('DOCX library unavailable');
+                const { Document, Packer, Paragraph, TextRun, HeadingLevel } = window.docx;
+                const content = document.getElementById('studioDocxContent');
+                const children = [];
+                const addBlock = node => {
+                    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) children.push(new Paragraph({ text: node.textContent.trim() }));
+                    if (node.nodeType !== Node.ELEMENT_NODE) return;
+                    const tag = node.tagName.toLowerCase();
+                    if (tag === 'table') {
+                        Array.from(node.querySelectorAll('tr')).forEach(row => children.push(new Paragraph({ text: Array.from(row.children).map(cell => cell.innerText.trim()).join(' | ') })));
+                    } else if (tag === 'ul' || tag === 'ol') {
+                        Array.from(node.children).forEach(item => children.push(new Paragraph({ text: item.innerText.trim(), bullet: tag === 'ul' ? { level: 0 } : undefined, numbering: tag === 'ol' ? { reference: 'studio-numbering', level: 0 } : undefined })));
+                    } else if (/^h[1-6]$/.test(tag)) children.push(new Paragraph({ text: node.innerText.trim(), heading: tag === 'h1' ? HeadingLevel.HEADING_1 : HeadingLevel.HEADING_2 }));
+                    else if (tag !== 'br' && node.innerText.trim()) children.push(new Paragraph({ children: [new TextRun(node.innerText.trim())] }));
+                };
+                Array.from(content.childNodes).forEach(addBlock);
+                const file = new Document({ numbering: { config: [{ reference: 'studio-numbering', levels: [{ level: 0, format: window.docx.LevelFormat.DECIMAL, text: '%1.', alignment: 'left' }] }] }, sections: [{ children: children.length ? children : [new Paragraph({ text: '' })] }] });
+                return Packer.toBlob(file);
+            }
+            if (!window.PptxGenJS) throw new Error('PPTX library unavailable');
+            const pptx = new window.PptxGenJS();
+            pptx.layout = 'LAYOUT_WIDE';
+            document.querySelectorAll('#studioSlides .studio-slide').forEach(slide => { const page = pptx.addSlide(); page.background = { color: 'F8FAFC' }; page.addText(slide.querySelector('.studio-slide-title').value || 'Untitled slide', { x: 0.7, y: 0.6, w: 12, h: 0.7, fontSize: 28, bold: true, color: '1E293B' }); page.addText(slide.querySelector('.studio-slide-body').value.split(/\r?\n/).filter(Boolean).map(item => ({ text: item, options: { bullet: { indent: 18 } } })), { x: 1, y: 1.7, w: 11, h: 4.6, fontSize: 20, color: '334155', breakLine: true, valign: 'top' }); });
+            return pptx.write({ outputType: 'blob' });
+        }
+
+        window.downloadStudioFile = async function() {
+            const type = document.getElementById('studioType').value;
+            try {
+                if (type === 'txt') {
+                    downloadBlob(new Blob([document.getElementById('studioTxtContent').value], { type: 'text/plain;charset=utf-8' }), studioFileName('txt'));
+                } else if (type === 'docx') {
+                    if (!window.docx) throw new Error('DOCX library unavailable');
+                    const { Document, Packer, Paragraph, TextRun, HeadingLevel } = window.docx;
+                    const content = document.getElementById('studioDocxContent');
+                    const children = [];
+                    const addBlock = node => {
+                        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) children.push(new Paragraph({ text: node.textContent.trim() }));
+                        if (node.nodeType !== Node.ELEMENT_NODE) return;
+                        const tag = node.tagName.toLowerCase();
+                        if (tag === 'ul' || tag === 'ol') Array.from(node.children).forEach(item => children.push(new Paragraph({ text: item.innerText.trim(), bullet: tag === 'ul' ? { level: 0 } : undefined, numbering: tag === 'ol' ? { reference: 'studio-numbering', level: 0 } : undefined })));
+                        else if (/^h[1-6]$/.test(tag)) children.push(new Paragraph({ text: node.innerText.trim(), heading: tag === 'h1' ? HeadingLevel.HEADING_1 : HeadingLevel.HEADING_2 }));
+                        else if (tag !== 'br' && node.innerText.trim()) children.push(new Paragraph({ children: [new TextRun(node.innerText.trim())] }));
+                    };
+                    Array.from(content.childNodes).forEach(addBlock);
+                    const file = new Document({ numbering: { config: [{ reference: 'studio-numbering', levels: [{ level: 0, format: window.docx.LevelFormat.DECIMAL, text: '%1.', alignment: 'left' }] }] }, sections: [{ children: children.length ? children : [new Paragraph({ text: '' })] }] });
+                    downloadBlob(await Packer.toBlob(file), studioFileName('docx'));
+                } else {
+                    if (!window.PptxGenJS) throw new Error('PPTX library unavailable');
+                    const pptx = new window.PptxGenJS();
+                    pptx.layout = 'LAYOUT_WIDE';
+                    document.querySelectorAll('#studioSlides .studio-slide').forEach(slide => { const page = pptx.addSlide(); page.background = { color: 'F8FAFC' }; page.addText(slide.querySelector('.studio-slide-title').value || 'Untitled slide', { x: 0.7, y: 0.6, w: 12, h: 0.7, fontSize: 28, bold: true, color: '1E293B' }); page.addText(slide.querySelector('.studio-slide-body').value.split(/\r?\n/).filter(Boolean).map(item => ({ text: item, options: { bullet: { indent: 18 } } })), { x: 1, y: 1.7, w: 11, h: 4.6, fontSize: 20, color: '334155', breakLine: true, valign: 'top' }); });
+                    await pptx.writeFile({ fileName: studioFileName('pptx') });
+                }
+                document.getElementById('studioStatus').textContent = `${type.toUpperCase()} downloaded`;
+                showToast(`${type.toUpperCase()} downloaded`, 'success');
+            } catch (error) { console.error(error); showToast(error.message || 'Could not create file', 'error'); }
+        };
+
+        function downloadBlob(blob, name) {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a'); link.href = url; link.download = name; document.body.appendChild(link); link.click(); link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', initDocumentStudio);
+        document.addEventListener('DOMContentLoaded', restoreCollapsibleCards);
 
         // ──────────────────────────────────────────────────────────────
         // 31. INIT

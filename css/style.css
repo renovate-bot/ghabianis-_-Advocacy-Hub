@@ -457,6 +457,214 @@
             background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.12) 45%, transparent 70%);
         }
 
+        .whiteboard-close-fullscreen {
+            display: none;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 5;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.8);
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .whiteboard-close-fullscreen.visible {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .whiteboard-close-fullscreen:hover {
+            background: #ef4444;
+        }
+
+        #documentStudio {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+            border-color: #dbe5f0;
+            box-shadow: 0 12px 35px rgba(30, 64, 175, 0.08);
+        }
+
+        #documentStudio > div:first-child {
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e8eef5;
+        }
+
+        .collapsible-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 0 0 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #e8eef5;
+        }
+
+        .collapse-card-btn {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid #dbe5f0;
+            border-radius: 8px;
+            background: #f8fafc;
+            color: #64748b;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .collapse-card-btn:hover {
+            background: #e0e7ff;
+            border-color: #a5b4fc;
+            color: #4f46e5;
+        }
+
+        .collapsible-card-content {
+            min-height: 0;
+        }
+
+        .card-collapsed {
+            padding-bottom: 12px !important;
+        }
+
+        .card-collapsed > .collapsible-card-content {
+            display: none;
+        }
+
+        #documentStudio.card-collapsed > div:first-child {
+            padding-bottom: 0;
+            margin-bottom: 0;
+            border-bottom: 0;
+        }
+
+        #whiteboardShell.card-collapsed > .collapsible-card-header {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+
+        #studioFilesCard.card-collapsed > .collapsible-card-header {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+
+        body.dark-mode .collapsible-card-header {
+            border-bottom-color: #374151;
+        }
+
+        body.dark-mode .collapse-card-btn {
+            background: #1f2937;
+            border-color: #374151;
+            color: #9ca3af;
+        }
+
+        #documentStudio h3 {
+            letter-spacing: -0.01em;
+        }
+
+        #studioType,
+        #studioFileName {
+            min-height: 40px;
+            border-color: #d7e1ec;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        }
+
+        #studioType:focus,
+        #studioFileName:focus,
+        #studioTxtContent:focus,
+        #studioDocxContent:focus,
+        .studio-slide input:focus,
+        .studio-slide textarea:focus {
+            outline: none;
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.16);
+        }
+
+        #studioTxtContent,
+        #studioDocxContent {
+            min-height: 360px;
+            border-color: #dbe5f0;
+            background: #ffffff;
+            box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.03);
+        }
+
+        #studioTxtContent {
+            line-height: 1.75;
+            resize: vertical;
+        }
+
+        #studioDocxContent:empty::before {
+            content: attr(data-placeholder);
+            color: #a1adbd;
+            pointer-events: none;
+        }
+
+        #studioSlides {
+            max-height: 560px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .studio-slide {
+            background: #ffffff !important;
+            border-color: #dbe5f0 !important;
+            box-shadow: 0 5px 15px rgba(15, 23, 42, 0.05);
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+
+        .studio-slide:hover {
+            border-color: #a5b4fc !important;
+            box-shadow: 0 8px 22px rgba(79, 70, 229, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .studio-slide-title,
+        .studio-slide-body {
+            background: #f8fafc;
+            border-color: #e2e8f0 !important;
+        }
+
+        .studio-slide-body {
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        body.dark-mode #documentStudio {
+            background: linear-gradient(135deg, #1f2937 0%, #172033 100%);
+            border-color: #374151;
+        }
+
+        body.dark-mode #documentStudio > div:first-child,
+        body.dark-mode .studio-slide {
+            border-color: #374151 !important;
+        }
+
+        body.dark-mode #studioType,
+        body.dark-mode #studioFileName,
+        body.dark-mode #studioTxtContent,
+        body.dark-mode #studioDocxContent,
+        body.dark-mode .studio-slide,
+        body.dark-mode .studio-slide-title,
+        body.dark-mode .studio-slide-body {
+            background: #1f2937 !important;
+            color: #e5e7eb;
+        }
+
+        @media (max-width: 640px) {
+            #documentStudio { padding: 16px; }
+            #studioType, #studioFileName { width: 100%; }
+            #documentStudio > div:first-child > div:last-child { width: 100%; }
+            #studioTxtContent, #studioDocxContent { min-height: 280px; }
+        }
+
         .modal-overlay {
             background: rgba(0, 0, 0, 0.35);
             backdrop-filter: blur(4px);
