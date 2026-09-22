@@ -3114,6 +3114,10 @@ function renderCalendar() {
 	];
 	label.textContent = `${monthNames[calendarMonth]} ${calendarYear}`;
 
+
+
+
+
 	const firstDay = new Date(calendarYear, calendarMonth, 1).getDay();
 	const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
 	const daysInPrevMonth = new Date(calendarYear, calendarMonth, 0).getDate();
@@ -3126,6 +3130,7 @@ function renderCalendar() {
 		html += `<div class="text-center text-xs font-semibold text-gray-400 py-1">${d}</div>`;
 	});
 
+
 	const startOffset = firstDay;
 	for (let i = startOffset - 1; i >= 0; i--) {
 		const day = daysInPrevMonth - i;
@@ -3135,22 +3140,28 @@ function renderCalendar() {
 			`<div class="day-cell other-month" data-date="${dateStr}"><div class="day-number">${day}</div><div class="day-dots"></div></div>`;
 	}
 
+
 	for (let d = 1; d <= daysInMonth; d++) {
 		const dateObj = new Date(calendarYear, calendarMonth, d);
 		const dateStr = dateObj.toDateString();
 		const isToday = dateStr === todayStr;
 		const dayTasks = tasks.filter(t => t.due_date && new Date(t.due_date).toDateString() === dateStr);
 		const dayMeetings = meetings.filter(m => meetingOccursOnDate(m, dateObj));
+
 		let dotsHtml = '';
 		if (dayTasks.length > 0) dotsHtml +=
 			`<span class="dot bg-indigo-500" title="${dayTasks.length} task(s)"></span>`;
 		if (dayMeetings.length > 0) dotsHtml +=
 			`<span class="dot bg-blue-500" title="${dayMeetings.length} meeting(s)"></span>`;
-		html +=
-			`<div class="day-cell ${isToday ? 'today' : ''}" data-date="${dateStr}" onclick="selectCalendarDay('${dateStr}')">
-                                <div class="day-number">${d}</div>
-                                <div class="day-dots">${dotsHtml}</div>
-                            </div>`;
+		html += `
+    <div class="day-cell ${isToday ? 'today' : ''}"
+         data-date="${dateStr}"
+         onclick="selectCalendarDay('${dateStr}')"
+         style="${isToday ? 'background-color: #6366f1;' : ''}">
+        <div class="day-number">${d}</div>
+        <div class="day-dots">${dotsHtml}</div>
+    </div>`;
+
 	}
 
 	const totalCells = startOffset + daysInMonth;
@@ -3175,7 +3186,7 @@ function selectCalendarDay(dateStr) {
 
 	if (dayTasks.length === 0 && dayMeetings.length === 0) {
 		container.innerHTML =
-			`<div class="text-gray-400 text-sm">No events on ${date.toLocaleDateString()}</div>`;
+			`<div class="text-gray-400 text-sm" style="color: red">No events on ${date.toLocaleDateString()}</div>`;
 		return;
 	}
 
@@ -5619,8 +5630,8 @@ function resizeWhiteboardCanvas() {
 	if (!canvas) return;
 	const rect = canvas.getBoundingClientRect();
 	const dpr = window.devicePixelRatio || 1;
-	const w = rect.width || canvas.parentElement?.clientWidth || 800;
-	const h = rect.height || 400;
+	const w = rect.width || canvas.parentElement?.clientWidth || 1009.847;
+	const h = rect.height || 600;
 
 	// Store current drawing data
 	let currentData = null;
@@ -6470,25 +6481,25 @@ async function loadSupportTicketData() {
 
 	// Fallback to localStorage
 	try {
-		                const stored = localStorage.getItem(getSupportTicketStorageKey(weekStart));
-                if (stored) {
-                    const parsed = JSON.parse(stored);
-                    supportTicketRows = (parsed.rows || []).map(r => ({
-                        ...r,
-                        _persisted: !!r._persisted
-                    }));
-                    supportTicketColumns = parsed.columns || [...DEFAULT_SUPPORT_COLUMNS];
-                } else {
-                    // Initialize with sample data structure
-                    supportTicketRows = [
-                        { id: generateId(), _persisted: false, ticket: '', sme_dev: '', dev_advocate: '', delivery: '', apo: '', type: '', priority: '', status: '' }
-                    ];
-                }
-            } catch (_) {
-                supportTicketRows = [
-                    { id: generateId(), _persisted: false, ticket: '', sme_dev: '', dev_advocate: '', delivery: '', apo: '', type: '', priority: '', status: '' }
-                ];
-            }
+		const stored = localStorage.getItem(getSupportTicketStorageKey(weekStart));
+		if (stored) {
+			const parsed = JSON.parse(stored);
+			supportTicketRows = (parsed.rows || []).map(r => ({
+				...r,
+				_persisted: !!r._persisted
+			}));
+			supportTicketColumns = parsed.columns || [...DEFAULT_SUPPORT_COLUMNS];
+		} else {
+			// Initialize with sample data structure
+			supportTicketRows = [
+				{ id: generateId(), _persisted: false, ticket: '', sme_dev: '', dev_advocate: '', delivery: '', apo: '', type: '', priority: '', status: '' }
+			];
+		}
+	} catch (_) {
+		supportTicketRows = [
+			{ id: generateId(), _persisted: false, ticket: '', sme_dev: '', dev_advocate: '', delivery: '', apo: '', type: '', priority: '', status: '' }
+		];
+	}
 
 	renderSupportTicketTable();
 }
@@ -6499,159 +6510,159 @@ function generateId() {
 }
 
 // Get support ticket rows filtered by the current search query
-        function getFilteredSupportTicketRows() {
-            const q = (supportTicketSearchQuery || '').trim().toLowerCase();
-            if (!q) return supportTicketRows;
-            return supportTicketRows.filter(row =>
-                supportTicketColumns.some(col => {
-                    const val = row[col.id];
-                    return val !== undefined && val !== null && String(val).toLowerCase().includes(q);
-                })
-            );
-        }
+function getFilteredSupportTicketRows() {
+	const q = (supportTicketSearchQuery || '').trim().toLowerCase();
+	if (!q) return supportTicketRows;
+	return supportTicketRows.filter(row =>
+		supportTicketColumns.some(col => {
+			const val = row[col.id];
+			return val !== undefined && val !== null && String(val).toLowerCase().includes(q);
+		})
+	);
+}
 
 // Render the support ticket table
-        // Render the support ticket table
-        function renderSupportTicketTable() {
-            const thead = document.getElementById('supportTicketThead');
-            const tbody = document.getElementById('supportTicketTbody');
-            const tfoot = document.getElementById('supportTicketTfoot');
+// Render the support ticket table
+function renderSupportTicketTable() {
+	const thead = document.getElementById('supportTicketThead');
+	const tbody = document.getElementById('supportTicketTbody');
+	const tfoot = document.getElementById('supportTicketTfoot');
 
-            if (!thead || !tbody || !tfoot) return;
+	if (!thead || !tbody || !tfoot) return;
 
-            // Render header
-            let headerHtml = '<tr>';
-            supportTicketColumns.forEach(col => {
-                headerHtml += `<th class="px-3 py-2 text-left text-xs font-semibold text-gray-600 border-b border-gray-200" style="min-width: ${col.width || '80px'}">${escHtml(col.label)}</th>`;
-            });
-            headerHtml += '<th class="px-3 py-2 text-center text-xs font-semibold text-gray-600 border-b border-gray-200" style="width: 60px;">Actions</th>';
-            headerHtml += '</tr>';
-            thead.innerHTML = headerHtml;
+	// Render header
+	let headerHtml = '<tr>';
+	supportTicketColumns.forEach(col => {
+		headerHtml += `<th class="px-3 py-2 text-left text-xs font-semibold text-gray-600 border-b border-gray-200" style="min-width: ${col.width || '80px'}">${escHtml(col.label)}</th>`;
+	});
+	headerHtml += '<th class="px-3 py-2 text-center text-xs font-semibold text-gray-600 border-b border-gray-200" style="width: 60px;">Actions</th>';
+	headerHtml += '</tr>';
+	thead.innerHTML = headerHtml;
 
-            // ---- Build indexed + filtered rows (safe, no indexOf) ----
-            const q = (supportTicketSearchQuery || '').trim().toLowerCase();
-            const indexedRows = supportTicketRows
-                .map((row, realIndex) => ({ row, realIndex }))
-                .filter(({ row }) => {
-                    if (!q) return true;
-                    return supportTicketColumns.some(col => {
-                        const val = row[col.id];
-                        return val !== undefined && val !== null &&
-                            String(val).toLowerCase().includes(q);
-                    });
-                });
+	// ---- Build indexed + filtered rows (safe, no indexOf) ----
+	const q = (supportTicketSearchQuery || '').trim().toLowerCase();
+	const indexedRows = supportTicketRows
+		.map((row, realIndex) => ({ row, realIndex }))
+		.filter(({ row }) => {
+			if (!q) return true;
+			return supportTicketColumns.some(col => {
+				const val = row[col.id];
+				return val !== undefined && val !== null &&
+					String(val).toLowerCase().includes(q);
+			});
+		});
 
-            // ---- Render body ----
-            if (supportTicketRows.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="${supportTicketColumns.length + 1}" class="text-center py-6 text-gray-400">No tickets added. Click "Add Row" to start tracking.</td></tr>`;
-            } else if (indexedRows.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="${supportTicketColumns.length + 1}" class="text-center py-6 text-gray-400">No tickets match your search.</td></tr>`;
-            } else {
-                const totalRows = indexedRows.length;
-                const totalPages = Math.max(1, Math.ceil(totalRows / SUPPORT_TICKETS_PER_PAGE));
+	// ---- Render body ----
+	if (supportTicketRows.length === 0) {
+		tbody.innerHTML = `<tr><td colspan="${supportTicketColumns.length + 1}" class="text-center py-6 text-gray-400">No tickets added. Click "Add Row" to start tracking.</td></tr>`;
+	} else if (indexedRows.length === 0) {
+		tbody.innerHTML = `<tr><td colspan="${supportTicketColumns.length + 1}" class="text-center py-6 text-gray-400">No tickets match your search.</td></tr>`;
+	} else {
+		const totalRows = indexedRows.length;
+		const totalPages = Math.max(1, Math.ceil(totalRows / SUPPORT_TICKETS_PER_PAGE));
 
-                // Clamp current page
-                if (supportTicketCurrentPage > totalPages) supportTicketCurrentPage = totalPages;
-                if (supportTicketCurrentPage < 1) supportTicketCurrentPage = 1;
+		// Clamp current page
+		if (supportTicketCurrentPage > totalPages) supportTicketCurrentPage = totalPages;
+		if (supportTicketCurrentPage < 1) supportTicketCurrentPage = 1;
 
-                const startIndex = (supportTicketCurrentPage - 1) * SUPPORT_TICKETS_PER_PAGE;
-                const endIndex = Math.min(startIndex + SUPPORT_TICKETS_PER_PAGE, totalRows);
-                const pageRows = indexedRows.slice(startIndex, endIndex);
+		const startIndex = (supportTicketCurrentPage - 1) * SUPPORT_TICKETS_PER_PAGE;
+		const endIndex = Math.min(startIndex + SUPPORT_TICKETS_PER_PAGE, totalRows);
+		const pageRows = indexedRows.slice(startIndex, endIndex);
 
-                tbody.innerHTML = pageRows.map(({ row, realIndex }) => {
-                    const rowIndex = realIndex; // real index in full supportTicketRows array
-                    let rowHtml = '<tr class="hover:bg-gray-50 border-b border-gray-100">';
+		tbody.innerHTML = pageRows.map(({ row, realIndex }) => {
+			const rowIndex = realIndex; // real index in full supportTicketRows array
+			let rowHtml = '<tr class="hover:bg-gray-50 border-b border-gray-100">';
 
-                    supportTicketColumns.forEach(col => {
-                        const value = row[col.id] !== undefined ? row[col.id] : '';
-                        const isCalculated = col.type === 'calculated';
-                        const computedValue = isCalculated && col.calculate ? col.calculate(row) : value;
+			supportTicketColumns.forEach(col => {
+				const value = row[col.id] !== undefined ? row[col.id] : '';
+				const isCalculated = col.type === 'calculated';
+				const computedValue = isCalculated && col.calculate ? col.calculate(row) : value;
 
-                        if (col.type === 'select') {
-                            const options = (col.options || []).map(opt =>
-                                `<option value="${escHtml(opt)}" ${value === opt ? 'selected' : ''}>${escHtml(opt)}</option>`
-                            ).join('');
-                            rowHtml += `<td class="px-2 py-1">
+				if (col.type === 'select') {
+					const options = (col.options || []).map(opt =>
+						`<option value="${escHtml(opt)}" ${value === opt ? 'selected' : ''}>${escHtml(opt)}</option>`
+					).join('');
+					rowHtml += `<td class="px-2 py-1">
                                 <select class="w-full px-2 py-1.5 border border-gray-200 rounded text-xs bg-white focus:ring-1 focus:ring-indigo-200 focus:border-indigo-400 outline-none"
                                         onchange="updateSupportTicketCell(${rowIndex}, '${col.id}', this.value)">
                                     <option value="">--</option>
                                     ${options}
                                 </select>
                             </td>`;
-                        } else if (isCalculated) {
-                            rowHtml += `<td class="px-3 py-1 text-center font-semibold text-gray-700">${computedValue || 0}</td>`;
-                        } else if (col.type === 'number') {
-                            rowHtml += `<td class="px-2 py-1">
+				} else if (isCalculated) {
+					rowHtml += `<td class="px-3 py-1 text-center font-semibold text-gray-700">${computedValue || 0}</td>`;
+				} else if (col.type === 'number') {
+					rowHtml += `<td class="px-2 py-1">
                                 <input type="number" min="0" step="0.5" value="${value || ''}"
                                        class="w-full px-2 py-1.5 border border-gray-200 rounded text-xs text-center focus:ring-1 focus:ring-indigo-200 focus:border-indigo-400 outline-none"
                                        onchange="updateSupportTicketCell(${rowIndex}, '${col.id}', this.value)"
                                        placeholder="0" />
                             </td>`;
-                        } else {
-                            rowHtml += `<td class="px-2 py-1">
+				} else {
+					rowHtml += `<td class="px-2 py-1">
                                 <input type="text" value="${escHtml(value || '')}"
                                        class="w-full px-2 py-1.5 border border-gray-200 rounded text-xs focus:ring-1 focus:ring-indigo-200 focus:border-indigo-400 outline-none"
                                        onchange="updateSupportTicketCell(${rowIndex}, '${col.id}', this.value)"
                                        placeholder="${col.id === 'ticket' ? 'SMARTMS-XXXXX' : ''}" />
                             </td>`;
-                        }
-                    });
+				}
+			});
 
-                    // Actions column
-                    rowHtml += `<td class="px-2 py-1 text-center">
+			// Actions column
+			rowHtml += `<td class="px-2 py-1 text-center">
                         <button onclick="deleteSupportTicketRow(${rowIndex})" class="text-gray-400 hover:text-red-500 text-xs p-1 rounded hover:bg-red-50 transition" title="Delete row">
                             <i class="fas fa-trash"></i>
                         </button>
                     </td>`;
 
-                    rowHtml += '</tr>';
-                    return rowHtml;
-                }).join('');
-            }
+			rowHtml += '</tr>';
+			return rowHtml;
+		}).join('');
+	}
 
-            // ---- Render footer with totals (respecting search filter) ----
-            const rowsForTotals = getFilteredSupportTicketRows();
-            let footerHtml = '<tr>';
-            supportTicketColumns.forEach(col => {
-                if (col.type === 'number' || col.type === 'calculated') {
-                    const total = rowsForTotals.reduce((sum, row) => {
-                        if (col.type === 'calculated' && col.calculate) {
-                            return sum + (col.calculate(row) || 0);
-                        }
-                        return sum + (parseFloat(row[col.id]) || 0);
-                    }, 0);
-                    footerHtml += `<td class="px-3 py-2 text-center text-sm font-bold text-gray-800">${total}</td>`;
-                } else if (col.isFirst) {
-                    footerHtml += `<td class="px-3 py-2 text-sm font-bold text-gray-800">Total${supportTicketSearchQuery ? ' (filtered)' : ''}</td>`;
-                } else {
-                    footerHtml += `<td class="px-3 py-2"></td>`;
-                }
-            });
-            footerHtml += '<td></td>';
-            footerHtml += '</tr>';
-            tfoot.innerHTML = footerHtml;
+	// ---- Render footer with totals (respecting search filter) ----
+	const rowsForTotals = getFilteredSupportTicketRows();
+	let footerHtml = '<tr>';
+	supportTicketColumns.forEach(col => {
+		if (col.type === 'number' || col.type === 'calculated') {
+			const total = rowsForTotals.reduce((sum, row) => {
+				if (col.type === 'calculated' && col.calculate) {
+					return sum + (col.calculate(row) || 0);
+				}
+				return sum + (parseFloat(row[col.id]) || 0);
+			}, 0);
+			footerHtml += `<td class="px-3 py-2 text-center text-sm font-bold text-gray-800">${total}</td>`;
+		} else if (col.isFirst) {
+			footerHtml += `<td class="px-3 py-2 text-sm font-bold text-gray-800">Total${supportTicketSearchQuery ? ' (filtered)' : ''}</td>`;
+		} else {
+			footerHtml += `<td class="px-3 py-2"></td>`;
+		}
+	});
+	footerHtml += '<td></td>';
+	footerHtml += '</tr>';
+	tfoot.innerHTML = footerHtml;
 
-            // Update summary cards
-            updateSupportTicketSummary();
+	// Update summary cards
+	updateSupportTicketSummary();
 
-            // Render pagination controls
-            renderSupportTicketPagination();
-        }
+	// Render pagination controls
+	renderSupportTicketPagination();
+}
 
-        // Render pagination controls for support tickets
-        function renderSupportTicketPagination() {
-            const wrapper = document.getElementById('supportTicketPagination');
-            if (!wrapper) return;
+// Render pagination controls for support tickets
+function renderSupportTicketPagination() {
+	const wrapper = document.getElementById('supportTicketPagination');
+	if (!wrapper) return;
 
-            const totalRows = getFilteredSupportTicketRows().length;
-            const totalPages = Math.max(1, Math.ceil(totalRows / SUPPORT_TICKETS_PER_PAGE));
-            if (supportTicketCurrentPage > totalPages) supportTicketCurrentPage = totalPages;
-            if (supportTicketCurrentPage < 1) supportTicketCurrentPage = 1;
+	const totalRows = getFilteredSupportTicketRows().length;
+	const totalPages = Math.max(1, Math.ceil(totalRows / SUPPORT_TICKETS_PER_PAGE));
+	if (supportTicketCurrentPage > totalPages) supportTicketCurrentPage = totalPages;
+	if (supportTicketCurrentPage < 1) supportTicketCurrentPage = 1;
 
-            const startIndex = (supportTicketCurrentPage - 1) * SUPPORT_TICKETS_PER_PAGE + 1;
-            const endIndex = Math.min(supportTicketCurrentPage * SUPPORT_TICKETS_PER_PAGE, totalRows);
+	const startIndex = (supportTicketCurrentPage - 1) * SUPPORT_TICKETS_PER_PAGE + 1;
+	const endIndex = Math.min(supportTicketCurrentPage * SUPPORT_TICKETS_PER_PAGE, totalRows);
 
-            let html = `
+	let html = `
                 <div class="flex flex-wrap items-center justify-between gap-3 mt-3 text-sm">
                     <div class="text-gray-500">
                         Showing <span class="font-semibold text-gray-700">${totalRows === 0 ? 0 : startIndex}</span>
@@ -6681,34 +6692,34 @@ function generateId() {
                     </div>
                 </div>
             `;
-            wrapper.innerHTML = html;
-        }
+	wrapper.innerHTML = html;
+}
 
-        // Navigate to a support ticket page
-                window.gotoSupportTicketPage = function (page) {
-            const totalPages = Math.max(1, Math.ceil(getFilteredSupportTicketRows().length / SUPPORT_TICKETS_PER_PAGE));
-            if (page < 1) page = 1;
-            if (page > totalPages) page = totalPages;
-            supportTicketCurrentPage = page;
-            renderSupportTicketTable();
-        };
+// Navigate to a support ticket page
+window.gotoSupportTicketPage = function (page) {
+	const totalPages = Math.max(1, Math.ceil(getFilteredSupportTicketRows().length / SUPPORT_TICKETS_PER_PAGE));
+	if (page < 1) page = 1;
+	if (page > totalPages) page = totalPages;
+	supportTicketCurrentPage = page;
+	renderSupportTicketTable();
+};
 
 
-		        // Handle search input for support tickets
-        window.handleSupportTicketSearch = function (value) {
-            supportTicketSearchQuery = value || '';
-            supportTicketCurrentPage = 1; // reset to first page on new search
-            renderSupportTicketTable();
-        };
+// Handle search input for support tickets
+window.handleSupportTicketSearch = function (value) {
+	supportTicketSearchQuery = value || '';
+	supportTicketCurrentPage = 1; // reset to first page on new search
+	renderSupportTicketTable();
+};
 
-        // Clear search
-        window.clearSupportTicketSearch = function () {
-            const input = document.getElementById('supportTicketSearch');
-            if (input) input.value = '';
-            supportTicketSearchQuery = '';
-            supportTicketCurrentPage = 1;
-            renderSupportTicketTable();
-        };
+// Clear search
+window.clearSupportTicketSearch = function () {
+	const input = document.getElementById('supportTicketSearch');
+	if (input) input.value = '';
+	supportTicketSearchQuery = '';
+	supportTicketCurrentPage = 1;
+	renderSupportTicketTable();
+};
 
 // Update summary cards
 function updateSupportTicketSummary() {
@@ -6751,9 +6762,9 @@ window.addSupportTicketRow = function () {
 			newRow[col.id] = '';
 		}
 	});
-	    supportTicketRows.push(newRow);
-        supportTicketCurrentPage = Math.max(1, Math.ceil(supportTicketRows.length / SUPPORT_TICKETS_PER_PAGE));
-        renderSupportTicketTable();
+	supportTicketRows.push(newRow);
+	supportTicketCurrentPage = Math.max(1, Math.ceil(supportTicketRows.length / SUPPORT_TICKETS_PER_PAGE));
+	renderSupportTicketTable();
 
 	// Scroll to bottom of table
 	const tbody = document.getElementById('supportTicketTbody');
@@ -6762,93 +6773,93 @@ window.addSupportTicketRow = function () {
 	}
 };
 
-        // Delete a row (works with search + pagination, syncs to Supabase)
-        window.deleteSupportTicketRow = async function (rowIndex) {
-            if (rowIndex < 0 || rowIndex >= supportTicketRows.length) {
-                showToast('Row not found', 'error');
-                return;
-            }
+// Delete a row (works with search + pagination, syncs to Supabase)
+window.deleteSupportTicketRow = async function (rowIndex) {
+	if (rowIndex < 0 || rowIndex >= supportTicketRows.length) {
+		showToast('Row not found', 'error');
+		return;
+	}
 
-            const row = supportTicketRows[rowIndex];
-            const label = (row && row.ticket) ? row.ticket : `Row ${rowIndex + 1}`;
+	const row = supportTicketRows[rowIndex];
+	const label = (row && row.ticket) ? row.ticket : `Row ${rowIndex + 1}`;
 
-            const result = await Swal.fire({
-                title: 'Delete Row?',
-                text: `This ticket entry (${label}) will be removed.`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#ef4444',
-                confirmButtonText: 'Delete',
-                cancelButtonText: 'Cancel'
-            });
-            if (!result.isConfirmed) return;
+	const result = await Swal.fire({
+		title: 'Delete Row?',
+		text: `This ticket entry (${label}) will be removed.`,
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#ef4444',
+		confirmButtonText: 'Delete',
+		cancelButtonText: 'Cancel'
+	});
+	if (!result.isConfirmed) return;
 
-            // Resolve the real index (identity first, index fallback)
-            let removeIdx = supportTicketRows.indexOf(row);
-            if (removeIdx === -1) removeIdx = rowIndex;
-            if (removeIdx === -1) { showToast('Row not found', 'error'); return; }
+	// Resolve the real index (identity first, index fallback)
+	let removeIdx = supportTicketRows.indexOf(row);
+	if (removeIdx === -1) removeIdx = rowIndex;
+	if (removeIdx === -1) { showToast('Row not found', 'error'); return; }
 
-            const removed = supportTicketRows[removeIdx];
+	const removed = supportTicketRows[removeIdx];
 
-            // ---- Try to delete from Supabase if this row was persisted ----
-            let supabaseDeleted = false;
-            if (currentUser && removed && removed._persisted && removed.id) {
-                showAppLoader();
-                try {
-                    const weekStart = document.getElementById('supportTicketWeekStart')?.value;
-                    let query = supabaseClient
-                        .from('support_tickets')
-                        .delete()
-                        .eq('user_id', currentUser.id);
+	// ---- Try to delete from Supabase if this row was persisted ----
+	let supabaseDeleted = false;
+	if (currentUser && removed && removed._persisted && removed.id) {
+		showAppLoader();
+		try {
+			const weekStart = document.getElementById('supportTicketWeekStart')?.value;
+			let query = supabaseClient
+				.from('support_tickets')
+				.delete()
+				.eq('user_id', currentUser.id);
 
-                    // Prefer matching by id; if the local id isn't a UUID, fall back to week + ticket + row_order
-                    const looksLikeUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(removed.id));
+			// Prefer matching by id; if the local id isn't a UUID, fall back to week + ticket + row_order
+			const looksLikeUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(removed.id));
 
-                    if (looksLikeUuid) {
-                        query = query.eq('id', removed.id);
-                    } else {
-                        if (weekStart) query = query.eq('week_start', weekStart);
-                        if (removed.ticket) query = query.eq('ticket', removed.ticket);
-                        if (removed.row_order !== undefined && removed.row_order !== null) {
-                            query = query.eq('row_order', removed.row_order);
-                        }
-                    }
+			if (looksLikeUuid) {
+				query = query.eq('id', removed.id);
+			} else {
+				if (weekStart) query = query.eq('week_start', weekStart);
+				if (removed.ticket) query = query.eq('ticket', removed.ticket);
+				if (removed.row_order !== undefined && removed.row_order !== null) {
+					query = query.eq('row_order', removed.row_order);
+				}
+			}
 
-                    const { error } = await query;
-                    if (error) throw error;
-                    supabaseDeleted = true;
-                } catch (error) {
-                    console.warn('Supabase delete failed:', error);
-                    showToast(`Local row removed, but Supabase delete failed: ${error.message || 'unknown'}`, 'warning');
-                } finally {
-                    hideAppLoader();
-                }
-            }
+			const { error } = await query;
+			if (error) throw error;
+			supabaseDeleted = true;
+		} catch (error) {
+			console.warn('Supabase delete failed:', error);
+			showToast(`Local row removed, but Supabase delete failed: ${error.message || 'unknown'}`, 'warning');
+		} finally {
+			hideAppLoader();
+		}
+	}
 
-            // ---- Remove locally ----
-            supportTicketRows.splice(removeIdx, 1);
+	// ---- Remove locally ----
+	supportTicketRows.splice(removeIdx, 1);
 
-            // Re-clamp page
-            const filteredCount = getFilteredSupportTicketRows().length;
-            const totalPages = Math.max(1, Math.ceil(filteredCount / SUPPORT_TICKETS_PER_PAGE));
-            if (supportTicketCurrentPage > totalPages) supportTicketCurrentPage = totalPages;
-            if (supportTicketCurrentPage < 1) supportTicketCurrentPage = 1;
+	// Re-clamp page
+	const filteredCount = getFilteredSupportTicketRows().length;
+	const totalPages = Math.max(1, Math.ceil(filteredCount / SUPPORT_TICKETS_PER_PAGE));
+	if (supportTicketCurrentPage > totalPages) supportTicketCurrentPage = totalPages;
+	if (supportTicketCurrentPage < 1) supportTicketCurrentPage = 1;
 
-            // Persist to localStorage as well (backup)
-            const weekStart = document.getElementById('supportTicketWeekStart')?.value;
-            if (weekStart) {
-                try {
-                    localStorage.setItem(getSupportTicketStorageKey(weekStart), JSON.stringify({
-                        rows: supportTicketRows,
-                        columns: supportTicketColumns,
-                        savedAt: new Date().toISOString()
-                    }));
-                } catch (_) { }
-            }
+	// Persist to localStorage as well (backup)
+	const weekStart = document.getElementById('supportTicketWeekStart')?.value;
+	if (weekStart) {
+		try {
+			localStorage.setItem(getSupportTicketStorageKey(weekStart), JSON.stringify({
+				rows: supportTicketRows,
+				columns: supportTicketColumns,
+				savedAt: new Date().toISOString()
+			}));
+		} catch (_) { }
+	}
 
-            renderSupportTicketTable();
-            showToast(supabaseDeleted ? 'Row deleted (Supabase + local)' : 'Row deleted locally', 'info');
-        };
+	renderSupportTicketTable();
+	showToast(supabaseDeleted ? 'Row deleted (Supabase + local)' : 'Row deleted locally', 'info');
+};
 
 // Save support ticket data to Supabase
 window.saveSupportTicketData = async function () {
@@ -6905,32 +6916,32 @@ window.saveSupportTicketData = async function () {
 					};
 				});
 
-			                    if (rowsToInsert.length > 0) {
-                        const { data: inserted, error } = await supabaseClient
-                            .from('support_tickets')
-                            .insert(rowsToInsert)
-                            .select();
+			if (rowsToInsert.length > 0) {
+				const { data: inserted, error } = await supabaseClient
+					.from('support_tickets')
+					.insert(rowsToInsert)
+					.select();
 
-                        if (error) throw error;
+				if (error) throw error;
 
-                        // Re-map saved rows back onto our local array so they now carry
-                        // the real Supabase UUIDs and are marked as persisted.
-                        if (Array.isArray(inserted) && inserted.length > 0) {
-                            const savedTickets = supportTicketRows.filter(r => r.ticket && r.ticket.trim());
-                            // Match by (ticket + row_order) which is unique per week per user
-                            inserted.forEach(ins => {
-                                const match = savedTickets.find(r =>
-                                    (r.ticket || '') === (ins.ticket || '') &&
-                                    (r.row_order ?? null) === (ins.row_order ?? null)
-                                );
-                                if (match) {
-                                    match.id = ins.id;
-                                    match._persisted = true;
-                                    match.total = ins.total;
-                                }
-                            });
-                        }
-                    }
+				// Re-map saved rows back onto our local array so they now carry
+				// the real Supabase UUIDs and are marked as persisted.
+				if (Array.isArray(inserted) && inserted.length > 0) {
+					const savedTickets = supportTicketRows.filter(r => r.ticket && r.ticket.trim());
+					// Match by (ticket + row_order) which is unique per week per user
+					inserted.forEach(ins => {
+						const match = savedTickets.find(r =>
+							(r.ticket || '') === (ins.ticket || '') &&
+							(r.row_order ?? null) === (ins.row_order ?? null)
+						);
+						if (match) {
+							match.id = ins.id;
+							match._persisted = true;
+							match.total = ins.total;
+						}
+					});
+				}
+			}
 
 		}
 
@@ -6969,7 +6980,7 @@ window.copyPreviousWeekTickets = async function () {
 			if (!error && data && data.length > 0) {
 				supportTicketRows = data.map(row => ({
 					id: row.id,
-					 _persisted: true, 
+					_persisted: true,
 					ticket: row.ticket,
 					sme_dev: row.sme_dev,
 					dev_advocate: row.dev_advocate,
