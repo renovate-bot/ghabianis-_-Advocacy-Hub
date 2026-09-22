@@ -604,19 +604,28 @@ function showToast(msg, type = 'info') {
 	el._hide = setTimeout(() => el.classList.remove('show'), 3000);
 }
 
-function playReminderSound() {
-	try {
-		const ctx = new (window.AudioContext || window.webkitAudioContext)();
-		const o = ctx.createOscillator();
-		const g = ctx.createGain();
-		o.type = 'sine';
-		o.frequency.value = 880;
-		g.gain.value = 0.02;
-		o.connect(g);
-		g.connect(ctx.destination);
-		o.start();
-		setTimeout(() => { o.stop(); try { ctx.close(); } catch (_) { } }, 300);
-	} catch (_) { }
+let reminderAudio = null;
+
+function playReminderSound(stop = false) {
+    console.log("Reminder sound:", stop);
+
+    if (stop) {
+        if (reminderAudio) {
+            reminderAudio.pause();
+            reminderAudio.currentTime = 0;
+        }
+        return;
+    }
+
+    reminderAudio = new Audio("../assets/audio/notification.wav");
+
+    reminderAudio.play()
+        .then(() => {
+            console.log("Sound is playing");
+        })
+        .catch(error => {
+            console.error("Audio playback failed:", error);
+        });
 }
 
 function NavigateToHome() {
@@ -1726,14 +1735,21 @@ function checkUpcomingMeetings() {
 		notifiedMeetingIds.add(m.id);
 		const minsAway = Math.max(1, Math.round((new Date(m.meeting_date).getTime() - now) / 60000));
 		showToast(`📅 "${m.title}" starts in ${minsAway} min`, 'info');
-		try { playReminderSound(); } catch (_) { }
+		playReminderSound();
 		Swal.fire({
 			icon: 'info',
 			title: 'Upcoming Meeting',
 			html: `<b>${escHtml(m.title)}</b> starts in ${minsAway} minute${minsAway === 1 ? '' : 's'}.<br><a href="${escHtml(m.link)}" target="_blank" style="color:#2563eb;">${escHtml(m.link)}</a>`,
 			confirmButtonText: 'Got it',
 			toast: false
-		});
+		}).then((result) => {
+			if (result.isConfirmed) {
+				console.log('Confirm button clicked!');
+				playReminderSound(true);
+			} else if (result.isDismissed) {
+				console.log('Cancel button clicked or alert closed.');
+			}
+		});;
 		if (profileSettings.browser_notifications && 'Notification' in window && Notification.permission ===
 			'granted') {
 			try {
@@ -3103,10 +3119,9 @@ function renderMeetings() {
 			meetingTime <= now + reminderWindow;
 
 		return `
-			<div class="bg-white rounded-xl p-4 shadow-sm border ${
-				isSoon
-					? 'border-amber-300 ring-1 ring-amber-200'
-					: 'border-gray-100'
+			<div class="bg-white rounded-xl p-4 shadow-sm border ${isSoon
+				? 'border-amber-300 ring-1 ring-amber-200'
+				: 'border-gray-100'
 			} flex flex-wrap items-center justify-between gap-3">
 
 				<div class="flex-1 min-w-0">
@@ -3117,33 +3132,33 @@ function renderMeetings() {
 						</span>
 
 						${m.meeting_date
-							? `<span class="text-xs text-gray-400">
+				? `<span class="text-xs text-gray-400">
 								${new Date(m.meeting_date).toLocaleString()}
 							</span>`
-							: ''
-						}
+				: ''
+			}
 
 						${m.recurrence === 'weekly'
-							? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+				? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
 								Every week
 							</span>`
-							: ''
-						}
+				: ''
+			}
 
 						${isSoon
-							? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+				? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
 								Starting soon
 							</span>`
-							: ''
-						}
+				: ''
+			}
 					</div>
 
 					${m.description
-						? `<p class="text-sm text-gray-500 mt-0.5">
+				? `<p class="text-sm text-gray-500 mt-0.5">
 							${escHtml(m.description)}
 						</p>`
-						: ''
-					}
+				: ''
+			}
 
 					<a href="${escHtml(m.link)}"
 						target="_blank"
