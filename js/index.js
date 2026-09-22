@@ -3066,29 +3066,105 @@ window.deleteMeeting = deleteMeeting;
 
 function renderMeetings() {
 	const container = document.getElementById('meetingsList');
+
 	if (meetings.length === 0) {
 		container.innerHTML =
 			`<div class="text-center py-10 text-gray-300 text-sm">No meetings added yet.</div>`;
 		return;
 	}
+
 	const now = Date.now();
-	container.innerHTML = meetings.map(m => {
-		const isSoon = m.meeting_date && new Date(m.meeting_date).getTime() > now &&
-			new Date(m.meeting_date).getTime() <= now + (profileSettings.reminder_minutes || 15) *
-			60000;
+	const reminderWindow = (profileSettings.reminder_minutes || 15) * 60000;
+
+	// Sort "Starting soon" meetings to the top
+	const sortedMeetings = [...meetings].sort((a, b) => {
+		const aTime = a.meeting_date ? new Date(a.meeting_date).getTime() : null;
+		const bTime = b.meeting_date ? new Date(b.meeting_date).getTime() : null;
+
+		const aIsSoon = aTime && aTime > now && aTime <= now + reminderWindow;
+		const bIsSoon = bTime && bTime > now && bTime <= now + reminderWindow;
+
+		if (aIsSoon && !bIsSoon) return -1;
+		if (!aIsSoon && bIsSoon) return 1;
+
+		// For meetings in the same category, keep the earliest meeting first
+		if (aTime && bTime) return aTime - bTime;
+
+		return 0;
+	});
+
+	container.innerHTML = sortedMeetings.map(m => {
+		const meetingTime = m.meeting_date
+			? new Date(m.meeting_date).getTime()
+			: null;
+
+		const isSoon = meetingTime &&
+			meetingTime > now &&
+			meetingTime <= now + reminderWindow;
+
 		return `
-                            <div class="bg-white rounded-xl p-4 shadow-sm border ${isSoon ? 'border-amber-300 ring-1 ring-amber-200' : 'border-gray-100'} flex flex-wrap items-center justify-between gap-3">
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex items-center gap-2"><span class="text-lg">🎥</span><span class="font-semibold text-gray-800">${escHtml(m.title)}</span>${m.meeting_date ? `<span class="text-xs text-gray-400">${new Date(m.meeting_date).toLocaleString()}</span>` : ''}${m.recurrence === 'weekly' ? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">Every week</span>` : ''}${isSoon ? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Starting soon</span>` : ''}</div>
-                                    ${m.description ? `<p class="text-sm text-gray-500 mt-0.5">${escHtml(m.description)}</p>` : ''}
-                                    <a href="${escHtml(m.link)}" target="_blank" class="text-sm text-blue-600 hover:underline break-all">${escHtml(m.link)}</a>
-                                </div>
-                                <div class="flex gap-1 flex-shrink-0">
-                                    <button onclick="editMeeting('${m.id}')" class="text-gray-400 hover:text-blue-600 text-sm p-1.5 rounded hover:bg-gray-100 transition"><i class="fas fa-pen"></i></button>
-                                    <button onclick="deleteMeeting('${m.id}')" class="text-gray-400 hover:text-red-500 text-sm p-1.5 rounded hover:bg-gray-100 transition"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </div>
-                        `;
+			<div class="bg-white rounded-xl p-4 shadow-sm border ${
+				isSoon
+					? 'border-amber-300 ring-1 ring-amber-200'
+					: 'border-gray-100'
+			} flex flex-wrap items-center justify-between gap-3">
+
+				<div class="flex-1 min-w-0">
+					<div class="flex items-center gap-2">
+						<span class="text-lg">🎥</span>
+						<span class="font-semibold text-gray-800">
+							${escHtml(m.title)}
+						</span>
+
+						${m.meeting_date
+							? `<span class="text-xs text-gray-400">
+								${new Date(m.meeting_date).toLocaleString()}
+							</span>`
+							: ''
+						}
+
+						${m.recurrence === 'weekly'
+							? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+								Every week
+							</span>`
+							: ''
+						}
+
+						${isSoon
+							? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+								Starting soon
+							</span>`
+							: ''
+						}
+					</div>
+
+					${m.description
+						? `<p class="text-sm text-gray-500 mt-0.5">
+							${escHtml(m.description)}
+						</p>`
+						: ''
+					}
+
+					<a href="${escHtml(m.link)}"
+						target="_blank"
+						class="text-sm text-blue-600 hover:underline break-all">
+						${escHtml(m.link)}
+					</a>
+				</div>
+
+				<div class="flex gap-1 flex-shrink-0">
+					<button onclick="editMeeting('${m.id}')"
+						class="text-gray-400 hover:text-blue-600 text-sm p-1.5 rounded hover:bg-gray-100 transition">
+						<i class="fas fa-pen"></i>
+					</button>
+
+					<button onclick="deleteMeeting('${m.id}')"
+						class="text-gray-400 hover:text-red-500 text-sm p-1.5 rounded hover:bg-gray-100 transition">
+						<i class="fas fa-trash"></i>
+					</button>
+				</div>
+			</div>
+		`;
 	}).join('');
 }
 
@@ -3147,6 +3223,7 @@ function renderCalendar() {
 		const isToday = dateStr === todayStr;
 		const dayTasks = tasks.filter(t => t.due_date && new Date(t.due_date).toDateString() === dateStr);
 		const dayMeetings = meetings.filter(m => meetingOccursOnDate(m, dateObj));
+
 
 		let dotsHtml = '';
 		if (dayTasks.length > 0) dotsHtml +=
@@ -3650,8 +3727,11 @@ window.editWorkTimerStart = function () {
 
 function updateWorkTimerDisplays() {
 	let seconds = 0;
+	const stateObject = localStorage.getItem('workTimerState');
+	let state = JSON.parse(stateObject);
 
-	if (workTimerRunning && workTimerStartTime) {
+
+	if (workTimerRunning && workTimerStartTime && state.userId === currentUser.id) {
 		const elapsedMs = Date.now() - workTimerStartTime;
 		const lunchMs = (workTimerLunchMinutes || 0) * 60 * 1000;
 		seconds = Math.max(0, Math.floor((elapsedMs - lunchMs) / 1000));
@@ -3840,11 +3920,13 @@ window.startWorkTimer = function () {
 	workTimerPaused = false;
 	workPausedElapsed = 0;
 	localStorage.setItem('workTimerState', JSON.stringify({
+		userId: currentUser.id,
 		running: true,
 		startTime: workTimerStartTime,
 		lunchMinutes: workTimerLunchMinutes || 0
 	}));
 	persistTimerState('work', {
+		userId: currentUser.id,
 		running: true,
 		startTime: workTimerStartTime,
 		lunchMinutes: workTimerLunchMinutes ||
@@ -3864,12 +3946,14 @@ window.pauseWorkTimer = function () {
 	clearInterval(workTimerInterval);
 	workTimerInterval = null;
 	localStorage.setItem('workTimerState', JSON.stringify({
+		userId: currentUser.id,
 		paused: true,
 		elapsed: workPausedElapsed,
 		startTime: workTimerStartTime,
 		lunchMinutes: workTimerLunchMinutes || 0
 	}));
 	persistTimerState('work', {
+		userId: currentUser.id,
 		paused: true,
 		elapsed: workPausedElapsed,
 		startTime: workTimerStartTime,
@@ -3886,11 +3970,13 @@ window.resumeWorkTimer = function () {
 	workTimerRunning = true;
 	workTimerPaused = false;
 	localStorage.setItem('workTimerState', JSON.stringify({
+		userId: currentUser.id,
 		running: true,
 		startTime: workTimerStartTime,
 		lunchMinutes: workTimerLunchMinutes || 0
 	}));
 	persistTimerState('work', {
+		userId: currentUser.id,
 		running: true,
 		startTime: workTimerStartTime,
 		lunchMinutes: workTimerLunchMinutes ||
