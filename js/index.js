@@ -1724,18 +1724,22 @@ function checkUpcomingMeetings() {
 	}
 	const now = Date.now();
 	const windowMs = (profileSettings.reminder_minutes || 15) * 60 * 1000;
+	const originalTitle = document.title;
 	const upcoming = meetings.filter(m => {
 		if (!m.meeting_date) return false;
 		const t = new Date(m.meeting_date).getTime();
 		return t > now && t <= now + windowMs;
 	});
 	updateReminderBadge();
+
 	upcoming.forEach(m => {
 		if (notifiedMeetingIds.has(m.id)) return;
 		notifiedMeetingIds.add(m.id);
 		const minsAway = Math.max(1, Math.round((new Date(m.meeting_date).getTime() - now) / 60000));
 		showToast(`📅 "${m.title}" starts in ${minsAway} min`, 'info');
 		playReminderSound();
+		document.title = "(1) Your Meeting is Starting Soon!";
+
 		Swal.fire({
 			icon: 'info',
 			title: 'Upcoming Meeting',
@@ -1746,6 +1750,7 @@ function checkUpcomingMeetings() {
 			if (result.isConfirmed) {
 				console.log('Confirm button clicked!');
 				playReminderSound(true);
+				document.title = originalTitle;
 			} else if (result.isDismissed) {
 				console.log('Cancel button clicked or alert closed.');
 			}
@@ -3746,7 +3751,7 @@ function updateWorkTimerDisplays() {
 	let state = JSON.parse(stateObject);
 
 
-	if (workTimerRunning && workTimerStartTime && state.userId === currentUser.id) {
+	if (workTimerRunning && workTimerStartTime) {
 		const elapsedMs = Date.now() - workTimerStartTime;
 		const lunchMs = (workTimerLunchMinutes || 0) * 60 * 1000;
 		seconds = Math.max(0, Math.floor((elapsedMs - lunchMs) / 1000));
