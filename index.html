@@ -134,12 +134,11 @@
         </aside>
 
         <!-- Main Content -->
-        <main id="mainContent" class="flex-1 overflow-y-auto h-full bg-[#f4f6fa] transition-all duration-300">
-
+        <main id="mainContent" class="flex-1 overflow-y-auto h-full bg-[#f4f6fa] transition-all duration-300 timerCurrent">
             <!-- Top bar -->
             <div
                 class="bg-white/70 backdrop-blur-sm border-b border-gray-200/60 px-6 py-3.5 flex items-center justify-between sticky top-0 z-10">
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3 timerCurrent">
                     <button id="toggleSidebarDesktop" class="text-gray-500 hover:text-gray-700 text-lg"
                         onclick="toggleSidebarDesktop()" title="Toggle sidebar">
                         <i class="fas fa-bars"></i>
@@ -151,6 +150,9 @@
                     <h1 id="pageTitle" class="text-lg font-semibold text-gray-800">Dashboard</h1>
                 </div>
                 <div class="flex items-center gap-3">
+                    <span class="text-sm text-gray-400 hidden sm:inline timerCurrent" id="currentDate"></span>
+                    <span id="currentTime" class="text-sm text-gray-400 hidden sm:inline timerCurrent">00:00</span>
+                    </span>
                     <button onclick="toggleDarkMode()" class="text-gray-400 hover:text-indigo-600 transition text-sm"
                         title="Toggle Dark Mode">
                         <i class="fas fa-moon darkmodeIconColor" id="darkModeIcon"></i>
@@ -183,7 +185,6 @@
                         <div class="mt-3 text-right"><button onclick="navigateTo('calendar')"
                                 class="text-xs text-indigo-600 hover:underline">View calendar</button></div>
                     </div>
-                    <span class="text-sm text-gray-400 hidden sm:inline" id="currentDate"></span>
                     <button onclick="refreshData()" class="text-gray-400 hover:text-indigo-600 transition text-sm">
                         <i class="fas fa-sync-alt"></i>
                     </button>

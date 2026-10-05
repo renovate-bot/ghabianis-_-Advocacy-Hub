@@ -2041,3 +2041,8 @@ body.dark-mode .closeTaskModal {
     background: #374151 !important;
     color: white !important;
 }
+
+body.dark-mode .timerCurrent {
+    color: white !important;
+}
+

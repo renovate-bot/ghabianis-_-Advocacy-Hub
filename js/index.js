@@ -825,6 +825,21 @@ async function afterAuth() {
 	}
 }
 
+function updateClock() {
+  const now = new Date();
+  
+  // Format the time directly to a localized string (e.g., "14:32:05" or "2:32:05 PM")
+  const timeString = new Date().toLocaleTimeString('en-US', {
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+	});
+  
+  // Update the HTML element
+  document.getElementById('currentTime').textContent = timeString;
+}
+
+
 // ──────────────────────────────────────────────────────────────
 // 7. INIT APP
 // ──────────────────────────────────────────────────────────────
@@ -840,11 +855,15 @@ async function initApp() {
 	loadProfileSettingsFromUser();
 	applyProfileToUI();
 	applyDarkMode();
-	document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
-		weekday: 'short',
-		month: 'short',
-		day: 'numeric'
-	});
+			document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+				weekday: 'short',
+				month: 'short',
+				day: 'numeric'
+			});
+
+			updateClock();
+
+setInterval(updateClock, 1000);
 
 	buildNavItems();
 
